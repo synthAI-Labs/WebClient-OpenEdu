@@ -5,6 +5,9 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import { GithubIcon } from "lucide-react"
+import Link from "next/link"
+
+// TODO: Add password confirmation, API ROUTES
 
 const SignUp = () => {
     return (
@@ -37,12 +40,23 @@ const SignUp = () => {
                     </div>
                 </div>
                 <div className="grid gap-2">
+                    <Label htmlFor="email">Name</Label>
+                    <Input id="Name" type="string" placeholder="John Doe" />
+                </div>
+                <div className="grid gap-2">
                     <Label htmlFor="email">Email</Label>
-                    <Input id="email" type="email" placeholder="m@example.com" />
+                    <Input id="email" type="email" placeholder="john.doe@example.com" />
                 </div>
                 <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
-                    <Input id="password" type="password" />
+                    <Input id="password" type="password" placeholder="*******" />
+                </div>
+                <div className="grid gap-2">
+                    <Label htmlFor="password">Confirm Password</Label>
+                    <Input id="confirmpassword" type="password" placeholder="*******" />
+                </div>
+                <div>
+                    <Link href={"/signin"}> Already have an account?{" "} </Link>
                 </div>
             </CardContent>
             <CardFooter>

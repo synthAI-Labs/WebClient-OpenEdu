@@ -5,14 +5,15 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Input } from "@/components/ui/input"
 import { Label } from "@radix-ui/react-label"
 import { GithubIcon } from "lucide-react"
+import Link from "next/link"
 
 const SignIn = () => {
     return (
         <Card>
             <CardHeader className="space-y-1">
-                <CardTitle className="text-2xl">Create an account</CardTitle>
+                <CardTitle className="text-2xl">Login</CardTitle>
                 <CardDescription>
-                    Enter your email below to create your account
+                    Enter your email below to Log into your account
                 </CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4">
@@ -43,6 +44,9 @@ const SignIn = () => {
                 <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
                     <Input id="password" type="password" />
+                </div>
+                <div>
+                    <Link href={"/signup"}> Dont have an account?{" "} </Link>
                 </div>
             </CardContent>
             <CardFooter>
