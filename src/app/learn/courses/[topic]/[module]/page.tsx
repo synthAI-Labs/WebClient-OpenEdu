@@ -7,8 +7,15 @@ interface Course {
     description: string;
     image: string;
     userId: number;
+    modules?: Module[]; // Add optional modules property
 }
 
+interface Module {
+    id: number;
+    name: string;
+    image: string;
+    content: string[];
+}
 
 const TopicPage = ({ params }: { params: string }) => {
     const [userData, setUserData] = useState<Course[] | null>(null);
@@ -66,6 +73,21 @@ const TopicPage = ({ params }: { params: string }) => {
                                     <h2 className="text-xl font-semibold mb-2">{course.name}</h2>
                                     <img className="w-full h-auto mb-2" src={course.image} alt={course.name} />
                                     <p><strong>Description:</strong> {course.description}</p>
+                                    {course.modules && course.modules.length > 0 ? (
+                                        <>
+                                            <h2 className="text-xl font-semibold mb-2">Modules</h2>
+                                            {course.modules.map((module) => ( // Fix variable name from 'item' to 'module'
+                                                <div key={module.id} className="bg-white p-4 rounded shadow-md">
+                                                    <h3 className="text-lg font-semibold mb-2">{module.name}</h3>
+                                                    <img className="w-full h-auto mb-2" src={module.image} alt={module.name} />
+                                                    <p><strong>Description:</strong> {module.content.join(', ')}</p>
+                                                    {/* Render other properties as needed */}
+                                                </div>
+                                            ))}
+                                        </>
+                                    ) : (<>
+                                        <div>no modules</div>
+                                    </>)}
                                     {/* Render other properties as needed */}
                                 </div>
                             ))
@@ -80,9 +102,6 @@ const TopicPage = ({ params }: { params: string }) => {
             )}
         </div>
     );
-
-
-
 };
 
 export default TopicPage;

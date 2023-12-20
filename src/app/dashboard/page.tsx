@@ -1,4 +1,4 @@
-// Page.js
+// TODO: CHeck for user-auth. If not, redirect to login page
 "use client"
 import React, { useEffect, useState } from "react";
 
@@ -88,6 +88,7 @@ const Page = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
+                // const url = `${process.env.SERVER_URL}/dashboard/profile`
                 const apiUrl = new URL("http://localhost:3001/dashboard/profile");
 
                 const headers = {
@@ -95,6 +96,7 @@ const Page = () => {
                     //authorization: `${token}`,
                     //user_id: `${user_id}`,
                 };
+                console.log("Headers:", headers);
 
                 const response = await fetch(apiUrl.href, {
                     method: "POST",
@@ -125,11 +127,17 @@ const Page = () => {
                 <p>Loading user data...</p>
             ) : (
                 <>
-                    <UserProfile {...userData!} />
-                    <CoursesCompleted coursesCompleted={userData!.coursesCompleted} />
-                    <CoursesInProgress coursesInProgress={userData!.coursesInProgress} />
-                    {/* <CoursesEnrolled /> */}
-                    <Achievements achievements={userData!.achievements} />
+                    {userData ? (
+                        <>
+                            <UserProfile {...userData} />
+                            <CoursesCompleted coursesCompleted={userData.coursesCompleted} />
+                            <CoursesInProgress coursesInProgress={userData.coursesInProgress} />
+                            {/* <CoursesEnrolled /> */}
+                            <Achievements achievements={userData.achievements} />
+                        </>
+                    ) : (
+                        <p>No user data available.</p>
+                    )}
                 </>
             )}
         </div>

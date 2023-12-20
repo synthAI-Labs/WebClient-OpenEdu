@@ -10,10 +10,10 @@ interface Course {
 }
 
 
-const TopicPage = ({ params }: { params: string }) => {
+const TopicPage = ({ params }: { params: any }) => {
     const [userData, setUserData] = useState<Course[] | null>(null);
     const [loading, setLoading] = useState(true);
-    const topic = params;
+    const topic = params.topic;
     console.log('Topic:', topic);
 
     useEffect(() => {
