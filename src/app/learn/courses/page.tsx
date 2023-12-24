@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
-// ... (previous imports)
 
 interface Course {
   id: number;
@@ -76,3 +75,30 @@ const Page = () => {
 }
 
 export default Page;
+
+
+// JSON RESPONSE EXAMPLE:
+// [
+//   {
+//     "id": 1,
+//     "name": "Course 1",
+//     "description": "Description for Course 1",
+//     "image": "image.jpg",
+//     "userId": null,
+//     "tags": [
+//       "tag1",
+//       "tag2"
+//     ]
+//   },
+//   {
+//     "id": 2,
+//     "name": "Course 2",
+//     "description": "Description for Course 2",
+//     "image": "image.jpg",
+//     "userId": null,
+//     "tags": [
+//       "tag3",
+//       "tag4"
+//     ]
+//   }
+// ]

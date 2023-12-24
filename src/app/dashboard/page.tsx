@@ -1,3 +1,57 @@
+// JOSN EXAMPLE:
+// {
+//     "id": 1,
+//     "username": "user1",
+//     "photo": "url_to_user1_photo.jpg",
+//     "name": "User One",
+//     "bio": "Bio for User One",
+//     "email": "user1@example.com",
+//     "password": "password1",
+//     "emailVerified": true,
+//     "role": "USER",
+//     "token": "demo",
+//     "interests": [],
+//     "userSettingsId": 1,
+//     "achievements": [
+//       {
+//         "id": 1,
+//         "name": "Achievement 1",
+//         "icon": "icon1.jpg",
+//         "description": "Description for Achievement 1",
+//         "courseId": 1,
+//         "userId": 1
+//       }
+//     ],
+//     "CourseEnrollment": [
+//       {
+//         "id": 1,
+//         "userId": 1,
+//         "courseId": 1,
+//         "status": "COMPLETED",
+//         "enrolledAt": "2023-12-21T15:32:45.558Z",
+//         "completedAt": null
+//       },
+//       {
+//         "id": 2,
+//         "userId": 1,
+//         "courseId": 2,
+//         "status": "IN_PROGRESS",
+//         "enrolledAt": "2023-12-21T15:32:45.561Z",
+//         "completedAt": null
+//       }
+//     ],
+//     "settings": {
+//       "id": 1,
+//       "userId": 1,
+//       "publicProfile": true,
+//       "publicEmail": false,
+//       "publicBio": true,
+//       "publicPhoto": true,
+//       "publicName": true,
+//       "publicInterests": true
+//     }
+//   }
+
 import React, { useEffect, useState } from 'react';
 
 interface Achievement {
