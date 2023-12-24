@@ -1,86 +1,118 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import Link from 'next/link';
+import React from 'react';
 
-interface Course {
+interface Subtopic {
+    id: number;
+    name: string;
+    description: string;
+    courseId: number;
+    image: string;
+}
+
+interface Topic {
     id: number;
     name: string;
     description: string;
     image: string;
-    userId: number;
+    userId: null;
+    tags: string[];
+    subtopics: Subtopic[];
 }
 
+interface GetTopicsProps {
+    params: {
+        topic: any;
+    };
+}
 
-const TopicPage = ({ params }: { params: any }) => {
-    const [userData, setUserData] = useState<Course[] | null>(null);
-    const [loading, setLoading] = useState(true);
-    const topic = params.topic;
-    console.log('Topic:', topic);
-
-    useEffect(() => {
+const GetTopics: React.FC<GetTopicsProps> = ({ params }) => {
+    const [topic, setTopic] = React.useState<Topic | null>(null);
+    console.log(params.topic);
+    React.useEffect(() => {
         const fetchData = async () => {
             try {
-                const url = `http://localhost:3001/learn/courses/${topic}/topics`;
-                console.log('URL:', url);
-                const apiUrl = new URL(url);
-                console.log('API URL:', apiUrl.href);
-                const headers = {
-                    'Content-Type': 'application/json',
-                };
-
-                const response = await fetch(apiUrl.href, {
-                    method: 'GET',
-                    headers,
-                });
-                console.log('Response:', response);
-
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-
-                const data: Course[] = await response.json();
-                console.log('User data:', data);
-
-                setUserData(data);
+                const res = await getAllTopics(params.topic);
+                const data = res instanceof Response && res.ok ? await res.json() : null;
+                setTopic(data);
             } catch (error) {
-                console.error('Error fetching user data:', error);
-            } finally {
-                setLoading(false);
+                console.error('Fetch failed:', error);
             }
         };
 
         fetchData();
-    }, [topic]);
+    }, [params.topic]);
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            {loading ? (
-                <p>Loading course data...</p>
-            ) : (
+        <div className="container mx-auto p-8">
+            {topic ? (
                 <>
-                    {userData === null ? (
-                        <div>No Content</div>
-                    ) : (
-                        Array.isArray(userData) ? (
-                            userData.map((course) => (
-                                <div key={course.id} className="bg-white p-4 rounded shadow-md">
-                                    <h2 className="text-xl font-semibold mb-2">{course.name}</h2>
-                                    <img className="w-full h-auto mb-2" src={course.image} alt={course.name} />
-                                    <p><strong>Description:</strong> {course.description}</p>
-                                    {/* Render other properties as needed */}
-                                </div>
-                            ))
-                        ) : (
-                            <>
-                                <div>Data is not in the expected format</div>
-                                <pre>{JSON.stringify(userData, null, 2)}</pre>
-                            </>
-                        )
-                    )}
+                    <h1 className="text-3xl font-bold mb-8">{topic.name} Topics</h1>
+                    <p className="text-gray-600 mb-4">{topic.description}</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        {topic.subtopics.map((subtopic) => (
+
+                            <div key={subtopic.id} className="bg-white p-4 rounded-lg shadow-md">
+                                <img src={subtopic.image} alt={subtopic.name} className="w-full h-40 object-cover mb-4 rounded-md" />
+                                <h2 className="text-xl font-bold mb-2">{subtopic.name}</h2>
+                                <p className="text-gray-600 mb-4">{subtopic.description}</p>
+                                <Link href={`/learn/courses/${params.topic}/${subtopic.id}/`} className="text-blue-500 inline-flex items-center mt-2">
+                                    Modules
+                                </Link >
+                            </div>
+                        ))}
+                    </div>
                 </>
+            ) : (
+                <p>Loading...</p>
             )}
         </div>
     );
-
 };
 
-export default TopicPage;
+async function getAllTopics(courseId: string) {
+    const res = await fetch(`http://localhost:4000/learn/courses/${courseId}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+    });
+
+    if (!res.ok) {
+        return {
+            notFound: true,
+        };
+    }
+
+    return res;
+}
+
+export default GetTopics;
+
+
+// JSON EXAMPLE RESPONSE 
+// {
+//     "id": 1,
+//     "name": "Course 1",
+//     "description": "Description for Course 1",
+//     "image": "image.jpg",
+//     "userId": null,
+//     "tags": [
+//       "tag1",
+//       "tag2"
+//     ],
+//     "subtopics": [
+//       {
+//         "id": 1,
+//         "name": "Subtopic 1.1",
+//         "description": "Description for Subtopic 1.1",
+//         "courseId": 1,
+//         "image": "image1.jpg"
+//       },
+//       {
+//         "id": 2,
+//         "name": "Subtopic 1.2",
+//         "description": "Description for Subtopic 1.2",
+//         "courseId": 1,
+//         "image": "image1.jpg"
+//       }
+//     ]
+//   }
