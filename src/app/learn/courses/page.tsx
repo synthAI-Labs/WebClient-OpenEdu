@@ -31,7 +31,7 @@ const Page = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = new URL("http://localhost:3001/learn/courses");
+        const apiUrl = new URL("http://localhost:4000/learn/courses");
 
         const headers = {
           "Content-Type": "application/json",
