@@ -1,4 +1,4 @@
-# WebClient for BloomIQ
+# WebClient 
 > TO BE UPDATED
 
 This is a simple web client for BloomIQ. It is written in NextJS, tailwindcss and Shadcn-UI.
