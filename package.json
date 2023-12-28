@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "git:pre-commit": "npm run build && npm run lint && npm run format",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
