@@ -1,5 +1,5 @@
-import Link from "next/link";
-import React from "react";
+import Link from 'next/link';
+import React from 'react';
 
 interface Course {
   id: number;
@@ -13,10 +13,15 @@ const CourseCard = ({ course }: { course: Course }) => (
   <div className="bg-white p-4 rounded shadow-md">
     <h2 className="text-xl font-semibold mb-2">{course.name}</h2>
     <img className="w-full h-auto mb-2" src={course.image} alt={course.name} />
-    <p><strong>Description:</strong> {course.description}</p>
-    <Link href={`/learn/courses/${course.id}`} className="text-blue-500 inline-flex items-center mt-2">
+    <p>
+      <strong>Description:</strong> {course.description}
+    </p>
+    <Link
+      href={`/learn/courses/${course.id}`}
+      className="text-blue-500 inline-flex items-center mt-2"
+    >
       Learn More
-    </Link >
+    </Link>
     {/* Render other properties as needed */}
   </div>
 );
@@ -40,10 +45,9 @@ const Page = async () => {
       {/* )} */}
     </div>
   );
-}
+};
 
 async function getCourseData(): Promise<Course[] | undefined> {
-
   try {
     const response = await fetch(`${process.env.SERVER_URL}/learn/courses`);
 
@@ -55,7 +59,6 @@ async function getCourseData(): Promise<Course[] | undefined> {
 }
 
 export default Page;
-
 
 // JSON RESPONSE EXAMPLE:
 // [
