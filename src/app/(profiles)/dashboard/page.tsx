@@ -1,107 +1,46 @@
-// JOSN EXAMPLE:
-// {
-//     "id": 1,
-//     "username": "user1",
-//     "photo": "url_to_user1_photo.jpg",
-//     "name": "User One",
-//     "bio": "Bio for User One",
-//     "email": "user1@example.com",
-//     "password": "password1",
-//     "emailVerified": true,
-//     "role": "USER",
-//     "token": "demo",
-//     "interests": [],
-//     "userSettingsId": 1,
-//     "achievements": [
-//       {
-//         "id": 1,
-//         "name": "Achievement 1",
-//         "icon": "icon1.jpg",
-//         "description": "Description for Achievement 1",
-//         "courseId": 1,
-//         "userId": 1
-//       }
-//     ],
-//     "CourseEnrollment": [
-//       {
-//         "id": 1,
-//         "userId": 1,
-//         "courseId": 1,
-//         "status": "COMPLETED",
-//         "enrolledAt": "2023-12-21T15:32:45.558Z",
-//         "completedAt": null
-//       },
-//       {
-//         "id": 2,
-//         "userId": 1,
-//         "courseId": 2,
-//         "status": "IN_PROGRESS",
-//         "enrolledAt": "2023-12-21T15:32:45.561Z",
-//         "completedAt": null
-//       }
-//     ],
-//     "settings": {
-//       "id": 1,
-//       "userId": 1,
-//       "publicProfile": true,
-//       "publicEmail": false,
-//       "publicBio": true,
-//       "publicPhoto": true,
-//       "publicName": true,
-//       "publicInterests": true
-//     }
-//   }
+"use client"
+import { checkValues, searchLocalStorage } from '@/scripts/check-user-auth';
+import { UserProfile } from '@/scripts/types/dashboard';
+import React, { useEffect, useState } from 'react';
 
-import React from 'react';
+const Page: React.FC = () => {
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(false);
 
-interface Achievement {
-  id: number;
-  name: string;
-  description: string;
-  courseId: number;
-  userId: number;
-}
+  useEffect(() => {
+    setLoading(true);
+    const fetchData = async () => {
+      const userPresent: boolean = await checkValues();
+      if (!userPresent) {
+        window.location.href = '/signin';
+      }
 
-interface CourseEnrollment {
-  id: number;
-  userId: number;
-  courseId: number;
-  status: string;
-  enrolledAt: string;
-  completedAt: string | null;
-}
+      const { authorization, userId } = searchLocalStorage();
+      try {
+        const res = await fetch(`https://ai-res-server-development.onrender.com/dashboard/profile`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization,
+            user_id: userId,
+          },
+        });
 
-interface UserSettings {
-  id: number;
-  userId: number;
-  publicProfile: boolean;
-  publicEmail: boolean;
-  publicBio: boolean;
-  publicPhoto: boolean;
-  publicName: boolean;
-  publicInterests: boolean;
-}
+        const userData: UserProfile = await res.json();
+        setUser(userData);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
 
-interface UserProfile {
-  id: number;
-  username: string;
-  photo: string;
-  name: string;
-  bio: string;
-  email: string;
-  password: string;
-  emailVerified: boolean;
-  role: string;
-  token: string;
-  interests: string[];
-  userSettingsId: number;
-  achievements: Achievement[];
-  CourseEnrollment: CourseEnrollment[];
-  settings: UserSettings;
-}
+    fetchData();
+  }, []);
 
-const Page: React.FC = async () => {
-  const user: UserProfile = await GetProfile();
+  if (!user) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="max-w-2xl mx-auto mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -161,17 +100,58 @@ const Page: React.FC = async () => {
   );
 };
 
-async function GetProfile() {
-  const res = await fetch(`${process.env.SERVER_URL}/dashboard/profile`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: 'demo',
-      user_id: '1',
-    },
-  });
-  const json = await res.json();
-  return json;
-}
-
 export default Page;
+
+// JOSN EXAMPLE:
+// {
+//     "id": 1,
+//     "username": "user1",
+//     "photo": "url_to_user1_photo.jpg",
+//     "name": "User One",
+//     "bio": "Bio for User One",
+//     "email": "user1@example.com",
+//     "password": "password1",
+//     "emailVerified": true,
+//     "role": "USER",
+//     "token": "demo",
+//     "interests": [],
+//     "userSettingsId": 1,
+//     "achievements": [
+//       {
+//         "id": 1,
+//         "name": "Achievement 1",
+//         "icon": "icon1.jpg",
+//         "description": "Description for Achievement 1",
+//         "courseId": 1,
+//         "userId": 1
+//       }
+//     ],
+//     "CourseEnrollment": [
+//       {
+//         "id": 1,
+//         "userId": 1,
+//         "courseId": 1,
+//         "status": "COMPLETED",
+//         "enrolledAt": "2023-12-21T15:32:45.558Z",
+//         "completedAt": null
+//       },
+//       {
+//         "id": 2,
+//         "userId": 1,
+//         "courseId": 2,
+//         "status": "IN_PROGRESS",
+//         "enrolledAt": "2023-12-21T15:32:45.561Z",
+//         "completedAt": null
+//       }
+//     ],
+//     "settings": {
+//       "id": 1,
+//       "userId": 1,
+//       "publicProfile": true,
+//       "publicEmail": false,
+//       "publicBio": true,
+//       "publicPhoto": true,
+//       "publicName": true,
+//       "publicInterests": true
+//     }
+//   }

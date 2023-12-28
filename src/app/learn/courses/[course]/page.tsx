@@ -1,23 +1,6 @@
+import { getAllTopicsInCourse } from '@/scripts/api-calls';
 import Link from 'next/link';
 import React from 'react';
-
-interface Subtopic {
-  id: number;
-  name: string;
-  description: string;
-  courseId: number;
-  image: string;
-}
-
-interface Topic {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  userId: null;
-  tags: string[];
-  subtopics: Subtopic[];
-}
 
 interface GetTopicsProps {
   params: {
@@ -26,7 +9,7 @@ interface GetTopicsProps {
 }
 
 const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
-  const response = getAllTopics(params.course);
+  const response = getAllTopicsInCourse(params.course);
   const topic: Topic | null = await response;
 
   if (topic === null) {
@@ -69,19 +52,6 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
   );
 };
 
-async function getAllTopics(courseId: string): Promise<Topic | null> {
-  const response = await fetch(
-    `${process.env.SERVER_URL}/learn/courses/${courseId}`,
-  );
-
-  if (!response.ok) {
-    return null;
-  }
-
-  const courseDetails = await response.json();
-
-  return courseDetails;
-}
 
 export default GetTopics;
 

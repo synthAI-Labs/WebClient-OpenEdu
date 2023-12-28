@@ -1,25 +1,6 @@
+import renderModules from '@/components/RenderModules';
+import { getAllModulesInASubtopic } from '@/scripts/api-calls';
 import Link from 'next/link';
-import React, { useState, useEffect } from 'react';
-
-interface Module {
-  id: number;
-  name: string;
-  type: 'text' | 'quiz' | 'video';
-  content: string[];
-  quiz: string[];
-  video?: string | null;
-  image: string;
-  subtopicId: number;
-}
-
-interface Subtopic {
-  id: number;
-  name: string;
-  description: string;
-  courseId: number;
-  image: string;
-  modules: Module[];
-}
 
 interface ModuleProps {
   params: {
@@ -29,7 +10,7 @@ interface ModuleProps {
 }
 
 const Modules: React.FC<ModuleProps> = async ({ params }) => {
-  const response = getModules(params.course, params.topic);
+  const response = getAllModulesInASubtopic(params.course, params.topic);
   const modules: Subtopic[] | undefined = await response;
 
   if (modules === undefined) {
@@ -47,90 +28,6 @@ const Modules: React.FC<ModuleProps> = async ({ params }) => {
     </div>
   );
 };
-
-const renderModules = (subtopics: Subtopic[], courseId: string) => {
-  return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {subtopics.map((subtopic) => (
-        <div key={subtopic.id} className="bg-white p-4 rounded-lg shadow-md">
-          <img
-            src={subtopic.image}
-            alt={subtopic.name}
-            className="w-full h-40 object-cover mb-4 rounded-md"
-          />
-          <h2 className="text-xl font-bold mb-2">{subtopic.name}</h2>
-          <p className="text-gray-600 mb-4">{subtopic.description}</p>
-          {/* Render modules for each subtopic */}
-          <div className="grid grid-cols-1 gap-4">
-            {subtopic.modules.map((module) => (
-              <div
-                key={module.id}
-                className="bg-gray-100 p-4 rounded-md shadow-md"
-              >
-                <h3 className="text-lg font-semibold mb-2">{module.name}</h3>
-                {/* Render different module types */}
-                {module.type === 'text' && (
-                  <div>
-                    {module.content.map((text, index) => (
-                      <p key={index} className="mb-2">
-                        {text}
-                      </p>
-                    ))}
-                  </div>
-                )}
-                {module.type === 'quiz' && (
-                  <div>
-                    <h4 className="text-md font-semibold mb-2">
-                      Quiz Questions:
-                    </h4>
-                    <ul className="list-disc pl-4">
-                      {module.quiz &&
-                        module.quiz.map((question, index) => (
-                          <li key={index}>{question}</li>
-                        ))}
-                    </ul>
-                  </div>
-                )}
-                {module.type === 'video' && (
-                  <div>
-                    <video controls className="w-full">
-                      <source src={module.video || ''} type="video/mp4" />
-                      Your browser does not support the video tag.
-                    </video>
-                  </div>
-                )}
-                <Link
-                  href={`/learn/courses/${courseId}/${subtopic.id}/${module.id}`}
-                  className="text-blue-500 inline-flex items-center mt-2"
-                >
-                  Visit Modules
-                </Link>
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-async function getModules(courseId: number, topicId: number) {
-  const res = await fetch(
-    `${process.env.SERVER_URL}/learn/courses/${courseId}/${topicId}`,
-    {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    },
-  );
-
-  if (!res.ok) {
-    console.log(Error(`HTTP error! Status: ${res.status}`));
-  }
-
-  const data = await res.json();
-  console.log(data);
-  return data;
-}
 
 export default Modules;
 
