@@ -1,11 +1,12 @@
-# WebClient 
-> TO BE UPDATED
+# WebClient
 
-This is a simple web client for BloomIQ. It is written in NextJS, tailwindcss and Shadcn-UI.
+This web client for BloomIQ is a simple and efficient application built with Next.js, Tailwind CSS, and Shadcn-UI to provide a seamless user experience.
 
 ## Getting Started
 
-First, install the dependencies:
+### Install Dependencies
+
+Before getting started, ensure you have Node.js installed. Then, install the required dependencies:
 
 ```bash
 npm install
@@ -13,7 +14,9 @@ npm install
 yarn
 ```
 
-Then, run the development server:
+### Run Development Server
+
+Launch the development server to preview and test the web client:
 
 ```bash
 npm run dev
@@ -21,23 +24,19 @@ npm run dev
 yarn dev
 ```
 
-## Also donwload the server from here:
+### Set Up the Server
 
-```bash
-git clone https://github.com/AI-RES/server
+You can set-up the server in two ways:
+
+
+1. Use the development server provided by setting the .env:
+
+```text
+SERVER_URL= "http://localhost:4000"
 ```
 
-follow the setup steps and run development server with:
-
-```bash
-npm run start:dev
-# or
-yarn dev
-```
+2. Run the server locally by following the instructions in the [Server Documentation](https://ai-res-server.vercel.app/installation.html).
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [ShadCn-UI](https://ui.shadcn.com/) - learn about ShadCn-UI features and API.
+Explore the features and capabilities of Next.js by referring to the [Next.js Documentation](https://nextjs.org/docs). Additionally, delve into the extensive UI components provided by ShadCn-UI through their [Documentation](https://ui.shadcn.com/) for a deeper understanding.
