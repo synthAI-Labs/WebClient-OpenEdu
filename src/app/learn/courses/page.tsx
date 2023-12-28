@@ -1,7 +1,5 @@
-"use client"
-
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 interface Course {
   id: number;
@@ -23,55 +21,37 @@ const CourseCard = ({ course }: { course: Course }) => (
   </div>
 );
 
-const Page = () => {
-  const [userData, setUserData] = useState<Course[] | null>(null);
-  const [loading, setLoading] = useState(true);
+const Page = async () => {
+  // const [userData, setUserData] = useState<Course[] | null>(null);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const apiUrl = new URL("http://localhost:4000/learn/courses");
-
-        const headers = {
-          "Content-Type": "application/json",
-        };
-
-        const response = await fetch(apiUrl.href, {
-          method: "GET",
-          headers,
-        });
-
-        if (!response.ok) {
-          console.log(Error(`HTTP error! Status: ${response.status}`))
-        }
-
-        const data: Course[] = await response.json();
-        console.log("User data:", data);
-
-        setUserData(data);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
+  const response = getCourseData();
+  const courseData: Course[] | undefined = await getCourseData();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {loading ? (
+      {/* {loading ? (
         <p>Loading user data...</p>
-      ) : (
-        <>
-          {userData?.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
-        </>
-      )}
+      ) : ( */}
+      <>
+        {courseData?.map((course) => (
+          <CourseCard key={course.id} course={course} />
+        ))}
+      </>
+      {/* )} */}
     </div>
   );
+}
+
+async function getCourseData(): Promise<Course[] | undefined> {
+
+  try {
+    const response = await fetch(`${process.env.SERVER_URL}/learn/courses`);
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export default Page;

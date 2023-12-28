@@ -1,11 +1,12 @@
 import Quiz from "@/components/Quiz";
 
 interface Quiz {
-    id: number | null | undefined;
+    id: number;
     Question: string;
     Options: string[];
-    answer: string[];
+    Answer: string[];
     image?: string | null;
+    moduleId: number;
 }
 
 interface Module {
@@ -51,8 +52,6 @@ export default async function page({ params: { course, topic, module } }: Module
                     ))}
                 </div>
             )}
-
-
             {modules.type === 'video' && (
                 <div>
                     <video controls className="w-full">
@@ -66,7 +65,7 @@ export default async function page({ params: { course, topic, module } }: Module
 }
 
 async function getModules(courseId: number, topicId: number, moduleId: number) {
-    const res = await fetch(`http://localhost:4000/learn/courses/${courseId}/${topicId}/${moduleId}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/learn/courses/${courseId}/${topicId}/${moduleId}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     });

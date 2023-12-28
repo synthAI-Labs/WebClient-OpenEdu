@@ -52,7 +52,7 @@
 //     }
 //   }
 
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 interface Achievement {
     id: number;
@@ -162,7 +162,7 @@ const Page: React.FC = async () => {
 };
 
 async function GetProfile() {
-    const res = await fetch('http://localhost:4000/dashboard/profile', {
+    const res = await fetch(`${process.env.SERVER_URL}/dashboard/profile`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

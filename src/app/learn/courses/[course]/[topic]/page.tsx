@@ -1,4 +1,3 @@
-"use client";
 import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
@@ -29,24 +28,16 @@ interface ModuleProps {
     };
 }
 
-const Modules: React.FC<ModuleProps> = ({ params }) => {
-    console.log(params);
-    console.log(params.course);
-    console.log(params.topic);
-    const [modules, setModules] = useState<Subtopic[] | null>(null);
+const Modules: React.FC<ModuleProps> = async ({ params }) => {
 
-    useEffect(() => {
-        const fetchModules = async () => {
-            try {
-                const data = await getModules(params.course, params.topic);
-                setModules(data);
-            } catch (error) {
-                console.error((error as any).message);
-            }
-        };
+    const response = getModules(params.course, params.topic);
+    const modules: Subtopic[] | undefined = await response;
 
-        fetchModules();
-    }, [params.course, params.topic]);
+    if (modules === undefined) {
+        return (
+            <p>Modules not found</p>
+        )
+    }
 
     return (
         <div className="container mx-auto p-8">
@@ -119,7 +110,7 @@ const renderModules = (subtopics: Subtopic[], courseId: string) => {
 
 
 async function getModules(courseId: number, topicId: number) {
-    const res = await fetch(`http://localhost:4000/learn/courses/${courseId}/${topicId}`, {
+    const res = await fetch(`${process.env.SERVER_URL}/learn/courses/${courseId}/${topicId}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' },
     });

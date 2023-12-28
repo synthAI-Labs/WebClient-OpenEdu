@@ -1,4 +1,3 @@
-"use client"
 import Link from 'next/link';
 import React from 'react';
 
@@ -26,22 +25,15 @@ interface GetTopicsProps {
     };
 }
 
-const GetTopics: React.FC<GetTopicsProps> = ({ params }) => {
-    const [topic, setTopic] = React.useState<Topic | null>(null);
-    console.log(params.course);
-    React.useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const res = await getAllTopics(params.course);
-                const data = res instanceof Response && res.ok ? await res.json() : null;
-                setTopic(data);
-            } catch (error) {
-                console.error('Fetch failed:', error);
-            }
-        };
+const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
+    const response = getAllTopics(params.course);
+    const topic: Topic | null = await response;
 
-        fetchData();
-    }, [params.course]);
+    if (topic === null) {
+        return (
+            <p>Topic not found</p>
+        )
+    }
 
     return (
         <div className="container mx-auto p-8">
@@ -70,19 +62,17 @@ const GetTopics: React.FC<GetTopicsProps> = ({ params }) => {
     );
 };
 
-async function getAllTopics(courseId: string) {
-    const res = await fetch(`http://localhost:4000/learn/courses/${courseId}`, {
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
-    });
+async function getAllTopics(courseId: string): Promise<Topic | null> {
 
-    if (!res.ok) {
-        return {
-            notFound: true,
-        };
+    const response = await fetch(`${process.env.SERVER_URL}/learn/courses/${courseId}`);
+
+    if (!response.ok) {
+        return null;
     }
 
-    return res;
+    const courseDetails = await response.json();
+
+    return courseDetails;
 }
 
 export default GetTopics;

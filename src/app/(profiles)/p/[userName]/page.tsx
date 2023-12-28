@@ -56,6 +56,7 @@ interface PageProps {
 }
 
 async function Page({ params }: PageProps): Promise<JSX.Element> {
+    // username is userId
     const userName = params.userName;
     const response = await getUser(userName);
 
@@ -127,7 +128,8 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
 }
 
 async function getUser(userName: string) {
-    const response = await fetch(`http://localhost:4000/p/${userName}`);
+    // username is userId
+    const response = await fetch(`${process.env.SERVER_URL}/p/${userName}`);
 
     if (!response.ok) {
         // Check if the response status is not OK

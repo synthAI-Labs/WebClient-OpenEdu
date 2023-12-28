@@ -60,7 +60,8 @@ const SignUp = () => {
                 </div>
             </CardContent>
             <CardFooter>
-                <Button className="w-full">Create account</Button>
+                {/* <Button className="w-full">Create account</Button> */}
+                <Button onClick={() => window.location.href = ("/dashboard")} className="w-full">Continue to Dashboard</Button>
             </CardFooter>
         </Card>
     )
