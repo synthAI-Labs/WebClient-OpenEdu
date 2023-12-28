@@ -22,17 +22,17 @@ interface Topic {
 
 interface GetTopicsProps {
     params: {
-        topic: any;
+        course: any;
     };
 }
 
 const GetTopics: React.FC<GetTopicsProps> = ({ params }) => {
     const [topic, setTopic] = React.useState<Topic | null>(null);
-    console.log(params.topic);
+    console.log(params.course);
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                const res = await getAllTopics(params.topic);
+                const res = await getAllTopics(params.course);
                 const data = res instanceof Response && res.ok ? await res.json() : null;
                 setTopic(data);
             } catch (error) {
@@ -41,7 +41,7 @@ const GetTopics: React.FC<GetTopicsProps> = ({ params }) => {
         };
 
         fetchData();
-    }, [params.topic]);
+    }, [params.course]);
 
     return (
         <div className="container mx-auto p-8">
@@ -56,7 +56,7 @@ const GetTopics: React.FC<GetTopicsProps> = ({ params }) => {
                                 <img src={subtopic.image} alt={subtopic.name} className="w-full h-40 object-cover mb-4 rounded-md" />
                                 <h2 className="text-xl font-bold mb-2">{subtopic.name}</h2>
                                 <p className="text-gray-600 mb-4">{subtopic.description}</p>
-                                <Link href={`/learn/courses/${params.topic}/${subtopic.id}/`} className="text-blue-500 inline-flex items-center mt-2">
+                                <Link href={`/learn/courses/${params.course}/${subtopic.id}/`} className="text-blue-500 inline-flex items-center mt-2">
                                     Modules
                                 </Link >
                             </div>

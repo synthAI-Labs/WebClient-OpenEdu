@@ -1,4 +1,5 @@
 "use client";
+import Link from 'next/link';
 import React, { useState, useEffect } from 'react';
 
 interface Module {
@@ -23,32 +24,35 @@ interface Subtopic {
 
 interface ModuleProps {
     params: {
-        module: any;
+        course: any;
         topic: any;
     };
 }
 
 const Modules: React.FC<ModuleProps> = ({ params }) => {
+    console.log(params);
+    console.log(params.course);
+    console.log(params.topic);
     const [modules, setModules] = useState<Subtopic[] | null>(null);
 
     useEffect(() => {
         const fetchModules = async () => {
             try {
-                const data = await getModules(params.module, params.topic);
+                const data = await getModules(params.course, params.topic);
                 setModules(data);
             } catch (error) {
-                console.error(error.message);
+                console.error((error as any).message);
             }
         };
 
         fetchModules();
-    }, [params.module, params.topic]);
+    }, [params.course, params.topic]);
 
     return (
         <div className="container mx-auto p-8">
             <h1 className="text-3xl font-bold mb-8">Modules</h1>
             {modules ? (
-                renderModules(modules)
+                renderModules(modules, params.course)
             ) : (
                 <p className="text-gray-600">Loading modules...</p>
             )}
@@ -56,7 +60,7 @@ const Modules: React.FC<ModuleProps> = ({ params }) => {
     );
 };
 
-const renderModules = (subtopics: Subtopic[]) => {
+const renderModules = (subtopics: Subtopic[], courseId: string) => {
     return (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {subtopics.map((subtopic) => (
@@ -87,7 +91,7 @@ const renderModules = (subtopics: Subtopic[]) => {
                                     <div>
                                         <h4 className="text-md font-semibold mb-2">Quiz Questions:</h4>
                                         <ul className="list-disc pl-4">
-                                            {module.quiz.map((question, index) => (
+                                            {module.quiz && module.quiz.map((question, index) => (
                                                 <li key={index}>{question}</li>
                                             ))}
                                         </ul>
@@ -96,11 +100,14 @@ const renderModules = (subtopics: Subtopic[]) => {
                                 {module.type === 'video' && (
                                     <div>
                                         <video controls className="w-full">
-                                            <source src={module.video} type="video/mp4" />
+                                            <source src={module.video || ''} type="video/mp4" />
                                             Your browser does not support the video tag.
                                         </video>
                                     </div>
                                 )}
+                                <Link href={`/learn/courses/${courseId}/${subtopic.id}/${module.id}`} className="text-blue-500 inline-flex items-center mt-2">
+                                    Visit Modules
+                                </Link >
                             </div>
                         ))}
                     </div>
@@ -118,7 +125,7 @@ async function getModules(courseId: number, topicId: number) {
     });
 
     if (!res.ok) {
-        throw new Error(`HTTP error! Status: ${res.status}`);
+        console.log(Error(`HTTP error! Status: ${res.status}`))
     }
 
     const data = await res.json();

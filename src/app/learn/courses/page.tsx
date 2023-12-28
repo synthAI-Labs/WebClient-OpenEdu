@@ -42,7 +42,7 @@ const Page = () => {
         });
 
         if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          console.log(Error(`HTTP error! Status: ${response.status}`))
         }
 
         const data: Course[] = await response.json();
