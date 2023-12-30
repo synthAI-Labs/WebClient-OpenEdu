@@ -1,60 +1,8 @@
 // Public profile page, JSON RECIEVED similar to the dashboard page.
 // change to userName instead of id
 
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  PromiseLikeOfReactNode,
-  Key,
-} from 'react';
-
-interface Achievement {
-  id: number;
-  name: string;
-  description: string;
-  courseId: number;
-  userId: number;
-}
-
-interface CourseEnrollment {
-  id: number;
-  userId: number;
-  courseId: number;
-  status: string;
-  enrolledAt: string;
-  completedAt: string | null;
-}
-
-interface UserSettings {
-  id: number;
-  userId: number;
-  publicProfile: boolean;
-  publicEmail: boolean;
-  publicBio: boolean;
-  publicPhoto: boolean;
-  publicName: boolean;
-  publicInterests: boolean;
-}
-
-interface UserProfile {
-  id: number;
-  username: string;
-  photo: string;
-  name: string;
-  bio: string;
-  email: string;
-  password: string;
-  emailVerified: boolean;
-  role: string;
-  token: string;
-  interests: string[];
-  userSettingsId: number;
-  achievements: Achievement[];
-  CourseEnrollment: CourseEnrollment[];
-  settings: UserSettings;
-}
+import { getPublicProfileOfUser } from "@/scripts/api-calls";
+import { UserProfile } from "@/scripts/types/dashboard";
 
 interface PageProps {
   params: {
@@ -65,7 +13,7 @@ interface PageProps {
 async function Page({ params }: PageProps): Promise<JSX.Element> {
   // username is userId
   const userName = params.userName;
-  const response = await getUser(userName);
+  const response = await getPublicProfileOfUser(userName);
 
   if (response === null) {
     return <div className="container mx-auto mt-8">Profile is private</div>;
@@ -137,29 +85,6 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
       )}
     </div>
   );
-}
-
-async function getUser(userName: string) {
-  // username is userId
-  const response = await fetch(`${process.env.SERVER_URL}/p/${userName}`);
-
-  if (!response.ok) {
-    // Check if the response status is not OK
-    return `Failed to fetch user: ${response.statusText}`;
-  }
-
-  const contentType = response.headers.get('content-type');
-  if (contentType && contentType.includes('application/json')) {
-    // Only parse the JSON if the content type indicates JSON
-    const user = await response.json();
-    console.log(user);
-    return user;
-  } else {
-    // Handle non-JSON response (e.g., 'Profile is private')
-    const nonJsonResponse = await response.text();
-    console.log(nonJsonResponse);
-    return null;
-  }
 }
 
 export default Page;

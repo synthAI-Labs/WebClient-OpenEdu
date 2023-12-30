@@ -1,24 +1,5 @@
 import Quiz from '@/components/Quiz';
-
-interface Quiz {
-  id: number;
-  Question: string;
-  Options: string[];
-  Answer: string[];
-  image?: string | null;
-  moduleId: number;
-}
-
-interface Module {
-  id: number;
-  name: string;
-  type: 'text' | 'quiz' | 'video';
-  content: string[];
-  quiz: Quiz[];
-  video?: string | null;
-  image: string;
-  subtopicId: number;
-}
+import { getModuleDetails } from '@/scripts/api-calls';
 
 interface ModuleProps {
   params: {
@@ -31,7 +12,7 @@ interface ModuleProps {
 export default async function page({
   params: { course, topic, module },
 }: ModuleProps) {
-  const modules: Module = await getModules(
+  const modules: Module = await getModuleDetails(
     parseInt(course),
     parseInt(topic),
     parseInt(module),
@@ -70,19 +51,3 @@ export default async function page({
   );
 }
 
-async function getModules(courseId: number, topicId: number, moduleId: number) {
-  const res = await fetch(
-    `${process.env.SERVER_URL}/learn/courses/${courseId}/${topicId}/${moduleId}`,
-    {
-      method: 'GET',
-      headers: { 'Content-Type': 'application/json' },
-    },
-  );
-
-  if (!res.ok) {
-    console.log(Error(`HTTP error! Status: ${res.status}`));
-  }
-
-  const data = await res.json();
-  return data;
-}
