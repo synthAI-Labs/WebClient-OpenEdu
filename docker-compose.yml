@@ -1,0 +1,26 @@
+version: '3'
+services:
+  web:
+    image: himanshu806/openedu:server-latest
+    depends_on:
+      - redis
+      - postgres
+    env_file:
+      - .env.docker
+    ports:
+      - "4000:4000"
+    command: sh -c "npm run db:dev && npm run start:prod"
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=db

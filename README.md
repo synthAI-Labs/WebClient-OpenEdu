@@ -14,7 +14,7 @@ npm install
 yarn
 ```
 
-### Run Development Server
+### Run WebClient Development Server: 
 
 Launch the development server to preview and test the web client:
 
@@ -24,18 +24,17 @@ npm run dev
 yarn dev
 ```
 
-### Set Up the Server
+### Set Up the Backend Server
 
-You can set-up the server in two ways:
+You can set-up the backend server in two ways:
 
+1. run the server locally by following the instructions in the [Manual Server Setup Documentation](https://ai-res-server.vercel.app/installation.html#manually).
 
-1. Use the development server provided by setting the .env:
+2. run the server using the docker image by following the instructions in the [Docker Installation Documentation](https://ai-res-server.vercel.app/installation.html#docker).
 
-```text
-SERVER_URL= "http://localhost:4000"
-```
+## Check API Documentation / demo calls:
 
-2. Run the server locally by following the instructions in the [Server Documentation](https://ai-res-server.vercel.app/installation.html).
+You can check the [API Documentation](https://ai-res-server.vercel.app/api.html) to see the available endpoints and their usage.
 
 ## Learn More
 
