@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import { EditProfile } from '@/components/EditProfile';
 import { Button } from '@/components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
@@ -7,7 +7,12 @@ import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { checkValues, searchLocalStorage } from '@/scripts/check-user-auth';
 import { UserProfile } from '@/scripts/types/dashboard';
-import { Dialog, DialogTrigger, DialogContent, DialogTitle } from '@radix-ui/react-dialog';
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogTitle,
+} from '@radix-ui/react-dialog';
 import { Label } from '@radix-ui/react-label';
 import { Share } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
@@ -26,14 +31,17 @@ const Page: React.FC = () => {
 
       const { authorization, userId } = searchLocalStorage();
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/profile`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization,
-            user_id: userId,
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/profile`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization,
+              user_id: userId,
+            },
           },
-        });
+        );
 
         const userData: UserProfile = await res.json();
         setUser(userData);
@@ -50,7 +58,7 @@ const Page: React.FC = () => {
   if (!user) {
     return <div>Loading...</div>;
   }
-  console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${user.photo}`)
+  console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${user.photo}`);
 
   return (
     <div className="container mx-auto mt-8 justify-center items-center">
@@ -70,27 +78,37 @@ const Page: React.FC = () => {
               <p className="mt-2 font-medium">{user.email}</p>
             </div>
           </div>
-          <div className='flex flex-col sm:flex-row'>
+          <div className="flex flex-col sm:flex-row">
             <div>
-              <Button variant="ghost" onClick={
-                () => {
-                  navigator.clipboard.writeText(`${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.id}`);
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.id}`,
+                  );
                   toast({
                     title: 'Link copied to clipboard',
-                    description: "URL: " + `${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.id}`,
+                    description:
+                      'URL: ' +
+                      `${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.id}`,
                   });
-                }
-              }>
+                }}
+              >
                 <Share className="w-6 h-6" />
               </Button>
             </div>
             <div className="mt-4 sm:mt-0">
-              <Dialog >
+              <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="bg-black text-white hover:bg-gray-900 hover:text-white">Edit Profile</Button>
+                  <Button
+                    variant="outline"
+                    className="bg-black text-white hover:bg-gray-900 hover:text-white"
+                  >
+                    Edit Profile
+                  </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-opacity-50 backdrop-filter backdrop-blur-md">
-                  <EditProfile />
+                  <EditProfile user={user} />
                 </DialogContent>
               </Dialog>
             </div>
@@ -102,8 +120,10 @@ const Page: React.FC = () => {
         <Card className="flex">
           <CardHeader>
             <CardTitle className="text-lg font-bold">About Me</CardTitle>
-            <div className='mt-4 font-medium justify-center items-center flex mb'>
-              {user.bio.length === 0 || user.bio === null || user.bio === undefined ? (
+            <div className="mt-4 font-medium justify-center items-center flex mb">
+              {user.bio.length === 0 ||
+              user.bio === null ||
+              user.bio === undefined ? (
                 <p>No bio set</p>
               ) : (
                 <p className="">{user.bio}</p>
@@ -115,8 +135,10 @@ const Page: React.FC = () => {
         <Card className="flex">
           <CardHeader>
             <CardTitle className="text-lg font-bold">Interests</CardTitle>
-            <div className='mt-4 font-medium justify-center items-center flex mb'>
-              {user.bio.length === 0 || user.bio === null || user.bio === undefined ? (
+            <div className="mt-4 font-medium justify-center items-center flex mb">
+              {user.bio.length === 0 ||
+              user.bio === null ||
+              user.bio === undefined ? (
                 <p>No bio set</p>
               ) : (
                 <p className="">{user.bio}</p>
@@ -148,17 +170,17 @@ const Page: React.FC = () => {
         <ul className="flex flex-col gap-4 max-w-2xl">
           {user.achievements.map((achievement) => (
             <Card key={achievement.id} className="pt-6 bg-white rounded shadow">
-              <CardContent><span className="font-bold">{achievement.name}:</span>{' '}
-                {achievement.description}</CardContent>
+              <CardContent>
+                <span className="font-bold">{achievement.name}:</span>{' '}
+                {achievement.description}
+              </CardContent>
             </Card>
           ))}
         </ul>
       </div>
     </div>
-  )
-}
-
-
+  );
+};
 
 export default Page;
 

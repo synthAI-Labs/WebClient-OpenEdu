@@ -3,7 +3,6 @@ import { getAllCoursesData } from '@/scripts/api-calls';
 import React from 'react';
 
 const Page = async () => {
-
   const response = await getAllCoursesData();
   const courseData: Course[] | undefined = response;
 
@@ -19,14 +18,12 @@ const Page = async () => {
             <CourseCard key={course.id} course={course} />
           ))}
         </>
-
       ) : (
         <p>Loading user data...</p>
       )}
     </div>
   );
 };
-
 
 export default Page;
 

@@ -50,4 +50,3 @@ export default async function page({
     </div>
   );
 }
-

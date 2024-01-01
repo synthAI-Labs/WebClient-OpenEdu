@@ -1,24 +1,18 @@
-import { getPublicProfileOfUser } from "@/scripts/api-calls";
-import { UserProfile, UserSettings } from "@/scripts/types/dashboard";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
+import { getPublicProfileOfUser } from '@/scripts/api-calls';
+import { UserProfile, UserSettings } from '@/scripts/types/dashboard';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
+} from '@/components/ui/dialog';
 
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { toast } from "@/components/ui/use-toast";
-
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
 
 interface PageProps {
   params: {
@@ -36,9 +30,9 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
   }
   if (response.status === 404) {
     toast({
-      title: "Scheduled: Catch up",
-      description: "Friday, February 10, 2023 at 5:57 PM",
-    })
+      title: 'Scheduled: Catch up',
+      description: 'Friday, February 10, 2023 at 5:57 PM',
+    });
 
     return <div className="container mx-auto mt-8">Profile not found</div>;
   }
@@ -71,7 +65,9 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
                 />
               )}
               <div>
-                {publicName && <h1 className="text-2xl font-bold">{user.name}</h1>}
+                {publicName && (
+                  <h1 className="text-2xl font-bold">{user.name}</h1>
+                )}
                 {publicBio && <p className="mt-2">{user.bio}</p>}
               </div>
             </div>
@@ -79,7 +75,12 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
             <div className="mt-4 sm:mt-0">
               <Dialog>
                 <DialogTrigger asChild>
-                  <Button variant="outline" className="bg-black text-white hover:bg-gray-900 hover:text-white">Edit Profile</Button>
+                  <Button
+                    variant="outline"
+                    className="bg-black text-white hover:bg-gray-900 hover:text-white"
+                  >
+                    Edit Profile
+                  </Button>
                 </DialogTrigger>
                 <DialogContent className="sm:max-w-md">
                   <DialogHeader>
@@ -100,7 +101,10 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
                     </div>
                     <div>
                       <Label htmlFor="Email">Email</Label>
-                      <Input id="Email" defaultValue={user.email ? user.email : ""} />
+                      <Input
+                        id="Email"
+                        defaultValue={user.email ? user.email : ''}
+                      />
                     </div>
                     <div>
                       <Label htmlFor="Interests">Interests</Label>
@@ -111,19 +115,18 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
               </Dialog>
             </div>
           </div>
-          {publicEmail && <div>
-            <p className="mt-4 font-medium">{user.email}</p>
-          </div>}
+          {publicEmail && (
+            <div>
+              <p className="mt-4 font-medium">{user.email}</p>
+            </div>
+          )}
 
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <Card className="flex-[2]">
               <CardHeader>
                 <CardTitle className="text-lg font-bold">About Me</CardTitle>
               </CardHeader>
-              <CardContent>
-
-              </CardContent>
-
+              <CardContent></CardContent>
             </Card>
             {publicInterests && (
               <Card className="flex-1">
@@ -166,9 +169,14 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
             <h2 className="text-2xl font-bold mb-4">Achievements:</h2>
             <ul className="flex flex-col gap-4 max-w-2xl">
               {user.achievements.map((achievement) => (
-                <Card key={achievement.id} className="pt-6 bg-white rounded shadow">
-                  <CardContent><span className="font-bold">{achievement.name}:</span>{' '}
-                    {achievement.description}</CardContent>
+                <Card
+                  key={achievement.id}
+                  className="pt-6 bg-white rounded shadow"
+                >
+                  <CardContent>
+                    <span className="font-bold">{achievement.name}:</span>{' '}
+                    {achievement.description}
+                  </CardContent>
                 </Card>
               ))}
             </ul>

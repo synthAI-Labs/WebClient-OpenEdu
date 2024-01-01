@@ -1,11 +1,11 @@
-"use client"
-import { checkValues } from "@/scripts/check-user-auth";
-import Link from "next/link";
-import { useEffect, useState } from "react";
-import MobileSideBar from "./MobileSideBar";
+'use client';
+import { checkValues } from '@/scripts/check-user-auth';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import MobileSideBar from './MobileSideBar';
 
 const NavBar = () => {
-  const [mobileScreen, setMobileScreen] = useState(false)
+  const [mobileScreen, setMobileScreen] = useState(false);
   const [logginIn, setLoggedIn] = useState(false);
   useEffect(() => {
     const smallDevice = window.innerWidth <= 800;
@@ -16,7 +16,6 @@ const NavBar = () => {
     const logginIn = checkValues();
     setLoggedIn(logginIn);
   }, []);
-
 
   return (
     <nav className="bg-opacity-50 backdrop-filter backdrop-blur-lg flex items-center justify-between fixed z-20 w-full">
@@ -31,8 +30,14 @@ const NavBar = () => {
         ) : (
           <>
             <div className="flex flex-row items-center space-x-4 border rounded-full z-20 shadow-sm h-10">
-              <Link href="/contact" className="pl-4 text-lg"> Contact </Link>
-              <Link href="/about" className="pr-4  text-lg"> About </Link>
+              <Link href="/contact" className="pl-4 text-lg">
+                {' '}
+                Contact{' '}
+              </Link>
+              <Link href="/about" className="pr-4  text-lg">
+                {' '}
+                About{' '}
+              </Link>
             </div>
             <div
               className="flex flex-row

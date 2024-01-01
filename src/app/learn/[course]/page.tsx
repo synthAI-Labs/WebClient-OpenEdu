@@ -9,7 +9,6 @@ interface GetTopicsProps {
 }
 
 const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
-
   const response = getAllTopicsInCourse(params.course);
   const topic: Topic | null = await response;
 
@@ -52,7 +51,6 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
     </div>
   );
 };
-
 
 export default GetTopics;
 

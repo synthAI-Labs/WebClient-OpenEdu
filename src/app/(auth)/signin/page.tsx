@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -18,7 +18,7 @@ import { useState } from 'react';
 
 const SignIn = () => {
   if (process.browser) {
-    const alreadyLoggedIn: boolean = checkValues()
+    const alreadyLoggedIn: boolean = checkValues();
     if (alreadyLoggedIn) {
       window.location.href = '/dashboard';
     }
@@ -38,13 +38,16 @@ const SignIn = () => {
         password: password.value,
       };
 
-      const response = await fetch(`https://ai-res-server-development.onrender.com/auth/signin`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://ai-res-server-development.onrender.com/auth/signin`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       if (response.status === 201) {
         const user = await response.json();
@@ -57,7 +60,6 @@ const SignIn = () => {
             alert('Error storing values');
           }
         }
-
       }
     } finally {
       setLoading(false);
@@ -106,10 +108,7 @@ const SignIn = () => {
         </div>
       </CardContent>
       <CardFooter>
-        <Button
-          onClick={() => loginUser()}
-          className="w-full"
-        >
+        <Button onClick={() => loginUser()} className="w-full">
           {loading ? (
             <p>loading</p>
           ) : (
