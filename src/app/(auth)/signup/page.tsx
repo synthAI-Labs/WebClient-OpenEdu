@@ -20,7 +20,7 @@ import { useState } from 'react';
 
 const SignUp = () => {
   if (process.browser) {
-    const alreadyLoggedIn: boolean = checkValues()
+    const alreadyLoggedIn: boolean = checkValues();
     if (alreadyLoggedIn) {
       window.location.href = '/dashboard';
     }
@@ -34,7 +34,9 @@ const SignUp = () => {
 
       const email = document.getElementById('email') as HTMLInputElement;
       const password = document.getElementById('password') as HTMLInputElement;
-      const confirmPassword = document.getElementById('confirmpassword') as HTMLInputElement;
+      const confirmPassword = document.getElementById(
+        'confirmpassword',
+      ) as HTMLInputElement;
       const UserName = document.getElementById('UserName') as HTMLInputElement;
       const Name = document.getElementById('Name') as HTMLInputElement;
 
@@ -54,13 +56,16 @@ const SignUp = () => {
 
       console.log(data);
 
-      const response = await fetch(`https://ai-res-server-development.onrender.com/auth/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `https://ai-res-server-development.onrender.com/auth/signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
         },
-        body: JSON.stringify(data),
-      });
+      );
 
       if (response.status === 201) {
         const user = await response.json();
@@ -73,18 +78,18 @@ const SignUp = () => {
             alert('Error storing values');
           }
         }
-
       }
     } finally {
       setLoading(false);
     }
   }
 
-
   return (
     <Card>
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Create an account, NOT WORKING</CardTitle>
+        <CardTitle className="text-2xl">
+          Create an account, NOT WORKING
+        </CardTitle>
         <CardDescription>
           Enter your email below to create your account
         </CardDescription>
@@ -136,10 +141,7 @@ const SignUp = () => {
       </CardContent>
       <CardFooter>
         {/* <Button className="w-full">Create account</Button> */}
-        <Button
-          onClick={() => signUpUser()}
-          className="w-full"
-        >
+        <Button onClick={() => signUpUser()} className="w-full">
           {loading ? (
             <p>loading</p>
           ) : (

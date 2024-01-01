@@ -1,30 +1,25 @@
-
 export async function getPublicProfileOfUser(userName: string) {
-    // username is userId
-    const response = await fetch(`${process.env.SERVER_URL}/p/${userName}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}`);
 
-    if (!response.ok) {
-        // Check if the response status is not OK
-        return `Failed to fetch user: ${response.statusText}`;
+    if (response.status === 404) {
+        return {
+            status: 404,
+            message: 'User not found'
+        };
     }
 
     const contentType = response.headers.get('content-type');
     if (contentType && contentType.includes('application/json')) {
-        // Only parse the JSON if the content type indicates JSON
         const user = await response.json();
-        console.log(user);
         return user;
     } else {
-        // Handle non-JSON response (e.g., 'Profile is private')
-        const nonJsonResponse = await response.text();
-        console.log(nonJsonResponse);
         return null;
     }
 }
 
 export async function getAllCoursesData(): Promise<Course[] | undefined> {
     try {
-        const response = await fetch(`${process.env.SERVER_URL}/learn/courses`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses`);
 
         const data = await response.json();
         return data;
@@ -36,7 +31,7 @@ export async function getAllCoursesData(): Promise<Course[] | undefined> {
 
 export async function getAllTopicsInCourse(courseId: string): Promise<Topic | null> {
     const response = await fetch(
-        `${process.env.SERVER_URL}/learn/courses/${courseId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/${courseId}`,
     );
 
     if (!response.ok) {
@@ -51,7 +46,7 @@ export async function getAllTopicsInCourse(courseId: string): Promise<Topic | nu
 
 export async function getAllModulesInASubtopic(courseId: number, topicId: number) {
     const res = await fetch(
-        `${process.env.SERVER_URL}/learn/courses/${courseId}/${topicId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/${courseId}/${topicId}`,
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
@@ -70,7 +65,7 @@ export async function getAllModulesInASubtopic(courseId: number, topicId: number
 
 export async function getModuleDetails(courseId: number, topicId: number, moduleId: number) {
     const res = await fetch(
-        `${process.env.SERVER_URL}/learn/courses/${courseId}/${topicId}/${moduleId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/${courseId}/${topicId}/${moduleId}`,
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
