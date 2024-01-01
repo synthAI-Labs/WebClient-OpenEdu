@@ -1,7 +1,7 @@
 
 export async function getPublicProfileOfUser(userName: string) {
     // username is userId
-    const response = await fetch(`${process.env.SERVER_URL}/p/${userName}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}`);
 
     if (!response.ok) {
         // Check if the response status is not OK

@@ -1,5 +1,6 @@
 "use client"
 import { checkValues } from "@/scripts/check-user-auth";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const NavBar = () => {
@@ -9,17 +10,17 @@ const NavBar = () => {
     setLoggedIn(logginIn);
   }, []);
   return (
-    <nav className="bg-transparent flex items-center justify-between">
+    <nav className="bg-white bg-opacity-90 flex items-center justify-between fixed z-20 w-full">
       <div className="flex flex-row justify-between items-center w-full h-16 px-4">
         <div className="flex flex-row items-center space-x-4 ">
           <div className="text-2xl font-bold ">
             <a href="/">Logo</a>
           </div>
         </div>
-        {/* <div className="flex flex-row items-center space-x-4 ">
-        <a href="/about">About</a>
-        <a href="/contact">Contact</a>
-      </div> */}
+        <div className="flex flex-row items-center space-x-4 border rounded-full z-20 shadow-sm h-10">
+          <Link href="/contact" className="pl-4 text-lg"> Contact </Link>
+          <Link href="/about" className="pr-4  text-lg"> About </Link>
+        </div>
         <div
           className="flex flex-row
                 items-center
