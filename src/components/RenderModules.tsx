@@ -52,7 +52,7 @@ const renderModules = (subtopics: Subtopic[], courseId: string) => {
                                     </div>
                                 )}
                                 <Link
-                                    href={`/learn/courses/${courseId}/${subtopic.id}/${module.id}`}
+                                    href={`/learn/${courseId}/${subtopic.id}/${module.id}`}
                                     className="text-blue-500 inline-flex items-center mt-2"
                                 >
                                     Visit Modules

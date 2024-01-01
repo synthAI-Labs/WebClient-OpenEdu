@@ -1,8 +1,5 @@
-// Public profile page, JSON RECIEVED similar to the dashboard page.
-// change to userName instead of id
-
 import { getPublicProfileOfUser } from "@/scripts/api-calls";
-import { UserProfile } from "@/scripts/types/dashboard";
+import { UserProfile, UserSettings } from "@/scripts/types/dashboard";
 import {
   Card,
   CardContent,
@@ -20,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { toast } from "@/components/ui/use-toast";
 
 
 interface PageProps {
@@ -36,8 +34,19 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
   if (response === null) {
     return <div className="container mx-auto mt-8">Profile is private</div>;
   }
+  if (response.status === 404) {
+    toast({
+      title: "Scheduled: Catch up",
+      description: "Friday, February 10, 2023 at 5:57 PM",
+    })
+
+    return <div className="container mx-auto mt-8">Profile not found</div>;
+  }
 
   const user: UserProfile = response;
+
+  const userSettings: UserSettings = user.settings || {};
+  console.log(userSettings);
 
   const {
     publicProfile,
@@ -46,7 +55,7 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
     publicBio,
     publicEmail,
     publicInterests,
-  } = user.settings;
+  } = userSettings;
 
   return (
     <div className="container mx-auto mt-8">
@@ -66,7 +75,7 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
                 {publicBio && <p className="mt-2">{user.bio}</p>}
               </div>
             </div>
-            
+
             <div className="mt-4 sm:mt-0">
               <Dialog>
                 <DialogTrigger asChild>
@@ -79,23 +88,23 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
                   <div className="flex flex-col gap-4">
                     <div>
                       <Label htmlFor="Username">Username</Label>
-                      <Input id="Username" defaultValue={user.username}/>
+                      <Input id="Username" defaultValue={user.username} />
                     </div>
                     <div>
-                      <Label  htmlFor="ProfilePic">Profile photo</Label>
-                      <Input type="file" id="ProfilePic"/>
+                      <Label htmlFor="ProfilePic">Profile photo</Label>
+                      <Input type="file" id="ProfilePic" />
                     </div>
                     <div>
                       <Label htmlFor="Bio">Bio</Label>
-                      <Input id="Bio" defaultValue={user.bio}/>
+                      <Input id="Bio" defaultValue={user.bio} />
                     </div>
                     <div>
                       <Label htmlFor="Email">Email</Label>
-                      <Input id="Email" defaultValue={user.email ? user.email : ""}/>
+                      <Input id="Email" defaultValue={user.email ? user.email : ""} />
                     </div>
                     <div>
                       <Label htmlFor="Interests">Interests</Label>
-                      <Input id="Interests" defaultValue={user.interests}/>
+                      <Input id="Interests" defaultValue={user.interests} />
                     </div>
                   </div>
                 </DialogContent>
@@ -105,37 +114,37 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
           {publicEmail && <div>
             <p className="mt-4 font-medium">{user.email}</p>
           </div>}
-          
+
           <div className="flex flex-col sm:flex-row gap-4 mt-6">
             <Card className="flex-[2]">
               <CardHeader>
                 <CardTitle className="text-lg font-bold">About Me</CardTitle>
               </CardHeader>
-             <CardContent>
-      
-             </CardContent>
-              
+              <CardContent>
+
+              </CardContent>
+
             </Card>
             {publicInterests && (
-            <Card className="flex-1">
-              <CardHeader>
-                <CardTitle className="text-lg font-bold">Interests</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {user.interests.length > 0 ? (
-                  <ul className="list-disc pl-4">
-                    {user.interests.map((interest, index) => (
-                      <li key={index}>{interest}</li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p>None</p>
-                )}
-              </CardContent>
-            </Card>
+              <Card className="flex-1">
+                <CardHeader>
+                  <CardTitle className="text-lg font-bold">Interests</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {user.interests.length > 0 ? (
+                    <ul className="list-disc pl-4">
+                      {user.interests.map((interest, index) => (
+                        <li key={index}>{interest}</li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>None</p>
+                  )}
+                </CardContent>
+              </Card>
             )}
           </div>
-          
+
           <div className="mt-8">
             <h2 className="text-2xl font-bold mb-4">Course Enrollments:</h2>
             <ul className="flex flex-col gap-4 sm:flex-row">
@@ -158,8 +167,8 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
             <ul className="flex flex-col gap-4 max-w-2xl">
               {user.achievements.map((achievement) => (
                 <Card key={achievement.id} className="pt-6 bg-white rounded shadow">
-                    <CardContent><span className="font-bold">{achievement.name}:</span>{' '}
-                  {achievement.description}</CardContent>
+                  <CardContent><span className="font-bold">{achievement.name}:</span>{' '}
+                    {achievement.description}</CardContent>
                 </Card>
               ))}
             </ul>

@@ -8,7 +8,7 @@ const CourseCard = ({ course }: { course: Course }) => (
             <strong>Description:</strong> {course.description}
         </p>
         <Link
-            href={`/learn/courses/${course.id}`}
+            href={`/learn/${course.id}`}
             className="text-blue-500 inline-flex items-center mt-2"
         >
             Learn More

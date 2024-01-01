@@ -9,6 +9,7 @@ interface GetTopicsProps {
 }
 
 const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
+
   const response = getAllTopicsInCourse(params.course);
   const topic: Topic | null = await response;
 
@@ -36,7 +37,7 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
                 <h2 className="text-xl font-bold mb-2">{subtopic.name}</h2>
                 <p className="text-gray-600 mb-4">{subtopic.description}</p>
                 <Link
-                  href={`/learn/courses/${params.course}/${subtopic.id}/`}
+                  href={`/learn/${params.course}/${subtopic.id}`}
                   className="text-blue-500 inline-flex items-center mt-2"
                 >
                   Modules
