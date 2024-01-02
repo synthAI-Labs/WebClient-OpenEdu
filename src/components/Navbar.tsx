@@ -2,7 +2,17 @@
 import { checkValues } from '@/scripts/check-user-auth';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import MobileSideBar from './MobileSideBar';
+import { Button } from './ui/button';
+import {
+  SheetTrigger,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetClose,
+  Sheet,
+} from './ui/sheet';
+import { MenuIcon } from 'lucide-react';
+import UserAvatar from './UserAvatar';
 
 const NavBar = () => {
   const [mobileScreen, setMobileScreen] = useState(false);
@@ -26,17 +36,85 @@ const NavBar = () => {
           </div>
         </div>
         {mobileScreen ? (
-          <MobileSideBar />
+          <div className=" grid grid-cols-2">
+            <div>
+              <Sheet>
+                <SheetTrigger className=" justify-items-end items-end">
+                  <MenuIcon size={30} />
+                </SheetTrigger>
+                <SheetContent side={'left'}>
+                  <SheetHeader>
+                    <SheetTitle>Contents</SheetTitle>
+                  </SheetHeader>
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Link href="/learn">
+                        <Button variant={'ghost'}>Learn</Button>
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Link href="/about">
+                        <Button variant={'ghost'}>About</Button>
+                      </Link>
+                    </div>
+
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Link href="/contact">
+                        <Button variant={'ghost'}>Contact</Button>
+                      </Link>
+                    </div>
+                    {logginIn ? (
+                      <>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Link href="/signin">
+                            <Button variant={'ghost'}>Login</Button>
+                          </Link>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                          <Link href="/signup">
+                            <Button>Get Started</Button>
+                          </Link>
+                        </div>
+                      </>
+                    ) : (
+                      <div className="grid grid-cols-4 items-center gap-4">
+                        <Link href="/dashboard">
+                          <Button variant={'ghost'}>Dashboard</Button>
+                        </Link>
+                      </div>
+                    )}
+                  </div>
+                </SheetContent>
+                <SheetClose />
+              </Sheet>
+            </div>
+            <div>
+              {logginIn ? (
+                <>
+                  <UserAvatar />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
         ) : (
           <>
             <div className="flex flex-row items-center space-x-4 border rounded-full z-20 shadow-sm h-10">
-              <Link href="/contact" className="pl-4 text-lg">
-                {' '}
-                Contact{' '}
+              <Link href="/learn">
+                <Button variant={'ghost'} className="text-lg">
+                  Learn
+                </Button>
               </Link>
-              <Link href="/about" className="pr-4  text-lg">
-                {' '}
-                About{' '}
+              <Link href="/about">
+                <Button variant={'ghost'} className="text-lg">
+                  About
+                </Button>
+              </Link>
+              <Link href="/support">
+                <Button variant={'ghost'} className="text-lg">
+                  Contact
+                </Button>
               </Link>
             </div>
             <div
@@ -47,13 +125,16 @@ const NavBar = () => {
             >
               {logginIn ? (
                 <>
-                  <a href="/dashboard">Profile</a>
-                  <a href="/logout">Logout</a>
+                  <UserAvatar />
                 </>
               ) : (
                 <>
-                  <a href="/signin">Login</a>
-                  <a href="/signup">Sign Up</a>
+                  <Link href="/signin">
+                    <Button variant={'outline'}>Login</Button>
+                  </Link>
+                  <Link href="/signup">
+                    <Button variant={'outline'}>Sign Up</Button>
+                  </Link>
                 </>
               )}
             </div>

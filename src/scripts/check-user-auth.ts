@@ -5,10 +5,32 @@ export function searchLocalStorage(): { authorization: string, userId: string } 
     return { authorization, userId };
 }
 
-export function storeValues(authorization: string, userId: string): Boolean {
+export function getImageFromLocalStorage() {
+    const imageAddress: string = localStorage.getItem('userPhoto') as string
+    return imageAddress
+}
+
+export function getVerifiedFromLocalStorage() {
+    const verified: boolean = localStorage.getItem('userVerified') === 'true' ? true : false
+    return verified
+}
+
+export function setVerifiedInLocalStorage(verified: boolean) {
+    try {
+        localStorage.setItem('userVerified', verified.toString())
+        return true;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+}
+
+export function storeValues(authorization: string, userId: string, userPhoto: string, userVerified: boolean): Boolean {
     try {
         localStorage.setItem('authorization', authorization);
         localStorage.setItem('user-Id', userId);
+        localStorage.setItem('userPhoto', userPhoto);
+        localStorage.setItem('userVerified', userVerified.toString());
         return true;
     } catch (e) {
         console.error(e);
@@ -24,6 +46,9 @@ export function checkValues(): boolean {
 export function deletedValues(): boolean {
     localStorage.removeItem('authorization');
     localStorage.removeItem('user-Id');
+    localStorage.removeItem('userPhoto');
+    localStorage.removeItem('userVerified');
+    localStorage.removeItem('email');
 
     if (!checkValues()) {
         return false;

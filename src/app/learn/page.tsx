@@ -1,4 +1,6 @@
 import CourseCard from '@/components/CourseCard';
+import Loader from '@/components/Loader';
+import NothingFound from '@/components/NothingFound';
 import { getAllCoursesData } from '@/scripts/api-calls';
 import React from 'react';
 
@@ -6,8 +8,8 @@ const Page = async () => {
   const response = await getAllCoursesData();
   const courseData: Course[] | undefined = response;
 
-  if (courseData === undefined) {
-    return <p>Failed to load course data</p>;
+  if (courseData === undefined || courseData.length === 0) {
+    return <NothingFound />;
   }
 
   return (
@@ -19,7 +21,7 @@ const Page = async () => {
           ))}
         </>
       ) : (
-        <p>Loading user data...</p>
+        <Loader />
       )}
     </div>
   );

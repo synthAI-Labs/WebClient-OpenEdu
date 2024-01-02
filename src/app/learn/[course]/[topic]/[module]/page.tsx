@@ -1,3 +1,4 @@
+import NothingFound from '@/components/NothingFound';
 import Quiz from '@/components/Quiz';
 import { getModuleDetails } from '@/scripts/api-calls';
 
@@ -17,9 +18,13 @@ export default async function page({
     parseInt(topic),
     parseInt(module),
   );
-  console.log(modules.quiz);
+
+  if (modules === null) {
+    return <NothingFound />;
+  }
+
   return (
-    <div key={modules.id} className="bg-gray-100 p-4 rounded-md shadow-md">
+    <div key={modules.id} className="p-4 rounded-md shadow-md">
       <h3 className="text-lg font-semibold mb-2">{modules.name}</h3>
       {/* Render different module types */}
       {modules.type === 'text' && (

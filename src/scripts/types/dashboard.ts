@@ -11,6 +11,9 @@ export interface CourseEnrollment {
     id: number;
     userId: number;
     courseId: number;
+    name: string;
+    description: string;
+    image: string;
     status: string;
     enrolledAt: string;
     completedAt: string | null;

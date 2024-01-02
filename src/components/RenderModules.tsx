@@ -15,10 +15,7 @@ const renderModules = (subtopics: Subtopic[], courseId: string) => {
           {/* Render modules for each subtopic */}
           <div className="grid grid-cols-1 gap-4">
             {subtopic.modules.map((module) => (
-              <div
-                key={module.id}
-                className="bg-gray-100 p-4 rounded-md shadow-md"
-              >
+              <div key={module.id} className=" p-4 rounded-md shadow-md">
                 <h3 className="text-lg font-semibold mb-2">{module.name}</h3>
                 {/* Render different module types */}
                 {module.type === 'text' && (
