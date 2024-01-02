@@ -31,7 +31,7 @@ const App = () => {
       </div>
       <main className="p-4">
         <section className="mb-8">
-          <h2 className="text-2xl font-bold">About Us</h2>
+          <h2 className="text-2xl font-bold"><a href="/about">About Us</a></h2>
           <p>
             We are an education startup leveraging the power of AI to
             revolutionize the learning experience. Our mission is to provide
