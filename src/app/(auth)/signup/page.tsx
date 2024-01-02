@@ -12,7 +12,11 @@ import {
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
-import { checkValues, getVerifiedFromLocalStorage, storeValues } from '@/scripts/check-user-auth';
+import {
+  checkValues,
+  getVerifiedFromLocalStorage,
+  storeValues,
+} from '@/scripts/check-user-auth';
 import { UserProfile } from '@/scripts/types/dashboard';
 import { Label } from '@radix-ui/react-label';
 import { Loader2, LogIn } from 'lucide-react';
@@ -73,7 +77,12 @@ const SignUp = () => {
         if (response.status === 201) {
           const user: UserProfile = await response.json();
 
-          const valueStored = storeValues(user.token, user.id.toString(), user.photo, false);
+          const valueStored = storeValues(
+            user.token,
+            user.id.toString(),
+            user.photo,
+            false,
+          );
           if (valueStored) {
             window.location.href = `/signup/verify/`;
           } else {
@@ -97,9 +106,7 @@ const SignUp = () => {
   return (
     <Card className=" lg:w-8/12 md:w-8/12 sm:w-8/12">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">
-          Create an account
-        </CardTitle>
+        <CardTitle className="text-2xl">Create an account</CardTitle>
         <CardDescription>
           Enter your email below to create your account
         </CardDescription>

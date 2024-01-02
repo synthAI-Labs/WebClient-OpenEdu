@@ -43,12 +43,13 @@ export default function QuizComponent({ quizzes }: { quizzes: Quiz[] }) {
             {quiz.Options.map((option, optionIndex) => (
               <li key={optionIndex}>
                 <button
-                  className={`cursor-pointer ${selectedOption === option
+                  className={`cursor-pointer ${
+                    selectedOption === option
                       ? isCorrect
                         ? 'bg-green-500 text-white'
                         : 'bg-red-500 text-white'
                       : 'bg-gray-300 text-black'
-                    }`}
+                  }`}
                   onClick={(event) =>
                     handleOptionSelect(event, option, quiz.Answer)
                   }

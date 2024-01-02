@@ -25,7 +25,6 @@ interface PageProps {
 const Page: React.FC<PageProps> = ({ params }) => {
   const [loading, setLoading] = useState(false);
 
-
   async function verifyEmail() {
     try {
       setLoading(true);
@@ -33,13 +32,10 @@ const Page: React.FC<PageProps> = ({ params }) => {
       const verificationCode = document.getElementById(
         'verificationCode',
       ) as HTMLInputElement;
-      const email = document.getElementById(
-        'email'
-      ) as HTMLInputElement;
+      const email = document.getElementById('email') as HTMLInputElement;
 
       const data = verificationCode.value;
-      const emailAddress = email.value
-
+      const emailAddress = email.value;
 
       try {
         const response = await fetch(
@@ -67,19 +63,17 @@ const Page: React.FC<PageProps> = ({ params }) => {
             title: 'SUCCESS',
             description: 'Email verified',
           });
-          let setVerified = false
+          let setVerified = false;
           if (process.browser) {
-            setVerified = setVerifiedInLocalStorage(true)
+            setVerified = setVerifiedInLocalStorage(true);
           }
           if (setVerified) {
             window.location.href = '/dashboard';
-          } else (
+          } else
             toast({
               title: 'ERROR',
               description: 'Unable to store values',
-            })
-          )
-
+            });
         }
       } catch (error) {
         toast({

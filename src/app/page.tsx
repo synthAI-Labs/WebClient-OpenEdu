@@ -27,10 +27,12 @@ const App = () => {
                 }}
               />
             </div>
-
           </div>
-          <div className='my-9'>
-            <Link href="/signup" className={cn(" ", buttonVariants({ variant: 'default' }))}>
+          <div className="my-9">
+            <Link
+              href="/signup"
+              className={cn(' ', buttonVariants({ variant: 'default' }))}
+            >
               Get Started
             </Link>
           </div>

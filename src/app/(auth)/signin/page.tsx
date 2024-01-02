@@ -57,18 +57,20 @@ const SignIn = () => {
         const user: UserProfile = await response.json();
 
         if (process.browser) {
-          const valueStored = storeValues(user.token, user.id.toString(), user.photo, true);
+          const valueStored = storeValues(
+            user.token,
+            user.id.toString(),
+            user.photo,
+            true,
+          );
           if (valueStored) {
             window.location.href = '/dashboard';
           } else {
             alert('Error storing values');
           }
         }
-      }
-      else {
-        return (
-          <NothingFound />
-        )
+      } else {
+        return <NothingFound />;
       }
     } catch (error) {
       toast({

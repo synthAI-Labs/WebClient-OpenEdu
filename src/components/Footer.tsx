@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 import { GlobeIcon, SendToBack } from 'lucide-react';
 
 const Footer = () => {
-
   return (
     <footer className="flex-grow-0">
       <div className="border-t border-gray-200">
@@ -18,7 +17,9 @@ const Footer = () => {
         <div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 mt-8 px-7">
             <div className="bg-white p-4 rounded-md shadow-md">
-              <div className="text-xl flex flex-col justify-center items-center font-semibold mb-2">Links</div>
+              <div className="text-xl flex flex-col justify-center items-center font-semibold mb-2">
+                Links
+              </div>
               <div className="mt-4 flex flex-col justify-center items-center ">
                 <div>
                   <Link

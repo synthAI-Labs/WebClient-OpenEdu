@@ -82,7 +82,7 @@ const UserAvatar = () => {
         <Link href="/logout">
           <DropdownMenuItem>
             <LogOut className="mr-2 h-4 w-4" />
-            <span className=' text-red-600 font-bold'> Logout </span>
+            <span className=" text-red-600 font-bold"> Logout </span>
           </DropdownMenuItem>
         </Link>
       </DropdownMenuContent>

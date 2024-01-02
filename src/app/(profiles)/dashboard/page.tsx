@@ -21,7 +21,7 @@ import { checkValues, searchLocalStorage } from '@/scripts/check-user-auth';
 import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
 import { Share, X } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image'
+import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { SelectItems } from '@/components/SelectItems';
 import { cn } from '@/lib/utils';
@@ -258,8 +258,8 @@ const Page: React.FC = () => {
                 <CardTitle className="text-lg font-bold">About Me</CardTitle>
                 <div className="mt-4 font-medium justify-center items-center flex mb">
                   {user.bio.length === 0 ||
-                    user.bio === null ||
-                    user.bio === undefined ? (
+                  user.bio === null ||
+                  user.bio === undefined ? (
                     <p>No bio set</p>
                   ) : (
                     <p className="">{user.bio}</p>
@@ -273,8 +273,8 @@ const Page: React.FC = () => {
                 <CardTitle className="text-lg font-bold">Interests</CardTitle>
                 <div className="mt-4 font-medium justify-center items-center flex mb">
                   {user.bio.length === 0 ||
-                    user.bio === null ||
-                    user.bio === undefined ? (
+                  user.bio === null ||
+                  user.bio === undefined ? (
                     <p>No Interests set</p>
                   ) : (
                     <p className="">{user.bio}</p>
@@ -290,7 +290,6 @@ const Page: React.FC = () => {
 
           */}
 
-
           <div className="mt-8">
             <h2 className="text-2xl font-bold mb-4">Course Enrollments:</h2>
             {user.CourseEnrollment.length === 0 ? (
@@ -298,21 +297,21 @@ const Page: React.FC = () => {
                 <div>
                   <p>No courses available</p>
                 </div>
-                <div className='mt-2'>
-                  <Link href={"/learn"}>
-                    <Button variant={'outline'}>
-                      View courses
-                    </Button>
+                <div className="mt-2">
+                  <Link href={'/learn'}>
+                    <Button variant={'outline'}>View courses</Button>
                   </Link>
                 </div>
               </div>
             ) : (
               <ul className="flex flex-col gap-4 sm:flex-row">
                 {user.CourseEnrollment.map((enrollment) => (
-                  <Card className={cn("w-[350px]")} key={enrollment.id}>
+                  <Card className={cn('w-[350px]')} key={enrollment.id}>
                     <CardHeader>
                       <CardTitle>{enrollment.name}</CardTitle>
-                      <CardDescription>{enrollment.description}</CardDescription>
+                      <CardDescription>
+                        {enrollment.description}
+                      </CardDescription>
                     </CardHeader>
                     <CardContent className="grid gap-4">
                       <div className=" flex items-center space-x-4 rounded-md border p-4">
@@ -324,15 +323,12 @@ const Page: React.FC = () => {
                             height={200}
                           />
                         </div>
-
                       </div>
-                      <div className=' flex justify-center items-center'>
-                        <h1 >
-                          {enrollment.status}
-                        </h1>
+                      <div className=" flex justify-center items-center">
+                        <h1>{enrollment.status}</h1>
                       </div>
                     </CardContent>
-                    <CardFooter className=' flex justify-center items-center'>
+                    <CardFooter className=" flex justify-center items-center">
                       <Link href={`/learn/${enrollment.id}`}>
                         <Button className="w-full" variant={'outline'}>
                           View Course
@@ -352,11 +348,9 @@ const Page: React.FC = () => {
                 <div>
                   <p>No achievements available</p>
                 </div>
-                <div className='mt-2'>
-                  <Link href={"/learn"}>
-                    <Button variant={'outline'}>
-                      View courses
-                    </Button>
+                <div className="mt-2">
+                  <Link href={'/learn'}>
+                    <Button variant={'outline'}>View courses</Button>
                   </Link>
                 </div>
               </div>

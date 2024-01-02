@@ -36,7 +36,7 @@ const NavBar = () => {
           </div>
         </div>
         {mobileScreen ? (
-          <div className=' grid grid-cols-2'>
+          <div className=" grid grid-cols-2">
             <div>
               <Sheet>
                 <SheetTrigger className=" justify-items-end items-end">
@@ -94,9 +94,7 @@ const NavBar = () => {
                   <UserAvatar />
                 </>
               ) : (
-                <>
-
-                </>
+                <></>
               )}
             </div>
           </div>
@@ -132,17 +130,11 @@ const NavBar = () => {
               ) : (
                 <>
                   <Link href="/signin">
-                    <Button variant={'outline'}>
-                      Login
-                    </Button>
+                    <Button variant={'outline'}>Login</Button>
                   </Link>
                   <Link href="/signup">
-                    <Button variant={'outline'}>
-                      Sign Up
-                    </Button>
+                    <Button variant={'outline'}>Sign Up</Button>
                   </Link>
-
-
                 </>
               )}
             </div>

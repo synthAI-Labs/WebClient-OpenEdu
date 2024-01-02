@@ -116,17 +116,20 @@ const Page = () => {
               <li>
                 <strong>Q: </strong> How do I create an account?
                 <br />
-                <strong>A: </strong> To create an account, click on the "Sign Up" button and follow the instructions.
+                <strong>A: </strong> To create an account, click on the
+                &quot;Sign Up&quot; button and follow the instructions.
               </li>
               <li>
                 <strong>Q: </strong> How can I reset my password?
                 <br />
-                <strong>A: </strong> To reset your password, click on the "Forgot Password" link and follow the instructions.
+                <strong>A: </strong> To reset your password, click on the
+                &quot;Forgot Password&quot; link and follow the instructions.
               </li>
               <li>
                 <strong>Q: </strong> Can I change my email address?
                 <br />
-                <strong>A: </strong> Yes, you can change your email address in the account settings.
+                <strong>A: </strong> Yes, you can change your email address in
+                the account settings.
               </li>
               {/* Add more FAQs here */}
             </ul>
