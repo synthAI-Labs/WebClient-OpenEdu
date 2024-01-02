@@ -1,3 +1,5 @@
+import Loader from '@/components/Loader';
+import NothingFound from '@/components/NothingFound';
 import renderModules from '@/components/RenderModules';
 import { getAllModulesInASubtopic } from '@/scripts/api-calls';
 import Link from 'next/link';
@@ -14,17 +16,13 @@ const Modules: React.FC<ModuleProps> = async ({ params }) => {
   const modules: Subtopic[] | undefined = await response;
 
   if (modules === undefined) {
-    return <p>Modules not found</p>;
+    return <NothingFound />;
   }
 
   return (
     <div className="container mx-auto p-8">
       <h1 className="text-3xl font-bold mb-8">Modules</h1>
-      {modules ? (
-        renderModules(modules, params.course)
-      ) : (
-        <p className="text-gray-600">Loading modules...</p>
-      )}
+      {modules ? renderModules(modules, params.course) : <Loader />}
     </div>
   );
 };

@@ -30,8 +30,8 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
   }
   if (response.status === 404) {
     toast({
-      title: 'Scheduled: Catch up',
-      description: 'Friday, February 10, 2023 at 5:57 PM',
+      title: 'Error',
+      description: 'Profile not found',
     });
 
     return <div className="container mx-auto mt-8">Profile not found</div>;
@@ -59,7 +59,7 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
             <div className="flex flex-col sm:flex-row gap-8">
               {publicPhoto && (
                 <img
-                  src={user.photo}
+                  src={`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${user.photo}`}
                   alt="User Photo"
                   className="rounded-full w-40 h-40 object-cover border-2 border-black"
                 />
@@ -77,7 +77,7 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
                 <DialogTrigger asChild>
                   <Button
                     variant="outline"
-                    className="bg-black text-white hover:bg-gray-900 hover:text-white"
+                    className="hover:bg-gray-900 hover:text-white"
                   >
                     Edit Profile
                   </Button>

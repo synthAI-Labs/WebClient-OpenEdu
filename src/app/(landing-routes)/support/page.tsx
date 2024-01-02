@@ -1,4 +1,5 @@
 'use client';
+import NothingFound from '@/components/NothingFound';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -12,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/components/ui/use-toast';
+import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 
 const Page = () => {
@@ -33,7 +35,7 @@ const Page = () => {
       };
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/contact`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/support`,
         {
           method: 'POST',
           headers: {
@@ -50,15 +52,21 @@ const Page = () => {
           title: 'Success',
           description: res.message,
         });
+        window.location.href = '/support/success';
       }
+    } catch {
+      toast({
+        title: 'Error',
+        description: 'Something went wrong',
+      });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="flex items-center justify-center h-screen">
-      <div className="grid w-full gap-4 max-w-3xl">
+    <div className="flex items-center justify-center h-screen lg:w-8/12 md:w-8/12 sm:w-8/12">
+      <div className="grid w-full gap-4">
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">Contact US</CardTitle>
@@ -88,9 +96,41 @@ const Page = () => {
           </CardContent>
           <CardFooter>
             <Button onClick={() => sendEmail()} className="w-full">
-              {loading ? <p>loading</p> : <>Send Message</>}
+              {loading ? (
+                <p>
+                  <Loader2Icon className=" animate-spin" />
+                </p>
+              ) : (
+                <>Send Message</>
+              )}
             </Button>
           </CardFooter>
+        </Card>
+
+        <Card>
+          <CardHeader className="space-y-1">
+            <CardTitle className="text-2xl">FAQs</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul>
+              <li>
+                <strong>Q: </strong> How do I create an account?
+                <br />
+                <strong>A: </strong> To create an account, click on the "Sign Up" button and follow the instructions.
+              </li>
+              <li>
+                <strong>Q: </strong> How can I reset my password?
+                <br />
+                <strong>A: </strong> To reset your password, click on the "Forgot Password" link and follow the instructions.
+              </li>
+              <li>
+                <strong>Q: </strong> Can I change my email address?
+                <br />
+                <strong>A: </strong> Yes, you can change your email address in the account settings.
+              </li>
+              {/* Add more FAQs here */}
+            </ul>
+          </CardContent>
         </Card>
       </div>
     </div>

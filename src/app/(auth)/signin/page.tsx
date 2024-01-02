@@ -1,5 +1,7 @@
 'use client';
 
+import NotFound from '@/app/not-found';
+import NothingFound from '@/components/NothingFound';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,19 +12,21 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
 import { checkValues, storeValues } from '@/scripts/check-user-auth';
+import { UserProfile } from '@/scripts/types/dashboard';
 import { Label } from '@radix-ui/react-label';
-import { GithubIcon, LogIn } from 'lucide-react';
+import { Loader2Icon, LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
 const SignIn = () => {
-  if (process.browser) {
-    const alreadyLoggedIn: boolean = checkValues();
-    if (alreadyLoggedIn) {
-      window.location.href = '/dashboard';
-    }
-  }
+  // if (process.browser) {
+  //   const alreadyLoggedIn: boolean = checkValues();
+  //   if (alreadyLoggedIn) {
+  //     window.location.href = '/dashboard';
+  //   }
+  // }
 
   const [loading, setLoading] = useState(false);
 
@@ -39,7 +43,7 @@ const SignIn = () => {
       };
 
       const response = await fetch(
-        `https://ai-res-server-development.onrender.com/auth/signin`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signin`,
         {
           method: 'POST',
           headers: {
@@ -50,10 +54,10 @@ const SignIn = () => {
       );
 
       if (response.status === 201) {
-        const user = await response.json();
+        const user: UserProfile = await response.json();
 
         if (process.browser) {
-          const valueStored = storeValues(user.token, user.id);
+          const valueStored = storeValues(user.token, user.id.toString(), user.photo, true);
           if (valueStored) {
             window.location.href = '/dashboard';
           } else {
@@ -61,13 +65,23 @@ const SignIn = () => {
           }
         }
       }
+      else {
+        return (
+          <NothingFound />
+        )
+      }
+    } catch (error) {
+      toast({
+        title: 'Something Went Wrong',
+        description: error as string,
+      });
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <Card>
+    <Card className=" lg:w-8/12 md:w-8/12 sm:w-8/12">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Login</CardTitle>
         <CardDescription>
@@ -75,13 +89,12 @@ const SignIn = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        <div className="grid grid-cols-2 gap-6">
+        {/* <div className="grid grid-cols-2 gap-6">
           <Button variant="outline">
             <GithubIcon className="mr-2 h-4 w-4" />
             Github
           </Button>
           <Button variant="outline">
-            {/* <Icons.google className="mr-2 h-4 w-4" /> */}
             Google
           </Button>
         </div>
@@ -94,7 +107,7 @@ const SignIn = () => {
               Or continue with
             </span>
           </div>
-        </div>
+        </div> */}
         <div className="grid gap-2">
           <Label htmlFor="email">Email</Label>
           <Input id="email" type="email" placeholder="m@example.com" />
@@ -110,7 +123,7 @@ const SignIn = () => {
       <CardFooter>
         <Button onClick={() => loginUser()} className="w-full">
           {loading ? (
-            <p>loading</p>
+            <Loader2Icon className=" animate-spin" />
           ) : (
             <>
               LOG IN <LogIn className="ml-2 h-4 w-4" />

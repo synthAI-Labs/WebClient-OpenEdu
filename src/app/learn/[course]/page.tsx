@@ -1,3 +1,4 @@
+import Loader from '@/components/Loader';
 import { getAllTopicsInCourse } from '@/scripts/api-calls';
 import Link from 'next/link';
 import React from 'react';
@@ -46,7 +47,7 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <Loader />
       )}
     </div>
   );

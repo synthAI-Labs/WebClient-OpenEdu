@@ -23,20 +23,20 @@ This project follows the [Contributor Covenant Code of Conduct](/code-of-conduct
 If you encounter a bug or unexpected behavior, please follow these steps:
 
 1. **Check Existing Issues:**
-   Check if the issue has already been reported by searching the [GitHub Issues](https://github.com/ai-res/webclient/issues).
+   Check if the issue has already been reported by searching the [GitHub Issues](https://github.com/synthAI-Labs/webclient/issues).
 
 2. **Create a New Issue:**
-   If the issue is not found, [create a new issue](https://github.com/ai-res/webclient//issues/new) with a descriptive title and detailed description of the problem, including steps to reproduce it.
+   If the issue is not found, [create a new issue](https://github.com/synthAI-Labs/webclient//issues/new) with a descriptive title and detailed description of the problem, including steps to reproduce it.
 
 ### Requesting Features
 
 If you have an idea for a new feature or enhancement, please follow these steps:
 
 1. **Check Existing Requests:**
-   Check if the feature request already exists by searching the [GitHub Issues](https://github.com/ai-res/webclient/issues).
+   Check if the feature request already exists by searching the [GitHub Issues](https://github.com/synthAI-Labs/webclient/issues).
 
 2. **Create a New Request:**
-   If the feature request is not found, [create a new issue](https://github.com/ai-res/webclient/issues/new) with a clear title and detailed description of the proposed feature.
+   If the feature request is not found, [create a new issue](https://github.com/synthAI-Labs/webclient/issues/new) with a clear title and detailed description of the proposed feature.
 
 ### Creating Pull Requests
 
@@ -58,7 +58,7 @@ If you'd like to contribute code to the project, please follow these steps:
    Ensure that the project builds successfully, you can run `npm run git:pre-commit` to run the pre-commit hook which will run the linter, formatter, build.
 
 5. **Create a Pull Request:**
-   [Create a pull request](https://github.com/ai-res/webclient/compare) from your branch to the `main` branch of the original repository. Provide a clear title and description for your changes.
+   [Create a pull request](https://github.com/synthAI-Labs/webclient/compare) from your branch to the `main` branch of the original repository. Provide a clear title and description for your changes.
 
 ## Coding Standards
 
