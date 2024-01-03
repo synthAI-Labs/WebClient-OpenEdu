@@ -20,7 +20,7 @@ interface PageProps {
   };
 }
 
-async function Page({ params}: PageProps): Promise<JSX.Element> {
+async function Page({ params }: PageProps): Promise<JSX.Element> {
   // username is userId
   const userName = params.userName;
   const response = await getPublicProfileOfUser(userName);
