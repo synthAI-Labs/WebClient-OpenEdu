@@ -2,7 +2,7 @@ import React from 'react';
 
 const Page = () => {
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className=" mt-5 flex items-center justify-center h-screen">
       <div className="w-full max-w-3xl p-4">
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">About OpenEDU</h1>

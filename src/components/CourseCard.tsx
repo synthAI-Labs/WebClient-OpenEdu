@@ -6,7 +6,7 @@ import { Button } from './ui/button';
 
 const CourseCard = ({ course }: { course: Course }) => {
   return (
-    < Card className={cn('w-[350px]')} >
+    < Card className={cn('w-[350px] mx-4 my-4')} >
       <CardHeader>
         <CardTitle>{course.name}</CardTitle>
         <CardDescription>
@@ -31,18 +31,18 @@ const CourseCard = ({ course }: { course: Course }) => {
             </p>
           </div>
         </div>
-      </CardContent>
-      <CardFooter className="flex flex-col">
-        <Link href={`/learn/${course.id}`}>
-          <Button className="w-full" variant={'outline'}>
-            View Course
-          </Button>
-        </Link>
-        <div className='mt-2 flex justify-start items-start text-left'>
+        <div className=' flex justify-start items-start text-left'>
           Contributors: {Array.isArray(course.madeByUser) ? course.madeByUser.map((user, index) => (
             <Link key={index} href={course.madeByUserGit[index]}> <Image key={index} src={user} alt='user Image' width={20} height={20} /></Link>
           )) : 'None'}
         </div>
+      </CardContent>
+      <CardFooter className="flex flex-col">
+        <Link href={`/learn/${course.id}`}>
+          <Button className="w-full">
+            View Course
+          </Button>
+        </Link>
       </CardFooter>
     </Card >
   )

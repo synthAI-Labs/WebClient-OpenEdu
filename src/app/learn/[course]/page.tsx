@@ -1,11 +1,13 @@
 import Loader from '@/components/Loader';
+import SubtopicCard from '@/components/TopicsCard';
+import { buttonVariants } from '@/components/ui/button';
 import { getAllTopicsInCourse } from '@/scripts/api-calls';
 import Link from 'next/link';
 import React from 'react';
 
 interface GetTopicsProps {
   params: {
-    course: any;
+    course: string;
   };
 }
 
@@ -25,24 +27,7 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
           <p className="text-gray-600 mb-4">{topic.description}</p>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {topic.subtopics.map((subtopic) => (
-              <div
-                key={subtopic.id}
-                className="bg-white p-4 rounded-lg shadow-md"
-              >
-                <img
-                  src={subtopic.image}
-                  alt={subtopic.name}
-                  className="w-full h-40 object-cover mb-4 rounded-md"
-                />
-                <h2 className="text-xl font-bold mb-2">{subtopic.name}</h2>
-                <p className="text-gray-600 mb-4">{subtopic.description}</p>
-                <Link
-                  href={`/learn/${params.course}/${subtopic.id}`}
-                  className="text-blue-500 inline-flex items-center mt-2"
-                >
-                  Modules
-                </Link>
-              </div>
+              <SubtopicCard key={subtopic.id} subtopic={subtopic} courseParams={params} />
             ))}
           </div>
         </>
