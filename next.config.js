@@ -12,6 +12,10 @@ const nextConfig = {
                 hostname: `${process.env.NEXT_PUBLIC_SERVER_URL}`,
                 pathname: '/i/**',
             },
+            {
+                hostname: 'avatars.githubusercontent.com',
+                pathname: '/u/**',
+            }
         ],
     }
 }
