@@ -1,20 +1,51 @@
 import Link from 'next/link';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './ui/card';
+import Image from 'next/image';
+import { cn } from '@/lib/utils';
+import { Button } from './ui/button';
 
-const CourseCard = ({ course }: { course: Course }) => (
-  <div className="bg-white p-4 rounded shadow-md">
-    <h2 className="text-xl font-semibold mb-2">{course.name}</h2>
-    <img className="w-full h-auto mb-2" src={course.image} alt={course.name} />
-    <p>
-      <strong>Description:</strong> {course.description}
-    </p>
-    <Link
-      href={`/learn/${course.id}`}
-      className="text-blue-500 inline-flex items-center mt-2"
-    >
-      Learn More
-    </Link>
-    {/* Render other properties as needed */}
-  </div>
-);
+const CourseCard = ({ course }: { course: Course }) => {
+  return (
+    < Card className={cn('w-[350px]')} >
+      <CardHeader>
+        <CardTitle>{course.name}</CardTitle>
+        <CardDescription>
+          {course.description}
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="grid gap-4">
+        <div className=" flex items-center space-x-4 rounded-md border p-4">
+          <div className="flex-1 space-y-1">
+            <Image
+              src={`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${course.image}`}
+              alt={`${course.name} image`}
+              width={300}
+              height={200}
+            />
+          </div>
+        </div>
+        <div className=" flex justify-center items-center">
+          <div className="flex-1 space-y-1">
+            <p className="text-sm text-gray-500">
+              <strong>Tags:</strong> {course.tags.join(', ')}
+            </p>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="flex flex-col">
+        <Link href={`/learn/${course.id}`}>
+          <Button className="w-full" variant={'outline'}>
+            View Course
+          </Button>
+        </Link>
+        <div className='mt-2 flex justify-start items-start text-left'>
+          Contributors: {Array.isArray(course.madeByUser) ? course.madeByUser.map((user, index) => (
+            <Link key={index} href={course.madeByUserGit[index]}> <Image key={index} src={user} alt='user Image' width={20} height={20} /></Link>
+          )) : 'None'}
+        </div>
+      </CardFooter>
+    </Card >
+  )
+}
 
 export default CourseCard;
