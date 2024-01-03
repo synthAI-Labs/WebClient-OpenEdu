@@ -1,6 +1,6 @@
 import { getPublicProfileOfUser } from '@/scripts/api-calls';
 import { UserProfile, UserSettings } from '@/scripts/types/dashboard';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,
@@ -8,11 +8,13 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
+import { Link } from 'lucide-react';
 
 interface PageProps {
   params: {
@@ -21,7 +23,6 @@ interface PageProps {
 }
 
 async function Page({ params }: PageProps): Promise<JSX.Element> {
-  // username is userId
   const userName = params.userName;
   const response = await getPublicProfileOfUser(userName);
 
@@ -40,7 +41,6 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
   const user: UserProfile = response;
 
   const userSettings: UserSettings = user.settings || {};
-  console.log(userSettings);
 
   const {
     publicProfile,
@@ -125,8 +125,16 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
             <Card className="flex-[2]">
               <CardHeader>
                 <CardTitle className="text-lg font-bold">About Me</CardTitle>
+                {publicBio && user.bio ? (
+                  <div className="mt-8 font-medium justify-center items-center flex mb">
+                    {user.bio}
+                  </div>
+                ) : (
+                  <div className="mt-8 font-medium justify-center items-center flex mb">
+                    Bio is Private
+                  </div>
+                )}
               </CardHeader>
-              <CardContent></CardContent>
             </Card>
             {publicInterests && (
               <Card className="flex-1">
@@ -150,19 +158,53 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
 
           <div className="mt-8">
             <h2 className="text-2xl font-bold mb-4">Course Enrollments:</h2>
-            <ul className="flex flex-col gap-4 sm:flex-row">
-              {user.CourseEnrollment.map((enrollment) => (
-                <Card key={enrollment.id} className="max-w-sm">
-                  <CardHeader>
-                    <CardTitle>Course Name</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <p>Course ID: {enrollment.courseId}</p>
-                    <p>Status: {enrollment.status}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </ul>
+            {user.CourseEnrollment.length === 0 ? (
+              <div className=" h-32 flex flex-col items-center justify-center">
+                <div>
+                  <p>No courses available</p>
+                </div>
+                <div className="mt-2">
+                  <Link href={'/learn'}>
+                    <Button variant={'outline'}>View courses</Button>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <ul className="flex flex-col gap-4 sm:flex-row">
+                {user.CourseEnrollment.map((enrollment) => (
+                  <Card className={cn('w-[350px]')} key={enrollment.id}>
+                    <CardHeader>
+                      <CardTitle>{enrollment.name}</CardTitle>
+                      <CardDescription>
+                        {enrollment.description}
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="grid gap-4">
+                      <div className=" flex items-center space-x-4 rounded-md border p-4">
+                        <div className="flex-1 space-y-1">
+                          <Image
+                            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${enrollment.image}`}
+                            alt={`${enrollment.name} image`}
+                            width={300}
+                            height={200}
+                          />
+                        </div>
+                      </div>
+                      <div className=" flex justify-center items-center">
+                        <h1>{enrollment.status}</h1>
+                      </div>
+                    </CardContent>
+                    <CardFooter className=" flex justify-center items-center">
+                      <Link href={`/learn/${enrollment.id}`}>
+                        <Button className="w-full" variant={'outline'}>
+                          View Course
+                        </Button>
+                      </Link>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </ul>
+            )}
           </div>
 
           <div className="mb-4 mt-8">

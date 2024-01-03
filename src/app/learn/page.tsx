@@ -16,6 +16,10 @@ const Page = async () => {
 
   return (
     <div>
+      <div className="flex justify-center mb-4">
+        <h1 className="text-4xl font-bold">All Courses</h1>
+      </div>
+
       {/* Search bar */}
 
       {/* Sort files according to tags */}
