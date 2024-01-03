@@ -103,13 +103,13 @@ const Page: React.FC = () => {
                     variant="ghost"
                     onClick={() => {
                       navigator.clipboard.writeText(
-                        `${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.id}`,
+                        `${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.username}/?v2=true`,
                       );
                       toast({
                         title: 'Link copied to clipboard',
                         description:
                           'URL: ' +
-                          `${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.id}`,
+                          `${process.env.NEXT_PUBLIC_CLIENT_URL}/p/${user.username}/?v2=true`,
                       });
                     }}
                   >
