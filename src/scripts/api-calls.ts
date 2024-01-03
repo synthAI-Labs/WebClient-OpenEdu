@@ -1,4 +1,4 @@
-export async function getPublicProfileOfUser(userName: string, version: boolean=false) {
+export async function getPublicProfileOfUser(userName: string) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}`);
 
     if (response.status === 404) {
