@@ -18,17 +18,12 @@ interface PageProps {
   params: {
     userName: string;
   };
-  searchParams:{
-    v2: string
-  };
 }
 
-async function Page({ params, searchParams}: PageProps): Promise<JSX.Element> {
+async function Page({ params}: PageProps): Promise<JSX.Element> {
   // username is userId
   const userName = params.userName;
-  console.log("searchParams", searchParams);
-  const version = searchParams?.v2 == "true";
-  const response = await getPublicProfileOfUser(userName, version);
+  const response = await getPublicProfileOfUser(userName);
 
   if (response === null) {
     return <div className="container mx-auto mt-8">Profile is private</div>;

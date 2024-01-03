@@ -1,5 +1,5 @@
 export async function getPublicProfileOfUser(userName: string, version: boolean=false) {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}${version?'/?v2=true': ''}`);
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}`);
 
     if (response.status === 404) {
         return {
