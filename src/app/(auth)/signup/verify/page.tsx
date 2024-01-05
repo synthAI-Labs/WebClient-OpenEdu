@@ -39,7 +39,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
 
       try {
         const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/signup/confirm/${emailAddress}`,
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup/confirm/${emailAddress}`,
           {
             method: 'POST',
             headers: {

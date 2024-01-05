@@ -97,7 +97,7 @@ const SignUp = () => {
             false,
           );
           if (valueStored) {
-            window.location.href = `/signup/verify/`;
+            window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
           } else {
             toast({
               title: 'Error',
