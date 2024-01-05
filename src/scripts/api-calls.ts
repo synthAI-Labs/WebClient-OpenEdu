@@ -32,7 +32,6 @@ export async function getResponseFromBot(authorization: string, userId: string, 
         })
     })
 
-
     const data = botResponse.json()
     console.log(data)
 }

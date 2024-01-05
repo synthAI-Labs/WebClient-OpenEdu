@@ -15,6 +15,10 @@ const nextConfig = {
             {
                 hostname: 'avatars.githubusercontent.com',
                 pathname: '/u/**',
+            },
+            {
+                hostname: 'ai-res-server-development.onrender.com',
+                pathname: '/i/**',
             }
         ],
     }

@@ -1,4 +1,3 @@
-'use client';
 import ChatPrompt from '@/components/ChatPrompt';
 import CourseCard from '@/components/CourseCard';
 import Loader from '@/components/Loader';
@@ -20,7 +19,7 @@ import {
 import { getAllCoursesData } from '@/scripts/api-calls';
 import { BotIcon } from 'lucide-react';
 import { title } from 'process';
-import React, { useState } from 'react';
+import React from 'react';
 
 const Page = async () => {
   let isChatOpen = false;

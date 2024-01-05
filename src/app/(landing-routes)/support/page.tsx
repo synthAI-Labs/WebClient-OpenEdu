@@ -41,7 +41,7 @@ const Page = () => {
       };
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/support`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/contact`,
         {
           method: 'POST',
           headers: {
