@@ -1,6 +1,13 @@
 import { getPublicProfileOfUser } from '@/scripts/api-calls';
 import { UserProfile, UserSettings } from '@/scripts/types/dashboard';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Dialog,
   DialogContent,

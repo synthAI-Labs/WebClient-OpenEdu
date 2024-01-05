@@ -33,19 +33,19 @@ import {
 
 import { getImageFromLocalStorage } from '@/scripts/check-user-auth';
 import Link from 'next/link';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const UserAvatar = () => {
   const imageAddress: string = getImageFromLocalStorage();
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Image
-          className="rounded-full"
-          src={`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${imageAddress}`}
-          alt="User Photo"
-          width={40}
-          height={40}
-        />
+        <Avatar>
+          <AvatarImage
+            src={`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${imageAddress}`}
+          />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

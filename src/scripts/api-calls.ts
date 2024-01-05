@@ -17,6 +17,26 @@ export async function getPublicProfileOfUser(userName: string) {
     }
 }
 
+export async function getResponseFromBot(authorization: string, userId: string, userMessage: string) {
+    console.log(authorization, userId, userMessage)
+
+    const botResponse = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/chat`, {
+        method: 'POST',
+        headers: {
+            "authorization": authorization,
+            "user_id": userId,
+            "Content-Type": "application/json" // Add this line to specify the content type as JSON
+        },
+        body: JSON.stringify({ // Convert the message to JSON
+            message: userMessage
+        })
+    })
+
+
+    const data = botResponse.json()
+    console.log(data)
+}
+
 export async function getAllCoursesData(): Promise<Course[] | undefined> {
     try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses`);
@@ -29,7 +49,7 @@ export async function getAllCoursesData(): Promise<Course[] | undefined> {
 }
 
 
-export async function getAllTopicsInCourse(courseId: string): Promise<Topic | null> {
+export async function getAllTopicsInCourse(courseId: string): Promise<Course | null> {
     const response = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/${courseId}`,
     );
@@ -63,14 +83,15 @@ export async function getAllModulesInASubtopic(courseId: number, topicId: number
 }
 
 
-export async function getModuleDetails(courseId: number, topicId: number, moduleId: number) {
+export async function getModuleDetails(moduleId: number) {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/${courseId}/${topicId}/${moduleId}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`,
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
         },
     );
+    console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`)
 
     if (!res.ok) {
         console.log(Error(`HTTP error! Status: ${res.status}`));

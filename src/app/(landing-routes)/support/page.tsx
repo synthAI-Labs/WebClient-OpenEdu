@@ -1,5 +1,11 @@
 'use client';
 import NothingFound from '@/components/NothingFound';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -65,8 +71,95 @@ const Page = () => {
   }
 
   return (
-    <div className="flex items-center justify-center h-screen lg:w-8/12 md:w-8/12 sm:w-8/12">
+    <div className=" my-9 flex items-center justify-center h-screen lg:w-8/12 md:w-8/12 sm:w-8/12">
       <div className="grid w-full gap-4">
+        <div>
+          <h1 className="text-4xl font-bold">FAQ</h1>
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger>Is OpenEdu completely free?</AccordionTrigger>
+              <AccordionContent>
+                <ul>
+                  <li>Yes, OpenEdu is free and open source.</li>
+                  <li>
+                    We also offer a subscription plan for additional features.
+                  </li>
+                  <li>
+                    In the future, certain premium features may be introduced.
+                  </li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger>
+                Why should I choose OpenEdu for learning?
+              </AccordionTrigger>
+              <AccordionContent>
+                OpenEdu is free, open source, and allows you to understand its
+                workings.
+                {/* <li>You can actively contribute to the platform.</li>
+                  <li>We provide a personal AI tutor to assist you in your studies.</li> */}
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger>How does OpenEdu work?</AccordionTrigger>
+              <AccordionContent>
+                <ul>
+                  <li>Create an account to get started.</li>
+                  <li>
+                    Explore available courses and enroll in them to begin
+                    learning.
+                  </li>
+                  <li>
+                    Upon course completion, you&apos;ll receive a certificate.
+                  </li>
+                  <li>
+                    You can also create your own courses and share them with
+                    others (feature release planned for the future).
+                  </li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger>What is ProjectIt?</AccordionTrigger>
+              <AccordionContent>
+                <ul>
+                  <li>ProjectIt is a program under OpenEdu.</li>
+                  <li>
+                    It offers a 3-month cohort where participants learn and
+                    build projects from scratch with the guidance of mentors.
+                  </li>
+                </ul>
+              </AccordionContent>
+            </AccordionItem>
+            {/* <AccordionItem value="item-5">
+              <AccordionTrigger>How can I subscribe for additional features?</AccordionTrigger>
+              <AccordionContent>
+                <p>You can subscribe to our premium plan [here](#subscription-link).</p>
+              </AccordionContent>
+            </AccordionItem> */}
+            <AccordionItem value="item-5">
+              <AccordionTrigger>
+                Can I get help if I face issues with the platform?
+              </AccordionTrigger>
+              <AccordionContent>
+                <p>
+                  Yes, our support team is available to assist you. You can
+                  create issue on github, fill out form below, or just email.
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+
+        <div className=" my-6">
+          <h1 className="text-4xl text-muted-foreground">
+            {' '}
+            Still Have Questions?
+          </h1>
+          <h1 className="text-3xl font-bold">Email US?</h1>
+        </div>
+
         <Card>
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl">Contact US</CardTitle>
@@ -105,35 +198,6 @@ const Page = () => {
               )}
             </Button>
           </CardFooter>
-        </Card>
-
-        <Card>
-          <CardHeader className="space-y-1">
-            <CardTitle className="text-2xl">FAQs</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul>
-              <li>
-                <strong>Q: </strong> How do I create an account?
-                <br />
-                <strong>A: </strong> To create an account, click on the
-                &quot;Sign Up&quot; button and follow the instructions.
-              </li>
-              <li>
-                <strong>Q: </strong> How can I reset my password?
-                <br />
-                <strong>A: </strong> To reset your password, click on the
-                &quot;Forgot Password&quot; link and follow the instructions.
-              </li>
-              <li>
-                <strong>Q: </strong> Can I change my email address?
-                <br />
-                <strong>A: </strong> Yes, you can change your email address in
-                the account settings.
-              </li>
-              {/* Add more FAQs here */}
-            </ul>
-          </CardContent>
         </Card>
       </div>
     </div>

@@ -36,6 +36,21 @@ You can set-up the backend server in two ways:
 
 You can check the [API Documentation](https://ai-res-server.vercel.app/api.html) to see the available endpoints and their usage.
 
+## TODO
+
+- [ ] Progress bar on courses user have enrolled in { Implement in server too}
+- [ ] Filter, search feature on `/learn`
+- [ ] Implement user dashboard page to update their details api endpoint: `/dashboard?editprofile=true`
+- [ ] Improve UI
+- [ ] Add more [features](Feature to add)
+
+## Feature to add
+
+- [ ] Add a feature to add a course to the user's wishlist
+- [ ] Add a feature to recommend courses to the user based on their interests
+- [ ] Add a feature to track the user's progress in a course
+
+
 ## Learn More
 
 Explore the features and capabilities of Next.js by referring to the [Next.js Documentation](https://nextjs.org/docs). Additionally, delve into the extensive UI components provided by ShadCn-UI through their [Documentation](https://ui.shadcn.com/) for a deeper understanding.

@@ -11,10 +11,12 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { checkValues, storeValues } from '@/scripts/check-user-auth';
 import { UserProfile } from '@/scripts/types/dashboard';
+import { CheckedState } from '@radix-ui/react-checkbox';
 import { Label } from '@radix-ui/react-label';
 import { Loader2Icon, LogIn } from 'lucide-react';
 import Link from 'next/link';
@@ -29,6 +31,7 @@ const SignIn = () => {
   // }
 
   const [loading, setLoading] = useState(false);
+  const [checkbox, setCheckbox] = useState(false);
 
   async function loginUser() {
     try {
@@ -36,6 +39,16 @@ const SignIn = () => {
 
       const email = document.getElementById('email') as HTMLInputElement;
       const password = document.getElementById('password') as HTMLInputElement;
+
+      if (!checkbox) {
+        toast({
+          title: 'Error',
+          type: 'foreground',
+          variant: 'destructive',
+          description: 'Please accept the terms and conditions',
+        });
+        return;
+      }
 
       const data = {
         email: email.value,
@@ -117,6 +130,26 @@ const SignIn = () => {
         <div className="grid gap-2">
           <Label htmlFor="password">Password</Label>
           <Input id="password" type="password" />
+        </div>
+        <div className="items-top flex space-x-2">
+          <Checkbox
+            id="terms1"
+            onCheckedChange={(checked: CheckedState) =>
+              setCheckbox(checked === true)
+            }
+          />
+          <div className="grid gap-1.5 leading-none">
+            <label
+              htmlFor="terms1"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Accept <Link href={'/terms'}>terms and conditions</Link>, and
+              <Link href={'/privacy'}> privacy policy</Link>
+            </label>
+            <p className="text-sm text-muted-foreground">
+              You agree to our Terms of Service and Privacy Policy.
+            </p>
+          </div>
         </div>
         <div>
           <Link href={'/signup'}> Dont have an account? </Link>

@@ -59,7 +59,7 @@ const NavBar = () => {
                     </div>
 
                     <div className="grid grid-cols-4 items-center gap-4">
-                      <Link href="/contact">
+                      <Link href="/support">
                         <Button variant={'ghost'}>Contact</Button>
                       </Link>
                     </div>

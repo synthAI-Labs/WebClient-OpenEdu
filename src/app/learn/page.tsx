@@ -1,12 +1,34 @@
+'use client';
+import ChatPrompt from '@/components/ChatPrompt';
 import CourseCard from '@/components/CourseCard';
 import Loader from '@/components/Loader';
 import NothingFound from '@/components/NothingFound';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { getAllCoursesData } from '@/scripts/api-calls';
+import { BotIcon } from 'lucide-react';
 import { title } from 'process';
-import React from 'react';
+import React, { useState } from 'react';
 
 const Page = async () => {
+  let isChatOpen = false;
+
+  const toggleChat = () => {
+    isChatOpen = !isChatOpen;
+  };
+
   const response = await getAllCoursesData();
   const courseData: Course[] | undefined = response;
 
@@ -64,50 +86,26 @@ const Page = async () => {
           <Loader />
         )}
       </div>
+      <div
+        className="mr-10 border shadow-lg rounded-full bg-white p-2"
+        style={{
+          position: 'fixed',
+          right: 0,
+          bottom: '10%',
+          zIndex: 1000,
+        }}
+      >
+        <Popover>
+          <PopoverTrigger>
+            <BotIcon size={40} />
+          </PopoverTrigger>
+          <PopoverContent align="center">
+            <ChatPrompt />
+          </PopoverContent>
+        </Popover>
+      </div>
     </div>
   );
 };
 
 export default Page;
-
-// JSON RESPONSE EXAMPLE:
-// [
-//   {
-//     "id": 2,
-//     "name": "Course 2",
-//     "description": "Description for Course 2",
-//     "image": "image.png",
-//     "madeByUserGit": [
-//       "https://github.com/Himasnhu-AT/"
-//     ],
-//     "madeByUser": [
-//       "https://avatars.githubusercontent.com/u/117301124?v=4"
-//     ],
-//     "GithubLink": null,
-//     "userId": null,
-//     "tags": [
-//       "tag3",
-//       "tag4"
-//     ]
-//   },
-//   {
-//     "id": 1,
-//     "name": "Course 1",
-//     "description": "Description for Course 1",
-//     "image": "image.png",
-//     "madeByUserGit": [
-//       "https://github.com/Himasnhu-AT/",
-//       "https://github.com/Himasnhu-AT/"
-//     ],
-//     "madeByUser": [
-//       "https://avatars.githubusercontent.com/u/117301124?v=4",
-//       "https://avatars.githubusercontent.com/u/117301124?v=4"
-//     ],
-//     "GithubLink": null,
-//     "userId": null,
-//     "tags": [
-//       "tag1",
-//       "tag2"
-//     ]
-//   }
-// ]

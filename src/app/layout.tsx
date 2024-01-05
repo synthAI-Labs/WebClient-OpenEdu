@@ -5,6 +5,8 @@ import NavBar from '@/components/Navbar';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import Footer from '@/components/Footer';
+import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -21,6 +23,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className)}>
+        <Analytics />
+        <SpeedInsights />
         <NavBar />
         <Toaster />
         <div className="flex justify-center items-center pt-20 mb-5">

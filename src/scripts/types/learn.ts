@@ -52,15 +52,17 @@
 //     moduleId      Int?
 //   }
 
+
 interface Course {
     id: number;
     name: string;
-    madeByUserGit: string[];
-    madeByUser: string[];
-    tags: string[];
     description: string;
     image: string;
-    userId: number;
+    madeByUserGit: string[];
+    madeByUser: string[];
+    userId: null;
+    tags: string[];
+    subtopics: Subtopic[];
 }
 
 interface Subtopic {
@@ -75,17 +77,6 @@ interface Subtopic {
     modules: Module[];
 }
 
-interface Topic {
-    id: number;
-    name: string;
-    description: string;
-    image: string;
-    madeByUserGit: string[];
-    madeByUser: string[];
-    userId: null;
-    tags: string[];
-    subtopics: Subtopic[];
-}
 
 interface Module {
     id: number;
