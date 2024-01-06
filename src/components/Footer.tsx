@@ -78,7 +78,7 @@ const Footer = () => {
                   className="border border-gray-300 p-2 w-full rounded-md"
                   placeholder="Email Address"
                 />
-                <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold p-2 w-full rounded-md mt-4">
+                <button className={cn("font-semibold p-2 w-full rounded-md mt-4", buttonVariants({ variant: 'default' }))}>
                   Subscribe
                 </button>
               </div>

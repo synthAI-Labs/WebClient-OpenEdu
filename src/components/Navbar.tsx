@@ -116,6 +116,16 @@ const NavBar = () => {
                   Contact
                 </Button>
               </Link>
+              <Link href="/projectx">
+                <Button variant={'ghost'} className="text-lg">
+                  ProjectX
+                </Button>
+              </Link>
+              <Link href="/react-playground">
+                <Button variant={'ghost'} className="text-lg">
+                  React Playground
+                </Button>
+              </Link>
             </div>
             <div
               className="flex flex-row
@@ -123,7 +133,7 @@ const NavBar = () => {
                 space-x-4
                 "
             >
-              {logginIn ? (
+              {!logginIn ? (
                 <>
                   <UserAvatar />
                 </>

@@ -25,6 +25,7 @@ import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { SelectItems } from '@/components/SelectItems';
 import { cn } from '@/lib/utils';
+import { Progress } from '@/components/ui/progress';
 
 const Page: React.FC = () => {
   const [user, setUser] = useState<UserProfile | null>(null);
@@ -258,8 +259,8 @@ const Page: React.FC = () => {
                 <CardTitle className="text-lg font-bold">About Me</CardTitle>
                 <div className="mt-4 font-medium justify-center items-center flex mb">
                   {user.bio.length === 0 ||
-                  user.bio === null ||
-                  user.bio === undefined ? (
+                    user.bio === null ||
+                    user.bio === undefined ? (
                     <p>No bio set</p>
                   ) : (
                     <p className="">{user.bio}</p>
@@ -273,8 +274,8 @@ const Page: React.FC = () => {
                 <CardTitle className="text-lg font-bold">Interests</CardTitle>
                 <div className="mt-4 font-medium justify-center items-center flex mb">
                   {user.bio.length === 0 ||
-                  user.bio === null ||
-                  user.bio === undefined ? (
+                    user.bio === null ||
+                    user.bio === undefined ? (
                     <p>No Interests set</p>
                   ) : (
                     <p className="">{user.bio}</p>
@@ -325,7 +326,10 @@ const Page: React.FC = () => {
                         </div>
                       </div>
                       <div className=" flex justify-center items-center">
-                        <h1>{enrollment.status}</h1>
+                        <h1>{enrollment.completed ? "COMPLETED" : "IN_PROGRESS"}</h1>
+                      </div>
+                      <div>
+                        <Progress value={(enrollment.progress / enrollment.totalModules) * 100} />
                       </div>
                     </CardContent>
                     <CardFooter className=" flex justify-center items-center">

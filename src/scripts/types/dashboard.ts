@@ -14,9 +14,12 @@ export interface CourseEnrollment {
     name: string;
     description: string;
     image: string;
-    status: string;
+    completed: boolean;
     enrolledAt: string;
     completedAt: string | null;
+    progress: number;
+    totalModules: number;
+    completedModulesId: number[];
 }
 
 export interface UserSettings {
