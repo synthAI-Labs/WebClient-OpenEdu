@@ -197,9 +197,6 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
                           />
                         </div>
                       </div>
-                      <div className=" flex justify-center items-center">
-                        <h1>{enrollment.status}</h1>
-                      </div>
                     </CardContent>
                     <CardFooter className=" flex justify-center items-center">
                       <Link href={`/learn/${enrollment.id}`}>

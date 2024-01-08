@@ -38,100 +38,52 @@ const App = () => {
           </div>
         </div>
       </div>
-      <main className="p-4">
+      <main className="p-4 flex flex-col items-center justify-center">
         <section className="mb-8">
           <div className="text-2xl font-bold mb-4">Key Features</div>
           <p className="text-lg">
-            Open-EDU is an AI-powered tutoring platform that provides
-            personalized learning experiences to students.
+            Open-EDU offers a range of powerful features to make your learning experience exceptional.
           </p>
+
           {/* Feature Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
-            {/* Feature 1 */}
-            <div className="bg-white p-4 rounded-md shadow-md">
-              <img
-                src="/tutoring.png" // Add the path to your feature image
-                alt="Feature 1"
-                width={400}
-                height={400}
-                className="mb-4 mx-auto"
-              />
-              <div className="text-xl font-semibold mb-2">
-                Personalized Learning
-              </div>
-              <p className="text-gray-600">
-                Tailor the learning experience to each student&apos;s needs,
-                providing a personalized and effective educational journey.
-              </p>
-            </div>
+            <FeatureSection
+              imagePath="/tutoring.png"
+              title="Personalized Learning"
+              description="Tailor the learning experience to each student's needs, providing a personalized and effective educational journey."
+            />
 
-            {/* Feature 2 */}
-            <div className="bg-white p-4 rounded-md shadow-md">
-              <img
-                src="/tutoringtwo.png" // Add the path to your feature image
-                alt="Feature 2"
-                width={400}
-                height={400}
-                className="mb-4 mx-auto"
-              />
-              <div className="text-xl font-semibold mb-2">
-                Interactive Sessions
-              </div>
-              <p className="text-gray-600">
-                Engage students with interactive sessions, fostering a dynamic
-                learning environment that promotes active participation.
-              </p>
-            </div>
+            <FeatureSection
+              imagePath="/tutoringtwo.png"
+              title="Interactive Sessions"
+              description="Engage students with interactive sessions, fostering a dynamic learning environment that promotes active participation."
+            />
 
-            {/* Feature 3 */}
-            <div className="bg-white p-4 rounded-md shadow-md">
-              <img
-                src="/tutoringthree.png" // Add the path to your feature image
-                alt="Feature 3"
-                width={400}
-                height={400}
-                className="mb-4 mx-auto"
-              />
-              <div className="text-xl font-semibold mb-2">
-                Real-time Feedback
-              </div>
-              <p className="text-gray-600">
-                Provide instant feedback to students, enabling them to track
-                their progress and make improvements in real-time.
-              </p>
-            </div>
+            <FeatureSection
+              imagePath="/tutoringthree.png"
+              title="Real-time Feedback"
+              description="Provide instant feedback to students, enabling them to track their progress and make improvements in real-time."
+            />
           </div>
+
         </section>
-        <section className="mb-8">
-          <div className="text-2xl font-bold mb-4">Testimonials</div>
+        <section className="mb-8 mt-40">
+          <div className="text-2xl font-bold mb-4">What Users Say</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-            {/* Testimonial Card 1 */}
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-2">
-                &quot;Open-EDU has transformed the way I learn. The personalized
-                AI tutoring is simply amazing.&quot;
-              </p>
-              <p className="text-gray-800 font-bold">John Doe</p>
-            </div>
+            <TestimonialCard
+              quote="Open-EDU has transformed the way I learn. The personalized AI tutoring is simply amazing."
+              author="John Doe"
+            />
 
-            {/* Testimonial Card 2 */}
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-2">
-                &quot;The 1:1 learning approach at Open-EDU has made a
-                significant difference in my understanding of complex
-                subjects.&quot;
-              </p>
-              <p className="text-gray-800 font-bold">Jane Smith</p>
-            </div>
+            <TestimonialCard
+              quote="The 1:1 learning approach at Open-EDU has made a significant difference in my understanding of complex subjects."
+              author="Jane Smith"
+            />
 
-            {/* Testimonial Card 3 */}
-            <div className="bg-white p-4 rounded-lg shadow-md">
-              <p className="text-gray-600 mb-2">
-                &quot;I appreciate the real-time feedback feature. It helps me
-                stay on track and improve my learning outcomes.&quot;
-              </p>
-              <p className="text-gray-800 font-bold">Alex Johnson</p>
-            </div>
+            <TestimonialCard
+              quote="I appreciate the real-time feedback feature. It helps me stay on track and improve my learning outcomes."
+              author="Alex Johnson"
+            />
             {/* Repeat the above structure for additional testimonials */}
           </div>
         </section>
@@ -139,5 +91,26 @@ const App = () => {
     </div>
   );
 };
+
+const FeatureSection = ({ imagePath, title, description }: { imagePath: string, title: string, description: string }) => (
+  <div className="bg-white p-4 rounded-md shadow-md mb-8">
+    <img
+      src={imagePath} // Add the path to your feature image
+      alt={title}
+      width={400}
+      height={400}
+      className="mb-4 mx-auto"
+    />
+    <div className="text-xl font-semibold mb-2">{title}</div>
+    <p className="text-gray-600">{description}</p>
+  </div>
+);
+
+const TestimonialCard = ({ quote, author }: { quote: string, author: string }) => (
+  <div className="bg-white p-4 rounded-lg shadow-md mb-8">
+    <p className="text-gray-600 mb-2">&quot;{quote}&quot;</p>
+    <p className="text-gray-800 font-bold">{author}</p>
+  </div>
+);
 
 export default App;

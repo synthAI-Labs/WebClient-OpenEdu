@@ -1,3 +1,4 @@
+
 interface Course {
     id: number;
     name: string;
@@ -22,16 +23,14 @@ interface Subtopic {
     modules: Module[];
 }
 
-
 interface Module {
     id: number;
     name: string;
     madeByUserGit: string[];
     madeByUser: string[];
     tags: string[];
-    type: 'text' | 'quiz' | 'video';
-    content: string[];
-    quiz: Quiz[];
+    type: 'text' | 'video';
+    content: string;
     video?: string | null;
     image: string;
     subtopicId: number;

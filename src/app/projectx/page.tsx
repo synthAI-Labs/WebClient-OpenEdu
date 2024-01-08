@@ -5,17 +5,6 @@ import Link from "next/link"
 
 export default function Home() {
   const currentYear = new Date().getFullYear()
-  // const {
-  //   sitename,
-  //   sitetagline,
-  //   description,
-  //   copyrightText,
-  //   newsletterheading,
-  //   sitelogo,
-  //   socialIcons,
-  //   socialIconsHeading,
-  //   title,
-  // } = data
 
   return (
     <>

@@ -1,33 +1,18 @@
 import {
-  Cloud,
-  CreditCard,
   Github,
-  Keyboard,
   LifeBuoy,
   LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
   Settings,
   User,
-  UserPlus,
-  Users,
 } from 'lucide-react';
 
-import Image from 'next/image';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuPortal,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
@@ -36,11 +21,15 @@ import Link from 'next/link';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 
 const UserAvatar = () => {
-  const imageAddress: string = getImageFromLocalStorage();
+  let imageAddress: string = '';
+  if (process.browser) {
+    imageAddress = getImageFromLocalStorage();
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
+          {(imageAddress === '') ? <AvatarFallback>CN</AvatarFallback> : null}
           <AvatarImage
             src={`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${imageAddress}`}
           />

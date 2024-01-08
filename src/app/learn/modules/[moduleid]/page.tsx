@@ -1,6 +1,9 @@
 import NothingFound from '@/components/NothingFound';
-import Quiz from '@/components/Quiz';
+import RenderContent from '@/components/RenderContent';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { getModuleDetails } from '@/scripts/api-calls';
+import Link from 'next/link';
+import NextModule from './NextModule';
 
 interface ModuleProps {
   params: {
@@ -19,15 +22,9 @@ export default async function page({ params }: ModuleProps) {
     <div key={modules.id} className="p-4 rounded-md shadow-md">
       <h3 className="text-lg font-semibold mb-2">{modules.name}</h3>
       {/* Render different module types */}
-      {modules.type === 'text' && <div>{modules.content}</div>}
-      {modules.type === 'quiz' && (
-        <div>
-          <h4 className="text-md font-semibold mb-2">Quiz Questions:</h4>
-          {modules.quiz.map((quiz) => (
-            <Quiz key={quiz.id} quizzes={[quiz]} />
-          ))}
-        </div>
-      )}
+      {modules.type === 'text' && <div>
+        <RenderContent contentURL={modules.content} />
+      </div>}
       {modules.type === 'video' && (
         <div>
           <video controls className="w-full">
@@ -36,6 +33,7 @@ export default async function page({ params }: ModuleProps) {
           </video>
         </div>
       )}
+      <NextModule />
     </div>
   );
 }

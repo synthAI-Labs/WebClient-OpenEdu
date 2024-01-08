@@ -89,20 +89,21 @@ const SignUp = () => {
 
         if (response.status === 201) {
           const user: UserProfile = await response.json();
-
-          const valueStored = storeValues(
-            user.token,
-            user.id.toString(),
-            user.photo,
-            false,
-          );
-          if (valueStored) {
-            window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
-          } else {
-            toast({
-              title: 'Error',
-              description: 'Unable to store values',
-            });
+          if (process.browser) {
+            const valueStored = storeValues(
+              user.token,
+              user.id.toString(),
+              user.photo,
+              false,
+            );
+            if (valueStored) {
+              window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
+            } else {
+              toast({
+                title: 'Error',
+                description: 'Unable to store values',
+              });
+            }
           }
         }
       }

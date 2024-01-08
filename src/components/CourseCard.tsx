@@ -16,6 +16,7 @@ import { toast } from './ui/use-toast';
 import { ToastAction } from './ui/toast';
 
 const CourseCard = ({ course }: { course: Course }) => {
+
   const EnrollUser = async () => {
     if (process.browser) {
       const userLoggedIn = checkValues();
@@ -90,25 +91,25 @@ const CourseCard = ({ course }: { course: Course }) => {
           Contributors:{' '}
           {Array.isArray(course.madeByUser)
             ? course.madeByUser.map((user, index) => (
-                <Link key={index} href={course.madeByUserGit[index]}>
-                  {' '}
-                  <Image
-                    key={index}
-                    src={user}
-                    alt="user Image"
-                    width={20}
-                    height={20}
-                  />
-                </Link>
-              ))
+              <Link key={index} href={course.madeByUserGit[index]}>
+                {' '}
+                <Image
+                  key={index}
+                  src={user}
+                  alt="user Image"
+                  width={20}
+                  height={20}
+                />
+              </Link>
+            ))
             : 'None'}
         </div>
       </CardContent>
-      <CardFooter className="flex flex-col">
-        <Button className="w-full" onClick={() => EnrollUser()}>
+      <CardFooter className="flex flex-row gap-x-8">
+        <Button className="w-full flex-1" onClick={() => EnrollUser()}>
           Enroll
         </Button>
-        <Link href={`/learn/${course.id}`}>
+        <Link className=" flex-1" href={`/learn/${course.id}`}>
           <Button className="w-full">View Course</Button>
         </Link>
       </CardFooter>

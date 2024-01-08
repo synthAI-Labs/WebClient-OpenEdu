@@ -1,19 +1,31 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import { buttonVariants } from './ui/button';
 import { cn } from '@/lib/utils';
 import { GlobeIcon, SendToBack } from 'lucide-react';
+import Image from 'next/image';
 
 const Footer = () => {
   return (
     <footer className="flex-grow-0">
       <div className="border-t border-gray-200">
-        <div className="pb-8 pt-16">
-          <div className="flex justify-center">Logo</div>
-        </div>
 
+        <div className="flex justify-center items-center">
+          <div>
+            <Link href="/">
+              <Image
+                src={"/openEdu.svg"}
+                alt='logo'
+                width={200}
+                height={200}
+              />
+            </Link>
+          </div>
+          <div className=' text-3xl font-bold pl-3'>
+            OpenEdu
+          </div>
+        </div>
         <div>
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 mt-8 px-7">
             <div className="bg-white p-4 rounded-md shadow-md">
@@ -149,7 +161,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
+    </footer >
   );
 };
 

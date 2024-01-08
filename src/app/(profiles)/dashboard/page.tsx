@@ -39,34 +39,35 @@ const Page: React.FC = () => {
       if (!userPresent) {
         window.location.href = '/signin';
       }
-
-      const { authorization, userId } = searchLocalStorage();
-      try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/profile`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              authorization,
-              user_id: userId,
+      if (process.browser) {
+        const { authorization, userId } = searchLocalStorage();
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/dashboard/profile`,
+            {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                authorization,
+                user_id: userId,
+              },
             },
-          },
-        );
+          );
 
-        const userData: UserProfile = await res.json();
-        setUser(userData);
-        setLoading(false);
+          const userData: UserProfile = await res.json();
+          setUser(userData);
+          setLoading(false);
 
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.has('editProfile')) {
-          setEditProfileTriggered(true);
+          const urlParams = new URLSearchParams(window.location.search);
+          if (urlParams.has('editProfile')) {
+            setEditProfileTriggered(true);
+          }
+        } catch (error) {
+          console.error(error);
+          setLoading(false);
         }
-      } catch (error) {
-        console.error(error);
-        setLoading(false);
-      }
-    };
+      };
+    }
 
     fetchData();
   }, []);

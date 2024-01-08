@@ -13,6 +13,7 @@ import {
 } from './ui/sheet';
 import { MenuIcon } from 'lucide-react';
 import UserAvatar from './UserAvatar';
+import Image from 'next/image';
 
 const NavBar = () => {
   const [mobileScreen, setMobileScreen] = useState(false);
@@ -32,7 +33,14 @@ const NavBar = () => {
       <div className="flex flex-row justify-between items-center w-full h-16 px-4">
         <div className="flex flex-row items-center space-x-4 ">
           <div className="text-2xl font-bold ">
-            <a href="/">Logo</a>
+            <Link href="/">
+              <Image
+                src={"/openEdu.svg"}
+                alt='logo'
+                width={50}
+                height={50}
+              />
+            </Link>
           </div>
         </div>
         {mobileScreen ? (
@@ -53,11 +61,20 @@ const NavBar = () => {
                       </Link>
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
+                      <Link href="/support">
+                        <Button variant={'ghost'}>ProjectX</Button>
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Link href="/support">
+                        <Button variant={'ghost'}>React-Playground</Button>
+                      </Link>
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
                       <Link href="/about">
                         <Button variant={'ghost'}>About</Button>
                       </Link>
                     </div>
-
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Link href="/support">
                         <Button variant={'ghost'}>Contact</Button>
@@ -133,7 +150,7 @@ const NavBar = () => {
                 space-x-4
                 "
             >
-              {!logginIn ? (
+              {logginIn ? (
                 <>
                   <UserAvatar />
                 </>

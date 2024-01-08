@@ -26,45 +26,48 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
 
-    let inputValue = document.getElementById('userInput') as HTMLInputElement;
-    setUserInput(inputValue.value);
+    if (process.browser) {
+      let inputValue = document.getElementById('userInput') as HTMLInputElement;
+      setUserInput(inputValue.value);
 
-    if (userInput.trim() !== '') {
-      const userMessage = `User: ${userInput}`;
-      setMessages((prevMessages) => [...prevMessages, userMessage]);
-      setUserInput('');
+      if (userInput.trim() !== '') {
+        const userMessage = `User: ${userInput}`;
+        setMessages((prevMessages) => [...prevMessages, userMessage]);
+        setUserInput('');
 
-      try {
-        const { authorization, userId } = searchLocalStorage();
+        try {
+          const { authorization, userId } = searchLocalStorage();
 
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/chat`,
-          {
-            method: 'POST',
-            headers: {
-              Authorization: authorization,
-              user_id: userId,
-              'Content-Type': 'application/json',
+          const response = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/chat`,
+            {
+              method: 'POST',
+              headers: {
+                Authorization: authorization,
+                user_id: userId,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                message: userMessage,
+              }),
             },
-            body: JSON.stringify({
-              message: userMessage,
-            }),
-          },
-        );
+          );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+
+          const responseData = await response.json();
+
+          // Handle the response here, for example, update the messages state with the bot response
+          const botResponse = `Chatbot: ${responseData.message}`;
+          setMessages((prevMessages) => [...prevMessages, botResponse]);
+
+        } catch (error) {
+          console.error('Error fetching response from bot:', error);
+          // Handle error, show a toast, etc.
+          // toast.error('Error fetching response from bot');
         }
-
-        const responseData = await response.json();
-
-        // Handle the response here, for example, update the messages state with the bot response
-        const botResponse = `Chatbot: ${responseData.message}`;
-        setMessages((prevMessages) => [...prevMessages, botResponse]);
-      } catch (error) {
-        console.error('Error fetching response from bot:', error);
-        // Handle error, show a toast, etc.
-        // toast.error('Error fetching response from bot');
       }
     }
   };

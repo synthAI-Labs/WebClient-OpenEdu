@@ -1,5 +1,4 @@
 import Loader from '@/components/Loader';
-import Quiz from '@/components/Quiz';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Card,
@@ -23,56 +22,6 @@ interface GetTopicsProps {
   params: {
     course: string;
   };
-}
-
-interface Course {
-  id: number;
-  name: string;
-  description: string;
-  image: string;
-  madeByUserGit: string[];
-  madeByUser: string[];
-  userId: null;
-  tags: string[];
-  subtopics: Subtopic[];
-}
-
-interface Subtopic {
-  id: number;
-  name: string;
-  description: string;
-  madeByUserGit: string[];
-  madeByUser: string[];
-  tags: string[];
-  courseId: number;
-  image: string;
-  modules: Module[];
-}
-
-interface Module {
-  id: number;
-  name: string;
-  madeByUserGit: string[];
-  madeByUser: string[];
-  tags: string[];
-  type: 'text' | 'quiz' | 'video';
-  content: string[];
-  quiz: Quiz[];
-  video?: string | null;
-  image: string;
-  subtopicId: number;
-}
-
-interface Quiz {
-  id: number;
-  Question: string;
-  madeByUserGit: string[];
-  madeByUser: string[];
-  tags: string[];
-  Options: string[];
-  Answer: string[];
-  image?: string | null;
-  moduleId: number;
 }
 
 const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
@@ -110,6 +59,13 @@ interface SubtopicCardProps {
 }
 
 const SubtopicCard: React.FC<SubtopicCardProps> = ({ subtopic }) => {
+
+  function getNextModuleId(currentModuleId: number) {
+    const moduleIndex = subtopic.modules.findIndex(module => module.id === currentModuleId);
+    const nextModule = subtopic.modules[moduleIndex + 1];
+    return nextModule ? nextModule.id : ''; // Return an empty string if there is no next module
+  }
+
   return (
     <Card className="bg-white p-4 rounded-lg shadow-md m-3">
       <CardHeader>
@@ -138,7 +94,7 @@ const SubtopicCard: React.FC<SubtopicCardProps> = ({ subtopic }) => {
             <div className="">
               {subtopic.modules && subtopic.modules.length > 0 ? (
                 subtopic.modules.map((module) => (
-                  <ModuleCard key={module.id} module={module} />
+                  <ModuleCard key={module.id} module={module} nextModuleId={Number(getNextModuleId(module.id))} />
                 ))
               ) : (
                 <p>No modules available for this subtopic</p>
@@ -153,18 +109,18 @@ const SubtopicCard: React.FC<SubtopicCardProps> = ({ subtopic }) => {
 
 interface ModuleCardProps {
   module: Module;
+  nextModuleId: number;
 }
 
-const ModuleCard: React.FC<ModuleCardProps> = ({ module }) => {
+const ModuleCard: React.FC<ModuleCardProps> = ({ module, nextModuleId }) => {
   return (
     <Link
-      href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/learn/modules/${module.id}`}
+      href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/learn/modules/${module.id}?nextmodule=${nextModuleId}`}
     >
       <Card className=" my-2 rounded-lg shadow-md">
         <CardHeader className="flex flex-row gap-2">
           <div className="mt-3">
             {module.type === 'text' ? <TextIcon /> : ''}
-            {module.type === 'quiz' ? <FileQuestion /> : ''}
             {module.type === 'video' ? <Video /> : ''}
           </div>
           <div>
