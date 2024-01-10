@@ -1,7 +1,7 @@
 "use client"
 import React from 'react';
 import { useEffect, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
+import Markdown from 'markdown-to-jsx';
 
 const RenderContent = ({ contentURL }: { contentURL: string }) => {
     const [content, setContent] = useState('');
@@ -43,9 +43,15 @@ const RenderContent = ({ contentURL }: { contentURL: string }) => {
                 {children}
             </a>
         ),
-        ul: ({ children }: { children: React.ReactNode }) => <ul className="list-disc list-inside my-4">{children}</ul>,
-        ol: ({ children }: { children: React.ReactNode }) => <ol className="list-decimal list-inside my-4">{children}</ol>,
-        li: ({ children }: { children: React.ReactNode }) => <li className="my-1">{children}</li>,
+        ul: ({ children }: { children: React.ReactNode }) => <ul className="list-disc list-inside my-4">
+            {children}
+        </ul>,
+        ol: ({ children }: { children: React.ReactNode }) => <ol className="list-decimal list-inside my-4">
+            {children}
+        </ol>,
+        li: ({ children }: { children: React.ReactNode }) => <li className="my-1">
+            {children}
+        </li>,
         blockquote: ({ children }: { children: React.ReactNode }) => <blockquote className="border-l-4 border-gray-300 italic my-4 pl-4">{children}</blockquote>,
         hr: () => <hr className="my-4" />,
         table: ({ children }: { children: React.ReactNode }) => <table className="table-auto my-4">{children}</table>,
@@ -57,7 +63,7 @@ const RenderContent = ({ contentURL }: { contentURL: string }) => {
         inlineCode: ({ children }: { children: React.ReactNode }) => <code className="bg-gray-200 px-1 rounded-md">{children}</code>,
         code: ({ children }: { children: React.ReactNode }) => <code className="bg-gray-200 px-1 rounded-md">{children}</code>,
         pre: ({ children }: { children: React.ReactNode }) => <pre className="bg-gray-200 px-1 rounded-md">{children}</pre>,
-        img: ({ src, alt }: { src: string; alt: string }) => <img className="my-4" src={src} alt={alt} />, // Add the missing img component
+        img: ({ src, alt }: { src: string; alt: string }) => <img className="my-4" src={src} alt={alt} />,
     };
 
     return (
@@ -67,8 +73,9 @@ const RenderContent = ({ contentURL }: { contentURL: string }) => {
             ) : error ? (
                 <p className="text-red-500">{error}</p>
             ) : (
-                // <ReactMarkdown components={customComponents}>{content}</ReactMarkdown>
-                <ReactMarkdown>{content}</ReactMarkdown>
+                <Markdown options={{
+                    overrides: customComponents
+                }}>{content}</Markdown>
             )}
         </div>
     );
