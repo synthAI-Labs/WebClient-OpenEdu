@@ -3,7 +3,7 @@ import RenderContent from '@/components/RenderContent';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { getModuleDetails } from '@/scripts/api-calls';
 import Link from 'next/link';
-import NextModule from './NextModule';
+import NextModule from '../../../../components/NextModule';
 
 interface ModuleProps {
   params: {
