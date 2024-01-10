@@ -1,4 +1,4 @@
-"use client"
+'use client';
 import React, { useState, FormEvent } from 'react';
 import {
   Card,
@@ -41,12 +41,12 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
         try {
           const { authorization, userId } = searchLocalStorage();
 
-          console.log("User Details" + authorization, userId, userMessage)
+          console.log('User Details' + authorization, userId, userMessage);
 
           if (!authorization || !userId) {
             toast({
               title: 'Error',
-              description: 'Please login to continue'
+              description: 'Please login to continue',
             });
             setLoading(false);
             return;
@@ -88,18 +88,17 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
           }
 
           if (!response.ok) {
-            console.log(response.status)
+            console.log(response.status);
           }
 
           const responseData = await response.json();
 
-          console.log("response" + responseData)
+          console.log('response' + responseData);
 
           // Handle the response here, for example, update the messages state with the bot response
           const botResponse = `Chatbot: ${responseData.message}`;
           setMessages((prevMessages) => [...prevMessages, botResponse]);
           setLoading(false);
-
         } catch (error) {
           setLoading(false);
           const botResponse = `Error fetching response from server`;
@@ -110,7 +109,7 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
   };
 
   return (
-    <Card className='min-w-[300px] lg:min-w-[500px] mr-12'>
+    <Card className="min-w-[300px] lg:min-w-[500px] mr-12">
       <CardHeader>
         <CardTitle>Chat with EduAI</CardTitle>
       </CardHeader>
@@ -129,21 +128,23 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
             <div
               key={index}
               style={{
-                alignSelf: message.startsWith('User') ? 'flex-end' : 'flex-start',
+                alignSelf: message.startsWith('User')
+                  ? 'flex-end'
+                  : 'flex-start',
                 margin: '5px',
                 maxWidth: '70%',
               }}
             >
               {message.startsWith('User') ? (
                 <>
-                  <div className=' bg-blue-300/20 px-3 py-1 border rounded-md'>
+                  <div className=" bg-blue-300/20 px-3 py-1 border rounded-md">
                     <UserCircle2Icon />
                     {message}
                   </div>
                 </>
               ) : (
                 <>
-                  <div className=' bg-green-300/20 px-3 py-1 border rounded-md'>
+                  <div className=" bg-green-300/20 px-3 py-1 border rounded-md">
                     <LucideBot />
                     {message}
                   </div>
@@ -152,7 +153,6 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
             </div>
           ))}
         </div>
-
       </CardContent>
       <CardFooter>
         <form onSubmit={handleSubmit} style={{ alignSelf: 'flex-start' }}>

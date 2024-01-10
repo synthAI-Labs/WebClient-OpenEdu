@@ -98,7 +98,7 @@ const Page = async () => {
           <PopoverTrigger>
             <BotIcon size={40} />
           </PopoverTrigger>
-          <PopoverContent className='mr-20 lg:min-w-[540px] min-w-[340px]'>
+          <PopoverContent className="mr-20 lg:min-w-[540px] min-w-[340px]">
             <ChatPrompt />
           </PopoverContent>
         </Popover>
