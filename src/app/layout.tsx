@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -48,7 +49,11 @@ const InBetaRelease = () => {
       <div className=" text-muted-foreground">
         Also Don&apos;t expect it to work as expected
       </div>
-      <Button className="mt-4">View Project Details</Button>
+      <Link href="https://github.com/synthAI-Labs/WebClient-OpenEdu/blob/main/ProjectDetails.md">
+      <Button className="mt-4">
+        View Project Details
+      </Button>
+        </Link>
     </div>
   );
 };
