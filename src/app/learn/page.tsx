@@ -86,10 +86,10 @@ const Page = async () => {
         )}
       </div>
       <div
-        className="mr-10 border shadow-lg rounded-full bg-white p-2"
+        className="border shadow-lg rounded-full bg-white p-2"
         style={{
           position: 'fixed',
-          right: 0,
+          right: 20,
           bottom: '10%',
           zIndex: 1000,
         }}
@@ -98,7 +98,7 @@ const Page = async () => {
           <PopoverTrigger>
             <BotIcon size={40} />
           </PopoverTrigger>
-          <PopoverContent align="center">
+          <PopoverContent className="mr-20 lg:min-w-[540px] min-w-[340px]">
             <ChatPrompt />
           </PopoverContent>
         </Popover>
