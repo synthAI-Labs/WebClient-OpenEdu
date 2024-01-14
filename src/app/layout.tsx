@@ -50,10 +50,8 @@ const InBetaRelease = () => {
         Also Don&apos;t expect it to work as expected
       </div>
       <Link href="https://github.com/synthAI-Labs/WebClient-OpenEdu/blob/main/ProjectDetails.md">
-      <Button className="mt-4">
-        View Project Details
-      </Button>
-        </Link>
+        <Button className="mt-4">View Project Details</Button>
+      </Link>
     </div>
   );
 };
