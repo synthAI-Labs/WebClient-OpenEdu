@@ -1,6 +1,5 @@
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import { useToast as useToastAny } from 'ui/use-toast';
+const toast: any = useToastAny();
 export async function getResponseFromBot(authorization: string, userId: string, userMessage: string) {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/chat`, {
@@ -20,11 +19,12 @@ export async function getResponseFromBot(authorization: string, userId: string, 
       toast.error(`Error: ${errorData.message}`, { position: toast.POSITION.TOP_CENTER });
     } else if (response.status === 404) {
       const errorData = await response.json();
-      toast.error(`Request not found: ${errorData.message}`, { position: toast.POSITION.TOP_CENTER });
-    } else if (response.status === 500) {
-      const errorData = await response.json();
-      toast.error(`Server error: ${errorData.message}`, { position: toast.POSITION.TOP_CENTER });
-    } else {
+      toast({
+        title: 'Error',
+        type: 'foreground',
+        variant: 'destructive', // if it is critical error, like 500
+        description: 'Please accept the terms and conditions', // it'll be message received from user
+        });
       const data = await response.json();
       return data;
     }
