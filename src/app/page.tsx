@@ -42,7 +42,8 @@ const App = () => {
         <section className="mb-8">
           <div className="text-2xl font-bold mb-4">Key Features</div>
           <p className="text-lg">
-            Open-EDU offers a range of powerful features to make your learning experience exceptional.
+            Open-EDU offers a range of powerful features to make your learning
+            experience exceptional.
           </p>
 
           {/* Feature Cards */}
@@ -65,7 +66,6 @@ const App = () => {
               description="Provide instant feedback to students, enabling them to track their progress and make improvements in real-time."
             />
           </div>
-
         </section>
         <section className="mb-8 mt-40">
           <div className="text-2xl font-bold mb-4">What Users Say</div>
@@ -92,7 +92,15 @@ const App = () => {
   );
 };
 
-const FeatureSection = ({ imagePath, title, description }: { imagePath: string, title: string, description: string }) => (
+const FeatureSection = ({
+  imagePath,
+  title,
+  description,
+}: {
+  imagePath: string;
+  title: string;
+  description: string;
+}) => (
   <div className="bg-white p-4 rounded-md shadow-md mb-8">
     <img
       src={imagePath} // Add the path to your feature image
@@ -106,7 +114,13 @@ const FeatureSection = ({ imagePath, title, description }: { imagePath: string, 
   </div>
 );
 
-const TestimonialCard = ({ quote, author }: { quote: string, author: string }) => (
+const TestimonialCard = ({
+  quote,
+  author,
+}: {
+  quote: string;
+  author: string;
+}) => (
   <div className="bg-white p-4 rounded-lg shadow-md mb-8">
     <p className="text-gray-600 mb-2">&quot;{quote}&quot;</p>
     <p className="text-gray-800 font-bold">{author}</p>

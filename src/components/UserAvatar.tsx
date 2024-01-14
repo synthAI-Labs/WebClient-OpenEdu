@@ -1,10 +1,4 @@
-import {
-  Github,
-  LifeBuoy,
-  LogOut,
-  Settings,
-  User,
-} from 'lucide-react';
+import { Github, LifeBuoy, LogOut, Settings, User } from 'lucide-react';
 
 import {
   DropdownMenu,
@@ -29,7 +23,7 @@ const UserAvatar = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Avatar>
-          {(imageAddress === '') ? <AvatarFallback>CN</AvatarFallback> : null}
+          {imageAddress === '' ? <AvatarFallback>CN</AvatarFallback> : null}
           <AvatarImage
             src={`${process.env.NEXT_PUBLIC_SERVER_URL}/i/${imageAddress}`}
           />

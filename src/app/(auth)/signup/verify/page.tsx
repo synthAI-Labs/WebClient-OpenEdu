@@ -36,7 +36,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
 
       const data = verificationCode.value;
       const emailAddress = email.value;
-      console.log(data)
+      console.log(data);
 
       try {
         const response = await fetch(
@@ -45,7 +45,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'code': data,
+              code: data,
             },
           },
         );
