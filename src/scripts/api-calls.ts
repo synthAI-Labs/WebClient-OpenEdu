@@ -1,3 +1,38 @@
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+export async function getResponseFromBot(authorization: string, userId: string, userMessage: string) {
+  try {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/chat`, {
+      method: 'POST',
+      headers: {
+        "authorization": authorization,
+        "user_id": userId,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: userMessage,
+      }),
+    });
+
+    if (response.status === 403) {
+      const errorData = await response.json();
+      toast.error(`Error: ${errorData.message}`, { position: toast.POSITION.TOP_CENTER });
+    } else if (response.status === 404) {
+      const errorData = await response.json();
+      toast.error(`Request not found: ${errorData.message}`, { position: toast.POSITION.TOP_CENTER });
+    } else if (response.status === 500) {
+      const errorData = await response.json();
+      toast.error(`Server error: ${errorData.message}`, { position: toast.POSITION.TOP_CENTER });
+    } else {
+      const data = await response.json();
+      return data;
+    }
+  } catch (error) {
+    toast.error('An unexpected error occurred. Please try again later.', { position: toast.POSITION.TOP_CENTER });
+    console.error(error);
+  }
+
 export async function getPublicProfileOfUser(userName: string) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}`);
 
