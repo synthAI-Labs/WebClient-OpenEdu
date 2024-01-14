@@ -118,19 +118,26 @@ export async function getAllModulesInASubtopic(courseId: number, topicId: number
 
 
 export async function getModuleDetails(moduleId: number) {
-    const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`,
-        {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-        },
-    );
-    console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`)
+    if (moduleId) {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`,
+            {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            },
+        );
+        console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`)
 
-    if (!res.ok) {
-        console.log(Error(`HTTP error! Status: ${res.status}`));
+        if (!res.ok) {
+            console.log(Error(`HTTP error! Status: ${res.status}`));
+        }
+
+        const data = await res.json();
+        return data;
     }
+
 
     const data = await res.json();
     return data;
 }
+
