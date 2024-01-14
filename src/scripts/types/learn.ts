@@ -8,22 +8,11 @@ interface Course {
     madeByUser: string[];
     userId: null;
     tags: string[];
-    subtopics: Subtopic[];
-}
-
-interface Subtopic {
-    id: number;
-    name: string;
-    description: string;
-    madeByUserGit: string[];
-    madeByUser: string[];
-    tags: string[];
-    courseId: number;
-    image: string;
     modules: Module[];
 }
 
 interface Module {
+    description: string;
     id: number;
     name: string;
     madeByUserGit: string[];
