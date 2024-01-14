@@ -6,7 +6,11 @@ interface FeatureSectionProps {
   description: string;
 }
 
-const FeatureSection: React.FC<FeatureSectionProps> = ({ imagePath, title, description }) => (
+const FeatureSection: React.FC<FeatureSectionProps> = ({
+  imagePath,
+  title,
+  description,
+}) => (
   <div className="bg-white p-4 rounded-md shadow-md mb-8">
     <img
       src={imagePath}
@@ -21,4 +25,3 @@ const FeatureSection: React.FC<FeatureSectionProps> = ({ imagePath, title, descr
 );
 
 export default FeatureSection;
-
