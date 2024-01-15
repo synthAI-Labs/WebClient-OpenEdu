@@ -1,6 +1,6 @@
 import ChatPrompt from '@/components/ChatPrompt';
 import Loader from '@/components/Loader';
-import SubtopicCard from '@/components/SubTopicsCard';
+import ModulesCardDemo from '@/components/SubTopicsCard';
 import { Button, buttonVariants } from '@/components/ui/button';
 import {
   Card,
@@ -28,6 +28,7 @@ import {
   TextIcon,
   Video,
 } from 'lucide-react';
+import { unstable_noStore } from 'next/cache';
 import Link from 'next/link';
 import React from 'react';
 
@@ -38,6 +39,7 @@ interface GetTopicsProps {
 }
 
 const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
+  unstable_noStore();
   const response = getAllTopicsInCourse(params.course);
   const topic: Course | null = await response;
   console.log(topic);
@@ -53,11 +55,7 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
           <h1 className="text-3xl font-bold mb-8">{topic.name} Topics</h1>
           <p className="text-gray-600 mb-4">{topic.description}</p>
           <div className="gap-8">
-            {topic.subtopics.map((subtopic) => (
-              <div key={subtopic.id}>
-                <SubtopicCard subtopic={subtopic} />
-              </div>
-            ))}
+          <ModulesCardDemo module={topic.modules} />
           </div>
           <div
             className="border shadow-lg rounded-full bg-white p-2"
