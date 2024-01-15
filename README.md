@@ -1,6 +1,6 @@
 # WebClient
 
-This is the official WebClient for the OpenEdu. Visit [Project Details](ProjectDetails.md) to learn more about the project.
+This is the official WebClient for the OpenEdu. Visit [Project Details](./docs/ProjectDetails.md) to learn more about the project.
 
 ## Getting Started
 
