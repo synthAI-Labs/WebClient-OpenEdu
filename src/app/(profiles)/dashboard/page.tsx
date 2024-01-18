@@ -17,7 +17,7 @@ import Loader from '@/components/Loader';
 import NothingFound from '@/components/NothingFound';
 import { DialogClose } from '@/components/ui/dialog';
 import { toast } from '@/components/ui/use-toast';
-import { checkValues, searchLocalStorage } from '@/scripts/check-user-auth';
+import { checkValues, searchLocalStorage, deletedValues } from '@/scripts/check-user-auth';
 import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
 import { Share, X } from 'lucide-react';
 import Link from 'next/link';
@@ -51,9 +51,14 @@ const Page: React.FC = () => {
                 authorization,
                 user_id: userId,
               },
+              credentials: 'include',
             },
           );
-
+          if(!res.ok){
+            deletedValues();
+            window.location.href = '/signin';
+            return;
+          }
           const userData: UserProfile = await res.json();
           setUser(userData);
           setLoading(false);

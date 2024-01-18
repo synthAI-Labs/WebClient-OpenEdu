@@ -47,6 +47,7 @@ const Page: React.FC<PageProps> = ({ params }) => {
               'Content-Type': 'application/json',
               code: data,
             },
+            credentials: 'include',
           },
         );
 

@@ -29,7 +29,8 @@ export async function getResponseFromBot(authorization: string, userId: string, 
         },
         body: JSON.stringify({ // Convert the message to JSON
             message: userMessage
-        })
+        }),
+        credentials: 'include',
     })
 
     const data = botResponse.json()
@@ -69,6 +70,7 @@ export async function getAllModulesInASubtopic(courseId: number, topicId: number
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
         },
     );
 
@@ -89,6 +91,7 @@ export async function getModuleDetails(moduleId: number) {
             {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             },
         );
         console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`)
