@@ -63,10 +63,13 @@ const SignIn = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
+          credentials: 'include', // Include cookies in the request
         },
       );
 
       if (response.status === 201) {
+        const cookies = response.headers.get('Set-Cookie');
+        document.cookie = cookies!;
         const user: UserProfile = await response.json();
 
         if (process.browser) {
@@ -83,7 +86,10 @@ const SignIn = () => {
           }
         }
       } else {
-        return <NothingFound />;
+const NothingFound = () => {
+  return <div>Error: Page not found (404)</div>;
+};
+
       }
     } catch (error) {
       toast({

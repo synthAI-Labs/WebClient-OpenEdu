@@ -29,7 +29,8 @@ export async function getResponseFromBot(authorization: string, userId: string, 
         },
         body: JSON.stringify({ // Convert the message to JSON
             message: userMessage
-        })
+        }),
+        credentials: 'include',
     })
 
     const data = botResponse.json()

@@ -30,6 +30,7 @@ const CourseCard = ({ course }: { course: Course }) => {
               authorization: authorization,
               user_id: userId,
             },
+            credentials: 'include',
           },
         );
 

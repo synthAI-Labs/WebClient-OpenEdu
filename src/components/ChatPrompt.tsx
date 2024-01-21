@@ -68,6 +68,7 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
                   message: userMessage,
                   module_id: moduleId,
                 }),
+                credentials: 'include',
               },
             );
           } else {
@@ -83,6 +84,7 @@ const ChatPrompt: React.FC<ChatPromptProps> = ({ moduleId }) => {
                 body: JSON.stringify({
                   message: userMessage,
                 }),
+                credentials: 'include',
               },
             );
           }
