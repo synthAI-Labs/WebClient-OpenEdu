@@ -75,28 +75,28 @@ const SignUp = () => {
     };
 
     try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-            credentials: 'include',
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
           },
-        );
-        console.log("response made", JSON.stringify(data));
+          body: JSON.stringify(data),
+          credentials: 'include',
+        },
+      );
+      console.log('response made', JSON.stringify(data));
 
-        if (response.status === 403) {
-          toast({
-            title: 'Error',
-            description: "Email or username already exists",
-          });
-        }
-        if (process.browser) {
+      if (response.status === 403) {
+        toast({
+          title: 'Error',
+          description: 'Email or username already exists',
+        });
+      }
+      if (process.browser) {
         if (response.status === 201) {
-          console.log("success");
+          console.log('success');
           const user: UserProfile = await response.json();
           console.log(user);
           if (process.browser) {
@@ -120,7 +120,8 @@ const SignUp = () => {
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Unable to create account, email or username may not be unique, password may be weak',
+        description:
+          'Unable to create account, email or username may not be unique, password may be weak',
       });
     } finally {
       setLoading(false);

@@ -86,10 +86,9 @@ const SignIn = () => {
           }
         }
       } else {
-const NothingFound = () => {
-  return <div>Error: Page not found (404)</div>;
-};
-
+        const NothingFound = () => {
+          return <div>Error: Page not found (404)</div>;
+        };
       }
     } catch (error) {
       toast({

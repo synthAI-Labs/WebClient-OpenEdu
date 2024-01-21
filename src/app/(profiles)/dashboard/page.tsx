@@ -76,7 +76,7 @@ const Page: React.FC = () => {
   if (!user) {
     return <NothingFound />;
   }
-console.log(user)
+  console.log(user);
   return (
     <div className="container mx-auto mt-8 justify-center items-center">
       {loading ? (
@@ -120,7 +120,7 @@ console.log(user)
                   </Button>
                 </div>
                 <div className="mt-4 sm:mt-0">
-                <Dialog open={editProfileTriggered}>
+                  <Dialog open={editProfileTriggered}>
                     <DialogTrigger asChild>
                       <Button
                         onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
