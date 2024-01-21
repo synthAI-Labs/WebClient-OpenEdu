@@ -78,6 +78,7 @@ const SignIn = () => {
             user.id.toString(),
             user.photo,
             true,
+            user.access_token
           );
           if (valueStored) {
             window.location.href = '/dashboard';

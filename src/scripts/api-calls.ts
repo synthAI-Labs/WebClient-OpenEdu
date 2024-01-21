@@ -70,6 +70,7 @@ export async function getAllModulesInASubtopic(courseId: number, topicId: number
         {
             method: 'GET',
             headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
         },
     );
 
@@ -90,6 +91,7 @@ export async function getModuleDetails(moduleId: number) {
             {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
             },
         );
         console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`)

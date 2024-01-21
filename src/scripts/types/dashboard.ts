@@ -49,4 +49,5 @@ export interface UserProfile {
     achievements: Achievement[];
     CourseEnrollment: CourseEnrollment[];
     settings: UserSettings;
+    access_token: string;
 }
