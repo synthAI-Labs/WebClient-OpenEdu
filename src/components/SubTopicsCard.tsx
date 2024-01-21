@@ -1,5 +1,11 @@
 import { Button } from './ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from './ui/card';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
 import Link from 'next/link';
 
 interface SubtopicCardProps {
@@ -8,7 +14,9 @@ interface SubtopicCardProps {
 
 const ModulesCardDemo: React.FC<SubtopicCardProps> = ({ module }) => {
   function getNextModuleId(currentModuleId: number): number | string {
-    const moduleIndex = module.findIndex((module) => module.id === currentModuleId);
+    const moduleIndex = module.findIndex(
+      (module) => module.id === currentModuleId,
+    );
     const nextModule = module[moduleIndex + 1];
     return nextModule ? nextModule.id : '';
   }
@@ -18,9 +26,9 @@ const ModulesCardDemo: React.FC<SubtopicCardProps> = ({ module }) => {
       {module.map((module) => (
         <Link
           key={module.id}
-          href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/learn/modules/${module.id}?nextmodule=${Number(
-            getNextModuleId(module.id)
-          )}`}
+          href={`${process.env.NEXT_PUBLIC_CLIENT_URL}/learn/modules/${
+            module.id
+          }?nextmodule=${Number(getNextModuleId(module.id))}`}
         >
           <Card className="bg-white p-4 rounded-lg shadow-md m-3">
             <CardHeader>

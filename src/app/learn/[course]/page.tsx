@@ -55,7 +55,7 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
           <h1 className="text-3xl font-bold mb-8">{topic.name} Topics</h1>
           <p className="text-gray-600 mb-4">{topic.description}</p>
           <div className="gap-8">
-          <ModulesCardDemo module={topic.modules} />
+            <ModulesCardDemo module={topic.modules} />
           </div>
           <div
             className="border shadow-lg rounded-full bg-white p-2"

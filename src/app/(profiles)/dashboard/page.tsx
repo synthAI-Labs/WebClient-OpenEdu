@@ -80,7 +80,7 @@ const Page: React.FC = () => {
   if (!user) {
     return <NothingFound />;
   }
-
+  console.log(user);
   return (
     <div className="container mx-auto mt-8 justify-center items-center">
       {loading ? (
@@ -201,7 +201,7 @@ const Page: React.FC = () => {
                                     'Web Development',
                                   ]}
                                 />
-                                {user.interests.map((interest) => (
+                                {user.interests!.map((interest) => (
                                   <div key={interest}>
                                     <Input
                                       id="interests"
@@ -264,7 +264,7 @@ const Page: React.FC = () => {
               <CardHeader>
                 <CardTitle className="text-lg font-bold">About Me</CardTitle>
                 <div className="mt-4 font-medium justify-center items-center flex mb">
-                  {user.bio.length === 0 ||
+                  {user.bio!.length === 0 ||
                   user.bio === null ||
                   user.bio === undefined ? (
                     <p>No bio set</p>
