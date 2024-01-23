@@ -1,6 +1,4 @@
 "use client"
-import Cookies from 'js-cookie'
-
 export function searchLocalStorage(): { authorization: string, userId: string } {
     const authorization: string = localStorage.getItem('authorization') as string;
     const userId: string = localStorage.getItem('user-Id') as string;
@@ -27,14 +25,12 @@ export function setVerifiedInLocalStorage(verified: boolean) {
     }
 }
 
-export function storeValues(authorization: string, userId: string, userPhoto: string, userVerified: boolean, access_token: string =''): Boolean {
+export function storeValues(authorization: string, userId: string, userPhoto: string, userVerified: boolean): Boolean {
     try {
         localStorage.setItem('authorization', authorization);
         localStorage.setItem('user-Id', userId);
         localStorage.setItem('userPhoto', userPhoto);
         localStorage.setItem('userVerified', userVerified.toString());
-        localStorage.setItem('access_token',access_token );
-        Cookies.set('access_token', access_token, {path: '/'})
         return true;
     } catch (e) {
         console.error(e);
@@ -53,8 +49,6 @@ export function deletedValues(): boolean {
     localStorage.removeItem('userPhoto');
     localStorage.removeItem('userVerified');
     localStorage.removeItem('email');
-    localStorage.removeItem('access_token');
-    Cookies.remove('access_token');
     if (!checkValues()) {
         return false;
     } else {

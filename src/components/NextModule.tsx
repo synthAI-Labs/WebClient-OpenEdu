@@ -23,6 +23,6 @@ const NextModule = () => {
       </Link>
     </div>
   );
-};
+  }
 
 export default NextModule;

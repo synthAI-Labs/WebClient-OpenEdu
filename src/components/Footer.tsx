@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { buttonVariants } from './ui/button';
+import { Button, buttonVariants } from './ui/button';
 import { cn } from '@/lib/utils';
-import { GlobeIcon, SendToBack } from 'lucide-react';
+import { BookOpenText, GlobeIcon, SendToBack } from 'lucide-react';
 import Image from 'next/image';
 
 const Footer = () => {
@@ -29,7 +29,7 @@ const Footer = () => {
                   <Link
                     href="/"
                     className={cn(
-                      'mt-2',
+                      'mt-2 shadow-md',
                       buttonVariants({ variant: 'outline' }),
                     )}
                   >
@@ -40,7 +40,7 @@ const Footer = () => {
                   <Link
                     href="/learn"
                     className={cn(
-                      'mt-2',
+                      'mt-2 shadow-md',
                       buttonVariants({ variant: 'outline' }),
                     )}
                   >
@@ -51,7 +51,7 @@ const Footer = () => {
                   <Link
                     href="/support"
                     className={cn(
-                      'mt-2',
+                      'mt-2 shadow-md',
                       buttonVariants({ variant: 'outline' }),
                     )}
                   >
@@ -62,7 +62,7 @@ const Footer = () => {
                   <Link
                     href="/signup"
                     className={cn(
-                      'mt-2',
+                      'mt-2 shadow-md',
                       buttonVariants({ variant: 'default' }),
                     )}
                   >
@@ -82,14 +82,14 @@ const Footer = () => {
                   className="border border-gray-300 p-2 w-full rounded-md"
                   placeholder="Email Address"
                 />
-                <button
+                <Button
                   className={cn(
-                    'font-semibold p-2 w-full rounded-md mt-4',
+                    'font-semibold p-2 w-full rounded-md mt-4 shadow-lg',
                     buttonVariants({ variant: 'default' }),
                   )}
                 >
                   Subscribe
-                </button>
+                </Button>
               </div>
             </div>
             <div className="bg-white p-4 rounded-md shadow-md">
@@ -101,9 +101,11 @@ const Footer = () => {
               <div className="mt-4">
                 <div>
                   <Link
-                    href="/"
+                    href="https://github.com/synthAI-Labs/webclient-openedu"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={cn(
-                      'mt-2',
+                      'mt-2 shadow-md',
                       buttonVariants({ variant: 'outline' }),
                     )}
                   >
@@ -112,13 +114,28 @@ const Footer = () => {
                 </div>
                 <div>
                   <Link
-                    href="/"
+                    href="https://github.com/synthAI-Labs/server-OpenEdu"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className={cn(
-                      'mt-2',
+                      'mt-2 shadow-md',
                       buttonVariants({ variant: 'outline' }),
                     )}
                   >
                     Server <SendToBack size={18} className="ml-2" />
+                  </Link>
+                </div>
+                <div>
+                  <Link
+                    href="https://ai-res-server.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={cn(
+                      'mt-2 shadow-md',
+                      buttonVariants({ variant: 'outline' }),
+                    )}
+                  >
+                    Documentation <BookOpenText size={18} className="ml-2" />
                   </Link>
                 </div>
               </div>

@@ -11,6 +11,7 @@ import {
 } from '@/components/ui/popover';
 import ChatPrompt from '@/components/ChatPrompt';
 import { BotIcon } from 'lucide-react';
+import MarkAsCompleteButton  from '@/components/MarkAsCompleteButton';
 
 interface ModuleProps {
   params: {
@@ -45,7 +46,10 @@ export default async function page({ params }: ModuleProps) {
           </video>
         </div>
       )}
+      <div className="flex justify-between mt-4">
+      <MarkAsCompleteButton moduleId={modules.id} />
       <NextModule />
+      </div>
       <div
         className="border shadow-lg rounded-full bg-white p-2"
         style={{
