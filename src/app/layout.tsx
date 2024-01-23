@@ -13,9 +13,16 @@ import Link from 'next/link';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'OpenEdu',
+  title: 'OpenEdu - Free Open Source Learning Platform with AI',
   description:
-    'OpenEdu is free Open Source learning Platform with advanced AI features. With few advanced features for Resume Optimization and Job Search.',
+    'Master any topic, optimize your resume with AI, and land your ideal job faster. OpenEdu is a free Open Source learning platform with advanced AI features. Explore personalized learning, powerful AI tools, and dedicated career support. Join now for a 100% free and open-source education experience.',
+  keywords: [
+    'learning platform',
+    'AI education',
+    'resume optimization',
+    'job search',
+    'free open source',
+  ],
 };
 
 export default function RootLayout({
