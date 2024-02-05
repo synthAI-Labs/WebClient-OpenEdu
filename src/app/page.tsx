@@ -107,15 +107,15 @@ const App = () => {
     <div className="min-h-screen  min-w-full">
       <div className="flex items-center justify-center h-screen">
         <div className="text-center space-y-5">
-          <div className="text-2xl sm:text-2xl md:text-3xl lg:text-3xl space-y-1 font-extrabold">
-            <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text mb-5">
+          <div className="text-xl sm:text-2xl md:text-3xl lg:text-3xl space-y-1 font-extrabold">
+            <div className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text mb-5">
               Introducing{' '}
-              <h1 className="text-7xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
+              <h1 className="text-3xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
                 Open-EDU
               </h1>
             </div>
             Your personal Ai for{' '}
-            <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
+            <div className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
               <TypewriterComponent
                 options={{
                   strings: ['learning', 'teaching', 'assessments'],
@@ -149,7 +149,7 @@ const App = () => {
             </p>
           </div>
           <div className="flex justify-between space-x-4 gap-8">
-            <div className=" ml-20 flex-col h-16 w-16 flex items-center justify-center">
+            <div className=" ml-2 lg:mr-20 flex-col h-16 w-16 flex items-center justify-center">
               <h1 className="text-2xl">1000+</h1>
               satisfied users
             </div>
@@ -157,7 +157,7 @@ const App = () => {
               <h1 className="text-2xl">20+</h1>
               projects done
             </div>
-            <div className="mr-20 flex-col h-16 w-16 flex items-center justify-center">
+            <div className="mr-2 lg:mr-20 flex-col h-16 w-16 flex items-center justify-center">
               <h1 className="text-2xl">24k</h1>
               recieved in funding
             </div>
@@ -175,24 +175,24 @@ const App = () => {
               All the companies we have partnered with to bring it to life...
             </p>
           </div>
-          <div className="px-6 flex flex-col md:flex-col lg:flex-row justify-center space-x-4 gap-8">
+          <div className="px-6 flex flex-col md:flex-col lg:flex-row justify-center">
             <Image
               src={'/tublian-removebg-preview.png'}
               alt="Company Logo"
               width={400}
-              height={100}
+              height={50}
             />
             <Image
               src={'/GoogleForStartups.png'}
               alt="Company Logo"
               width={400}
-              height={100}
+              height={50}
             />
             <Image
               src={'/SynthAI Labs-logos_black.png'}
               alt="Company Logo"
               width={400}
-              height={100}
+              height={50}
             />
           </div>
         </section>
@@ -230,14 +230,14 @@ const App = () => {
         | Testimonial Cards BY SECTION  |
         |-------------------------------|
         */}
-        <section className="mb-8 mt-40">
+        {/* <section className="mx-auto w-full max-w-screen-x1 px-2.5 md:px-20 py-20 border-t">
           <div className="text-2xl font-bold mb-4">What Users Say</div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+          <div className="px-6 flex flex-col md:flex-col lg:flex-row justify-center space-x-4 gap-8 sm:grid sm:grid-cols-1 sm:gap-8">
             <Carousel
               opts={{
                 align: 'start',
               }}
-              className="w-full max-w-xs"
+              className="min-w-full"
             >
               <CarouselContent>
                 {Testimonials.map((testimonial, index) => (
@@ -245,7 +245,7 @@ const App = () => {
                     key={index}
                     className="md:basis-1/2 lg:basis-1/3"
                   >
-                    <Card className=" w-72">
+                    <Card>
                       <CardHeader>
                         <CardTitle>
                           <Avatar>
@@ -271,7 +271,7 @@ const App = () => {
               <CarouselNext />
             </Carousel>
           </div>
-        </section>
+        </section> */}
       </main>
     </div>
   );
