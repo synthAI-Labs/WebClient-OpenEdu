@@ -34,7 +34,12 @@ const NavBar = () => {
         <div className="flex flex-row items-center space-x-4 ">
           <div className="text-2xl font-bold ">
             <Link href="/">
-              <Image src={'/openEdu.svg'} alt="logo" width={50} height={50} />
+              <Image
+                src={'/OpenEdu-logos_black.png'}
+                alt="logo"
+                width={300}
+                height={100}
+              />
             </Link>
           </div>
         </div>

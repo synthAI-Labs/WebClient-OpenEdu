@@ -1,6 +1,7 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { buttonVariants } from '@/components/ui/button';
+import Image from 'next/image';
 import {
   Card,
   CardContent,
@@ -103,7 +104,7 @@ const perks = [
 
 const App = () => {
   return (
-    <div className="min-h-screen ">
+    <div className="min-h-screen  min-w-full">
       <div className="flex items-center justify-center h-screen">
         <div className="text-center space-y-5">
           <div className="text-2xl sm:text-2xl md:text-3xl lg:text-3xl space-y-1 font-extrabold">
@@ -135,7 +136,71 @@ const App = () => {
         </div>
       </div>
       <main className="p-4 flex flex-col items-center justify-center">
-        {/* Feature Cards */}
+        {/* 
+        |---------------------|
+        | TRUSTED BY SECTION  |
+        |---------------------|
+        */}
+        <section className="mx-auto w-full max-w-screen-x1 px-2.5 md:px-20 py-20 border-t border-green-200 bg-green-50">
+          <div className="flex flex-col justify-center items-center">
+            <h1 className="text-3xl">Trusted by over 1000+ users</h1>
+            <p className="text-muted-foreground mb-9">
+              Making an impact in real life with over 1000+ users...
+            </p>
+          </div>
+          <div className="flex justify-between space-x-4 gap-8">
+            <div className=" ml-20 flex-col h-16 w-16 flex items-center justify-center">
+              <h1 className="text-2xl">1000+</h1>
+              satisfied users
+            </div>
+            <div className="flex-col h-16 w-16 flex items-center justify-center">
+              <h1 className="text-2xl">20+</h1>
+              projects done
+            </div>
+            <div className="mr-20 flex-col h-16 w-16 flex items-center justify-center">
+              <h1 className="text-2xl">24k</h1>
+              recieved in funding
+            </div>
+          </div>
+        </section>
+        {/* 
+        |---------------------|
+        | Powered BY SECTION  |
+        |---------------------|
+        */}
+        <section className="mx-auto w-full max-w-screen-x1 px-2.5 md:px-20 py-20 border-t">
+          <div className="flex flex-col justify-center items-center">
+            <h1 className="text-3xl">Supported By</h1>
+            <p className="text-muted-foreground mb-9">
+              All the companies we have partnered with to bring it to life...
+            </p>
+          </div>
+          <div className="px-6 flex flex-col md:flex-col lg:flex-row justify-center space-x-4 gap-8">
+            <Image
+              src={'/tublian-removebg-preview.png'}
+              alt="Company Logo"
+              width={400}
+              height={100}
+            />
+            <Image
+              src={'/GoogleForStartups.png'}
+              alt="Company Logo"
+              width={400}
+              height={100}
+            />
+            <Image
+              src={'/SynthAI Labs-logos_black.png'}
+              alt="Company Logo"
+              width={400}
+              height={100}
+            />
+          </div>
+        </section>
+        {/* 
+        |---------------------------|
+        | Feature Cards BY SECTION  |
+        |---------------------------|
+        */}
         <section className="mx-auto w-full max-w-screen-x1 px-2.5 md:px-20 py-20 border-t border-green-200 bg-green-50">
           <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 lg:gap-y-0">
             {perks.map((perk) => (
@@ -160,6 +225,11 @@ const App = () => {
             ))}
           </div>
         </section>
+        {/* 
+        |-------------------------------|
+        | Testimonial Cards BY SECTION  |
+        |-------------------------------|
+        */}
         <section className="mb-8 mt-40">
           <div className="text-2xl font-bold mb-4">What Users Say</div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
@@ -180,12 +250,14 @@ const App = () => {
                         <CardTitle>
                           <Avatar>
                             <AvatarImage src={testimonial.image} />
-                            <AvatarFallback>CN</AvatarFallback>
+                            <AvatarFallback className=" p-4">CN</AvatarFallback>
                           </Avatar>
                         </CardTitle>
                       </CardHeader>
-                      <CardContent>{testimonial.quote}</CardContent>
-                      <CardHeader>
+                      <CardContent>
+                        <blockquote>"{testimonial.quote}"</blockquote>
+                      </CardContent>
+                      <CardHeader className=" items-end">
                         <CardTitle>{testimonial.author}</CardTitle>
                         <CardDescription>
                           {testimonial.position}
@@ -198,7 +270,6 @@ const App = () => {
               <CarouselPrevious />
               <CarouselNext />
             </Carousel>
-            {/* Repeat the above structure for additional testimonials */}
           </div>
         </section>
       </main>
