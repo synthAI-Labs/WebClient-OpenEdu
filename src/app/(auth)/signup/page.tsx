@@ -1,6 +1,31 @@
 'use client';
 
-import Loader from '@/components/Loader';
+import Link from 'next/link';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import { cn } from '@/lib/utils';
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -10,205 +35,214 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
-import {
-  checkValues,
-  getVerifiedFromLocalStorage,
-  storeValues,
-} from '@/scripts/check-user-auth';
-import { UserProfile } from '@/scripts/types/dashboard';
-import { CheckedState } from '@radix-ui/react-checkbox';
-import { Label } from '@radix-ui/react-label';
-import { Loader2, LogIn } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
 
-// TODO: Add password confirmation, API ROUTES
+const profileFormSchema = z.object({
+  name: z
+    .string()
+    .min(2, {
+      message: 'Username must be at least 2 characters.',
+    })
+    .max(30, {
+      message: 'Username must not be longer than 30 characters.',
+    }),
+  username: z
+    .string()
+    .min(2, {
+      message: 'Username must be at least 2 characters.',
+    })
+    .max(30, {
+      message: 'Username must not be longer than 30 characters.',
+    }),
+  email: z
+    .string({
+      required_error: 'Please select an email to display.',
+    })
+    .email(),
+  bio: z.string().max(160).min(4),
+  password: z
+    .string()
+    .min(8, {
+      message: 'Password must be at least 8 characters.',
+    })
+    .max(30, {
+      message: 'Password must not be longer than 30 characters.',
+    })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.',
+    ),
+  confirmPassword: z
+    .string()
+    .min(8, {
+      message: 'Password must be at least 8 characters.',
+    })
+    .max(30, {
+      message: 'Password must not be longer than 30 characters.',
+    })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.',
+    ),
+});
+
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 const SignUp = () => {
-  // if (process.browser) {
-  //   const alreadyLoggedIn: boolean = checkValues();
-  //   const userVerified: boolean = getVerifiedFromLocalStorage()
-  //   if (userVerified) {
-  //     if (alreadyLoggedIn) {
-  //       window.location.href = '/dashboard';
-  //     }
-  //   }
-  // }
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
+    mode: 'onChange',
+  });
 
-  const [loading, setLoading] = useState(false);
-  const [checkbox, setCheckbox] = useState(false);
-
-  async function signUpUser() {
-    setLoading(true);
-
-    const email = document.getElementById('email') as HTMLInputElement;
-    const password = document.getElementById('password') as HTMLInputElement;
-    const confirmPassword = document.getElementById(
-      'confirmpassword',
-    ) as HTMLInputElement;
-    const UserName = document.getElementById('UserName') as HTMLInputElement;
-    const Name = document.getElementById('Name') as HTMLInputElement;
-
-    if (!checkbox) {
+  function onSubmit(data: ProfileFormValues) {
+    if (data.confirmPassword !== data.password) {
       toast({
         title: 'Error',
         type: 'foreground',
         variant: 'destructive',
-        description: 'Please accept the terms and conditions',
+        description: 'Passwords do not match',
       });
       return;
-    }
-
-    if (password.value !== confirmPassword.value) {
-      alert('Passwords do not match');
-      return;
-    }
-
-    const data = {
-      email: email.value,
-      password: password.value,
-      name: Name.value,
-      username: UserName.value,
-    };
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
-        },
-      );
-      console.log('response made', JSON.stringify(data));
-
-      if (response.status === 403) {
-        toast({
-          title: 'Error',
-          description: 'Email or username already exists',
-        });
-      }
-      if (process.browser) {
-        if (response.status === 201) {
-          console.log('success');
-          const user: UserProfile = await response.json();
-          console.log(user);
-          if (process.browser) {
-            const valueStored = storeValues(
-              user.token,
-              user.id.toString(),
-              user.photo,
-              false,
-            );
-            if (valueStored) {
-              window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
-            } else {
-              toast({
-                title: 'Error',
-                description: 'Unable to store values',
-              });
-            }
-          }
-        }
-      }
-    } catch (error) {
+    } else {
       toast({
-        title: 'Error',
-        description:
-          'Unable to create account, email or username may not be unique, password may be weak',
+        title: 'You submitted the following values:',
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
+          </pre>
+        ),
       });
-    } finally {
-      setLoading(false);
     }
   }
 
   return (
     <Card className=" lg:w-8/12 md:w-8/12 sm:w-8/12">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl">Create an account</CardTitle>
+        <CardTitle className="text-2xl">Sign UP</CardTitle>
         <CardDescription>
-          Enter your email below to create your account
+          Enter your email below to Log into your account
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {/* <div className="grid grid-cols-2 gap-6">
-          <Button variant="outline">
-            <GithubIcon className="mr-2 h-4 w-4" />
-            Github NOT WORKING
-          </Button>
-          <Button variant="outline">
-            Google NOT WORKING
-          </Button>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div> */}
-        <div className="grid gap-2">
-          <Label htmlFor="text">Name</Label>
-          <Input id="Name" type="string" placeholder="John Doe" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="text">UserName</Label>
-          <Input id="UserName" type="string" placeholder="JohnDoe_1" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="john.doe@example.com" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" placeholder="*******" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Confirm Password</Label>
-          <Input id="confirmpassword" type="password" placeholder="*******" />
-        </div>
-        <div className="items-top flex space-x-2">
-          <Checkbox
-            id="terms1"
-            onCheckedChange={(checked: CheckedState) =>
-              setCheckbox(checked === true)
-            }
-          />
-          <div className="grid gap-1.5 leading-none">
-            <label
-              htmlFor="terms1"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Accept terms and conditions
-            </label>
-            <p className="text-sm text-muted-foreground">
-              You agree to our Terms of Service and Privacy Policy.
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input type="text" placeholder="shadcn" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="OpenEdu@Example.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="bio"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Bio</FormLabel>
+                  <FormControl>
+                    <Textarea
+                      placeholder="Tell us a little bit about yourself"
+                      className="resize-none"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="confirmPassword"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <p>
+              Don't have an account.
+              <Button variant={'link'} className=" text-[16px]">
+                {' '}
+                <Link href={'/signup'}>Register</Link>
+              </Button>
             </p>
-          </div>
-        </div>
-        <div>
-          <Link href={'/signin'}> Already have an account? </Link>
-        </div>
+            <div className=" flex justify-center items-center">
+              <Button type="submit" className=" w-2/3 text-md">
+                Sign In
+              </Button>
+            </div>
+          </form>
+        </Form>
       </CardContent>
       <CardFooter>
-        <Button onClick={() => signUpUser()} className="w-full">
-          {loading ? (
-            <Loader2 className=" animate-spin" />
-          ) : (
-            <>
-              Create Account <LogIn className="ml-2 h-4 w-4" />
-            </>
-          )}
-        </Button>
+        <div className=" text-muted-foreground">
+          <p>
+            By Continuing, You agree to our{' '}
+            <Button variant={'link'} className=" text-[16px]">
+              <Link href="/terms">Terms and Condition</Link>
+            </Button>
+            ,{' '}
+            <Button variant={'link'} className=" text-[16px]">
+              <Link href="/privacy">Privacy Policy</Link>
+            </Button>
+            , and{' '}
+            <Button variant={'link'} className=" text-[16px]">
+              <Link href="/cookie">Cookie Policy</Link>
+            </Button>
+          </p>
+        </div>
       </CardFooter>
     </Card>
   );

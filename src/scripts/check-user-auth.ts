@@ -1,4 +1,7 @@
 "use client"
+
+import { UserProfile } from "./types/dashboard";
+
 export function searchLocalStorage(): { authorization: string, userId: string } {
     const authorization: string = localStorage.getItem('authorization') as string;
     const userId: string = localStorage.getItem('user-Id') as string;
@@ -25,11 +28,14 @@ export function setVerifiedInLocalStorage(verified: boolean) {
     }
 }
 
-export function storeValues(authorization: string, userId: string, userPhoto: string, userVerified: boolean): Boolean {
+export function storeValues(user: UserProfile, userVerified: boolean): Boolean {
     try {
-        localStorage.setItem('authorization', authorization);
-        localStorage.setItem('user-Id', userId);
-        localStorage.setItem('userPhoto', userPhoto);
+        localStorage.setItem('authorization', user.token);
+        localStorage.setItem('user-Id', user.id.toString());
+        localStorage.setItem('userPhoto', user.photo);
+        localStorage.setItem('userBio', user.bio);
+        localStorage.setItem('userName', user.username);
+        localStorage.setItem('userEmail', user.email);
         localStorage.setItem('userVerified', userVerified.toString());
         return true;
     } catch (e) {

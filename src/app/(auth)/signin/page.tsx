@@ -1,7 +1,31 @@
 'use client';
 
-import NotFound from '@/app/not-found';
-import NothingFound from '@/components/NothingFound';
+import Link from 'next/link';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useFieldArray, useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import { cn } from '@/lib/utils';
+
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -11,51 +35,42 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { toast } from '@/components/ui/use-toast';
-import { checkValues, storeValues } from '@/scripts/check-user-auth';
+import { Ghost } from 'lucide-react';
 import { UserProfile } from '@/scripts/types/dashboard';
-import { CheckedState } from '@radix-ui/react-checkbox';
-import { Label } from '@radix-ui/react-label';
-import { Loader2Icon, LogIn } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
+import { storeValues } from '@/scripts/check-user-auth';
 
+const profileFormSchema = z.object({
+  email: z
+    .string({
+      required_error: 'Please select an email to display.',
+    })
+    .email(),
+  password: z
+    .string()
+    .min(8, {
+      message: 'Password must be at least 8 characters.',
+    })
+    .max(30, {
+      message: 'Password must not be longer than 30 characters.',
+    }),
+});
+
+type ProfileFormValues = z.infer<typeof profileFormSchema>;
+
+interface SignInResponse {
+  status: number;
+  message: string;
+  data: UserProfile;
+}
 const SignIn = () => {
-  // if (process.browser) {
-  //   const alreadyLoggedIn: boolean = checkValues();
-  //   if (alreadyLoggedIn) {
-  //     window.location.href = '/dashboard';
-  //   }
-  // }
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
+    mode: 'onChange',
+  });
 
-  const [loading, setLoading] = useState(false);
-  const [checkbox, setCheckbox] = useState(false);
-
-  async function loginUser() {
+  async function onSubmit(data: ProfileFormValues) {
     try {
-      setLoading(true);
-
-      const email = document.getElementById('email') as HTMLInputElement;
-      const password = document.getElementById('password') as HTMLInputElement;
-
-      if (!checkbox) {
-        toast({
-          title: 'Error',
-          type: 'foreground',
-          variant: 'destructive',
-          description: 'Please accept the terms and conditions',
-        });
-        return;
-      }
-
-      const data = {
-        email: email.value,
-        password: password.value,
-      };
-
-      const response = await fetch(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signin`,
         {
           method: 'POST',
@@ -63,40 +78,44 @@ const SignIn = () => {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
-          credentials: 'include', // Include cookies in the request
+          credentials: 'include',
         },
       );
-
-      if (response.status === 201) {
-        const cookies = response.headers.get('Set-Cookie');
-        document.cookie = cookies!;
-        const user: UserProfile = await response.json();
-
-        if (process.browser) {
-          const valueStored = storeValues(
-            user.token,
-            user.id.toString(),
-            user.photo,
-            true,
-          );
-          if (valueStored) {
-            window.location.href = '/dashboard';
-          } else {
-            alert('Error storing values');
+      console.log('response made', JSON.stringify(data));
+      const response: SignInResponse = await res.json();
+      if (response.status === 403) {
+        toast({
+          title: 'Error',
+          description: 'Email or username already exists',
+        });
+      }
+      if (process.browser) {
+        if (response.status === 201) {
+          console.log('success');
+          const user: UserProfile = await response.data;
+          console.log(user);
+          if (process.browser) {
+            const valueStored = storeValues(user, false);
+            if (valueStored) {
+              window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
+            } else {
+              toast({
+                title: 'Error',
+                description: 'Unable to store values',
+              });
+              return;
+            }
+            toast({
+              title: response.message,
+            });
           }
         }
-      } else {
-        const NothingFound = () => {
-          return <div>Error: Page not found (404)</div>;
-        };
       }
-    } catch (error) {
+    } catch {
       toast({
-        title: 'Something Went Wrong',
-        description: error as string,
+        title: 'ERROR: 500',
+        description: 'Something Went Wrong. Try again later',
       });
-    } finally {
-      setLoading(false);
     }
   }
 
@@ -109,67 +128,52 @@ const SignIn = () => {
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-4">
-        {/* <div className="grid grid-cols-2 gap-6">
-          <Button variant="outline">
-            <GithubIcon className="mr-2 h-4 w-4" />
-            Github
-          </Button>
-          <Button variant="outline">
-            Google
-          </Button>
-        </div>
-        <div className="relative">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t" />
-          </div>
-          <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
-              Or continue with
-            </span>
-          </div>
-        </div> */}
-        <div className="grid gap-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="m@example.com" />
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" />
-        </div>
-        <div className="items-top flex space-x-2">
-          <Checkbox
-            id="terms1"
-            onCheckedChange={(checked: CheckedState) =>
-              setCheckbox(checked === true)
-            }
-          />
-          <div className="grid gap-1.5 leading-none">
-            <label
-              htmlFor="terms1"
-              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-            >
-              Accept <Link href={'/terms'}>terms and conditions</Link>, and
-              <Link href={'/privacy'}> privacy policy</Link>
-            </label>
-            <p className="text-sm text-muted-foreground">
-              You agree to our Terms of Service and Privacy Policy.
-            </p>
-          </div>
-        </div>
-        <div>
-          <Link href={'/signup'}> Dont have an account? </Link>
-        </div>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="OpenEdu@Example.com"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input type="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button type="submit">Sign In</Button>
+          </form>
+        </Form>
       </CardContent>
       <CardFooter>
-        <Button onClick={() => loginUser()} className="w-full">
-          {loading ? (
-            <Loader2Icon className=" animate-spin" />
-          ) : (
-            <>
-              LOG IN <LogIn className="ml-2 h-4 w-4" />
-            </>
-          )}
-        </Button>
+        <div>
+          <p>
+            Don't have an account.
+            <Button variant={'link'} className=" text-[16px]">
+              {' '}
+              <Link href={'/signup'}>Register</Link>
+            </Button>
+          </p>
+        </div>
       </CardFooter>
     </Card>
   );
