@@ -130,18 +130,15 @@ const Page: React.FC = () => {
                   </Button>
                 </div>
                 <div className="mt-4 sm:mt-0">
-                  <Dialog open={editProfileTriggered}>
-                    <DialogTrigger asChild>
-                      <Button
-                        onClick={(event: React.MouseEvent<HTMLButtonElement>) =>
-                          setEditProfileTriggered(true)
-                        }
-                        variant="outline"
-                        className="hover:bg-gray-900 hover:text-white"
-                      >
-                        Edit Profile
-                      </Button>
-                    </DialogTrigger>
+                  <Link href={`/dashboard/editProfile`}>
+                    <Button
+                      variant="outline"
+                      className="hover:bg-gray-900 hover:text-white"
+                    >
+                      Edit Profile
+                    </Button>
+                  </Link>
+                  {/* </DialogTrigger>
                     <DialogContent className="sm:max-w-md fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-opacity-50 backdrop-filter backdrop-blur-md">
                       <Tabs defaultValue="account" className="w-[400px]">
                         <TabsList className="grid w-full grid-cols-2">
@@ -221,8 +218,8 @@ const Page: React.FC = () => {
                                   Change Password
                                 </Label>
                                 {/* <Input id="email" type="pa" defaultValue={user.email} /> */}
-                              </div>
-                            </CardContent>
+                </div>
+                {/* </CardContent>
                             <CardFooter>
                               <Button>Save changes</Button>
                             </CardFooter>
@@ -235,8 +232,8 @@ const Page: React.FC = () => {
                                 <div className="flex flex-row justify-between">
                                   <h1 className="text-xl font-bold">
                                     User Settings
-                                  </h1>
-                                  <X
+                                  </h1> */}
+                {/* <X
                                     className="w-6 h-6 cursor-pointer"
                                     onClick={() =>
                                       setEditProfileTriggered(false)
@@ -244,23 +241,23 @@ const Page: React.FC = () => {
                                   />
                                 </div>
                               </CardTitle>
-                              <CardDescription>
-                                Make changes to your user Settings here. Click
+                              <CardDescription> */}
+                {/* Make changes to your user Settings here. Click
                                 save when you&apos;re done.
                               </CardDescription>
                             </CardHeader>
                             <CardContent className="space-y-2">
                               <div>Not Implemented</div>
-                            </CardContent>
-                            <CardFooter>
+                            </CardContent> */}
+                {/* <CardFooter>
                               <Button>Save changes</Button>
                             </CardFooter>
                           </Card>
                         </TabsContent>
                       </Tabs>
                     </DialogContent>
-                  </Dialog>
-                </div>
+                  </Dialog> */}
+                {/* </div> */}
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-"use client"
+'use client';
 // Import necessary dependencies
 import React, { useState } from 'react';
 import { searchLocalStorage } from '@/scripts/check-user-auth';
@@ -23,21 +23,24 @@ const InterviewPractisePage: React.FC = () => {
         const { authorization, userId } = searchLocalStorage();
 
         // Make API call to fetch interview questions
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/interview/get-interview-question`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            authorization,
-            user_id: userId,
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/interview/get-interview-question`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              authorization,
+              user_id: userId,
+            },
+            body: JSON.stringify({ job_description: jobDescription }),
           },
-          body: JSON.stringify({ job_description: jobDescription }),
-        });
+        );
 
         if (response.ok) {
           // Parse and set the file data on successful response
           const data: FileData = await response.json();
           setFileData(data);
-          console.log(data)
+          console.log(data);
         } else {
           // Handle error response
           console.error('Error fetching data:', response.statusText);
@@ -69,7 +72,7 @@ const InterviewPractisePage: React.FC = () => {
       {fileData && fileData.message !== null ? (
         <div>
           <h2>File Data:</h2>
-        <p>{JSON.stringify(fileData)}</p>
+          <p>{JSON.stringify(fileData)}</p>
         </div>
       ) : (
         <p>No data available</p>

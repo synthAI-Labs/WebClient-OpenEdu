@@ -50,7 +50,6 @@ const Page = () => {
           body: JSON.stringify(data),
           credentials: 'include',
         },
-        
       );
 
       const res = await response.json();
