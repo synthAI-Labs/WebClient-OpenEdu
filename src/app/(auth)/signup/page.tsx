@@ -2,28 +2,17 @@
 
 import Link from 'next/link';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-
-import { cn } from '@/lib/utils';
-
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from '@/components/ui/use-toast';
 import { Button } from '@/components/ui/button';
@@ -35,6 +24,8 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
+import { UserProfile } from '@/scripts/types/dashboard';
+import { storeValues } from '@/scripts/check-user-auth';
 
 const profileFormSchema = z.object({
   name: z
@@ -87,13 +78,18 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
+interface SignUpResponse {
+  status: number;
+  message: string;
+  data: UserProfile;
+}
 const SignUp = () => {
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     mode: 'onChange',
   });
 
-  function onSubmit(data: ProfileFormValues) {
+  async function onSubmit(data: ProfileFormValues) {
     if (data.confirmPassword !== data.password) {
       toast({
         title: 'Error',
@@ -103,14 +99,46 @@ const SignUp = () => {
       });
       return;
     } else {
-      toast({
-        title: 'You submitted the following values:',
-        description: (
-          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup`,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+          credentials: 'include',
+        },
+      );
+
+      const response: SignUpResponse = await res.json();
+
+      if (response.status == 403 || response.status == 500) {
+        toast({
+          title: response.status.toString(),
+          description: response.message,
+          type: 'foreground',
+          variant: 'destructive',
+        });
+        return;
+      } else if (response.status == 200) {
+        const user: UserProfile = await response.data;
+
+        if (process.browser) {
+          const valueStored = storeValues(user, false);
+          if (valueStored) {
+            window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
+          } else {
+            toast({
+              title: 'Error',
+              description: 'Unable to store values',
+            });
+            return;
+          }
+          toast({
+            title: response.message,
+          });
+        }
+      }
     }
   }
 

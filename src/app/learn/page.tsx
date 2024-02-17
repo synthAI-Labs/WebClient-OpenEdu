@@ -7,34 +7,41 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { toast } from '@/components/ui/use-toast';
 import { getAllCoursesData } from '@/scripts/api-calls';
 import { BotIcon } from 'lucide-react';
-import { title } from 'process';
 import React from 'react';
 
 const Page = async () => {
+  let loading = true;
   let isChatOpen = false;
 
   const toggleChat = () => {
     isChatOpen = !isChatOpen;
   };
+  try {
+    const response = await getAllCoursesData();
+    const courseData: Course[] | undefined = response;
 
-  const response = await getAllCoursesData();
-  const courseData: Course[] | undefined = response;
-
-  if (courseData === undefined || courseData.length === 0) {
-    return <NothingFound />;
+    loading = false;
+    if (courseData === undefined || courseData.length === 0) {
+      return <NothingFound />;
+    } else {
+      return <CoursesPage courseData={courseData} />;
+    }
+  } catch (error) {
+    console.error(error);
+    toast({
+      title: 'Error fetching data',
+    });
   }
 
+  return <Loader />;
+};
+
+export default Page;
+
+const CoursesPage = ({ courseData }: { courseData: Course[] }) => {
   return (
     <div>
       <div className="flex justify-center mb-4">
@@ -106,5 +113,3 @@ const Page = async () => {
     </div>
   );
 };
-
-export default Page;
