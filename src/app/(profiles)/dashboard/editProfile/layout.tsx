@@ -11,24 +11,24 @@ export const metadata: Metadata = {
 const sidebarNavItems = [
   {
     title: 'Profile',
-    href: '/examples/forms',
+    href: '/dashboard/editProfile',
   },
   {
     title: 'Account',
-    href: '/examples/forms/account',
+    href: '/dashboard/editProfile/account',
   },
-  {
-    title: 'Appearance',
-    href: '/examples/forms/appearance',
-  },
-  {
-    title: 'Notifications',
-    href: '/examples/forms/notifications',
-  },
-  {
-    title: 'Display',
-    href: '/examples/forms/display',
-  },
+  // {
+  //   title: 'Appearance',
+  //   href: '/dashboard/editProfile/appearance',
+  // },
+  // {
+  //   title: 'Notifications',
+  //   href: '/examples/forms/notifications',
+  // },
+  // {
+  //   title: 'Setting',
+  //   href: '/dashboard/editProfile/setting',
+  // },
 ];
 
 interface SettingsLayoutProps {
