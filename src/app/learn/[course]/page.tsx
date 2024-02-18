@@ -1,53 +1,123 @@
-import ChatPrompt from '@/components/ChatPrompt';
-import Loader from '@/components/Loader';
+'use client';
 import ModulesCardDemo from '@/components/SubTopicsCard';
-import { Button, buttonVariants } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible';
+import { getAllTopicsInCourse } from '@/scripts/api-calls';
+import { unstable_noStore } from 'next/cache';
+import Link from 'next/link';
+import ChatPrompt from '@/components/ChatPrompt';
+import CourseCard from '@/components/CourseCard';
+import Loader from '@/components/Loader';
+import NothingFound from '@/components/NothingFound';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { getAllTopicsInCourse } from '@/scripts/api-calls';
-// import { getAllTopicsInCourse } from '@/scripts/api-calls';
-import {
-  BotIcon,
-  ChevronsUpDown,
-  FileQuestion,
-  TextIcon,
-  Video,
-} from 'lucide-react';
-import { unstable_noStore } from 'next/cache';
-import Link from 'next/link';
-import React from 'react';
+import { toast } from '@/components/ui/use-toast';
+import { BotIcon } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
 
+// Interfaces definition
 interface GetTopicsProps {
   params: {
     course: string;
   };
 }
 
-const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
-  unstable_noStore();
-  const response = getAllTopicsInCourse(params.course);
-  const topic: Course | null = await response;
-  console.log(topic);
+interface LearnTypeOfApi {
+  status: number;
+  message: string;
+  data: Course;
+  coursesCompleted?: CompletedCourse[];
+}
 
-  if (topic === null) {
-    return <p>Topic not found</p>;
+interface CompletedCourse {
+  completedModulesId: number[];
+}
+
+// Main Component definition
+const Page: React.FC<GetTopicsProps> = ({ params }) => {
+  // Destructuring parameters
+  const courseId = params.course;
+  // State initialization
+  const [loading, setLoading] = useState(true);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [courseData, setCourseData] = useState<Course>();
+  const [completedModules, setCompletedModules] = useState<CompletedCourse[]>(
+    [],
+  );
+
+  // Function to toggle chat window
+  const toggleChat = () => {
+    setIsChatOpen(!isChatOpen);
+  };
+
+  // Fetching data effect
+  useEffect(() => {
+    const fetchData = async () => {
+      let userId: String | null = null;
+      if (process.browser) {
+        userId = localStorage.getItem('user-Id');
+        console.log('userId: ' + userId);
+      }
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/${courseId}`,
+          {
+            method: 'GET',
+            headers: {
+              userId: (userId as string) || '', // Ensure userId is of type string
+            },
+          },
+        );
+
+        const response: LearnTypeOfApi = await res.json();
+
+        if (response.status !== 200) {
+          toast({
+            title: response.status.toString(),
+            description: response.message,
+            variant: 'destructive',
+          });
+        } else {
+          setCourseData(response.data);
+          setCompletedModules(response.coursesCompleted || []);
+        }
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: 'Error fetching data',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Loading state
+  if (loading) {
+    return <Loader />;
   }
 
+  // Displaying message if no course data found
+  if (courseData === undefined) {
+    return <NothingFound />;
+  }
+
+  // Rendering component with fetched data
+  return <GetTopics topic={courseData} completedModules={completedModules} />;
+};
+
+// Component for displaying course topics
+const GetTopics = ({
+  topic,
+  completedModules,
+}: {
+  topic: Course;
+  completedModules: CompletedCourse[];
+}) => {
+  // JSX rendering
   return (
     <div className="container mx-auto p-8 flex flex-col justify-center items-center">
       {topic ? (
@@ -55,7 +125,11 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
           <h1 className="text-3xl font-bold mb-8">{topic.name} Topics</h1>
           <p className="text-gray-600 mb-4">{topic.description}</p>
           <div className="gap-8">
-            <ModulesCardDemo module={topic.modules} />
+            <ModulesCardDemo
+              module={topic.modules}
+              completedModules={completedModules}
+              // isCompleted={isTopicCompleted(topic.id)}
+            />
           </div>
           <div
             className="border shadow-lg rounded-full bg-white p-2"
@@ -83,4 +157,4 @@ const GetTopics: React.FC<GetTopicsProps> = async ({ params }) => {
   );
 };
 
-export default GetTopics;
+export default Page;
