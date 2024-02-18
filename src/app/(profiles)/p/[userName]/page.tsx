@@ -1,3 +1,5 @@
+'use client';
+// ? 404, 500 : Error. 403: Profile is private. 200: Profile is public
 import { getPublicProfileOfUser } from '@/scripts/api-calls';
 import { UserProfile, UserSettings } from '@/scripts/types/dashboard';
 import {
@@ -21,7 +23,10 @@ import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import Loader from '@/components/Loader';
+import NotFound from '@/app/not-found';
 
 interface PageProps {
   params: {
@@ -29,25 +34,68 @@ interface PageProps {
   };
 }
 
-async function Page({ params }: PageProps): Promise<JSX.Element> {
+interface UserProfileApiReq {
+  status: number;
+  message: string;
+  data: UserProfile;
+}
+
+const Page = ({ params }: PageProps) => {
   const userName = params.userName;
-  const response = await getPublicProfileOfUser(userName);
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  if (response === null) {
-    return <div className="container mx-auto mt-8">Profile is private</div>;
+  useEffect(() => {
+    setLoading(true);
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}`,
+        );
+
+        const response: UserProfileApiReq = await res.json();
+        if (response.status == 500 || response.status == 404) {
+          toast({
+            title: response.status.toString(),
+            description: response.message,
+            variant: 'destructive',
+          });
+        }
+
+        if (response.status == 403) {
+          // TODO: Private profile
+        }
+
+        const userData: UserProfile = await response.data;
+        setUser(userData);
+        setLoading(false);
+      } catch (error) {
+        toast({
+          title: 'Error',
+          description: 'An error occurred',
+          variant: 'destructive',
+        });
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
   }
-  if (response.status === 404) {
-    toast({
-      title: 'Error',
-      description: 'Profile not found',
-    });
 
-    return <div className="container mx-auto mt-8">Profile not found</div>;
+  if (!user) {
+    return <NotFound />;
   }
 
-  const user: UserProfile = response;
+  return <PublicUserProfile user={user!} />;
+};
 
-  const userSettings: UserSettings = user.settings || {};
+const PublicUserProfile = ({ user }: { user: UserProfile }) => {
+  const userSettings: UserSettings = user!.settings || {};
 
   const {
     publicProfile,
@@ -231,6 +279,5 @@ async function Page({ params }: PageProps): Promise<JSX.Element> {
       )}
     </div>
   );
-}
-
+};
 export default Page;
