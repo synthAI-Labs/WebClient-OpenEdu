@@ -37,7 +37,7 @@ export default function RootLayout({
         <SpeedInsights />
         <NavBar />
         <Toaster />
-        <div className="flex flex-col justify-center items-center pt-20 mb-5">
+        <div className="flex flex-col justify-center items-center pt-20 mb-5 min-h-screen">
           {/* <InBetaRelease /> */}
           {children}
         </div>
