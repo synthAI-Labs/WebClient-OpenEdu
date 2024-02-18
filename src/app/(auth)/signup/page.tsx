@@ -240,10 +240,10 @@ const SignUp = () => {
               )}
             />
             <p>
-              Don't have an account.
+              Already have an account.
               <Button variant={'link'} className=" text-[16px]">
                 {' '}
-                <Link href={'/signup'}>Register</Link>
+                <Link href={'/signin'}>Register</Link>
               </Button>
             </p>
             <div className=" flex justify-center items-center">

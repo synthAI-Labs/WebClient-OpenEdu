@@ -154,7 +154,7 @@ const SignIn = () => {
       <CardFooter>
         <div>
           <p>
-            Don't have an account.
+            Don&apos;t have an account.
             <Button variant={'link'} className=" text-[16px]">
               {' '}
               <Link href={'/signup'}>Register</Link>

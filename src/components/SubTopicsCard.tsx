@@ -42,6 +42,7 @@ const ModulesCardDemo: React.FC<SubtopicCardProps> = ({
     <>
       {module.map((module) => (
         <motion.div
+          key={module.id}
           whileHover={{ scale: 1.1, rotate: [5, 0] }}
           whileTap={{ scale: 0.9, rotate: [-5, 0] }}
           transition={{ duration: 0.5 }}
