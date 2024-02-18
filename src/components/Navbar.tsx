@@ -37,7 +37,7 @@ const NavBar = () => {
               <Image
                 src={'/OpenEdu-logos_black.png'}
                 alt="logo"
-                width={300}
+                width={200}
                 height={100}
               />
             </Link>

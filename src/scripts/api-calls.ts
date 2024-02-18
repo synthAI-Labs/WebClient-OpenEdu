@@ -37,17 +37,6 @@ export async function getResponseFromBot(authorization: string, userId: string, 
     console.log(data)
 }
 
-export async function getAllCoursesData(): Promise<Course[] | undefined> {
-    try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses`);
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 
 export async function getAllTopicsInCourse(courseId: string): Promise<Course | null> {
     const response = await fetch(

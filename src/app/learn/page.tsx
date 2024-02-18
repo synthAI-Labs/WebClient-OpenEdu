@@ -1,3 +1,4 @@
+'use client';
 import ChatPrompt from '@/components/ChatPrompt';
 import CourseCard from '@/components/CourseCard';
 import Loader from '@/components/Loader';
@@ -8,38 +9,65 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import { toast } from '@/components/ui/use-toast';
-import { getAllCoursesData } from '@/scripts/api-calls';
 import { BotIcon } from 'lucide-react';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-const Page = async () => {
-  let loading = true;
-  let isChatOpen = false;
+interface LearnTypeOfApi {
+  status: number;
+  message: string;
+  data: Course[];
+}
+
+const Page = () => {
+  const [loading, setLoading] = useState(true);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [courseData, setCourseData] = useState<Course[]>([]);
 
   const toggleChat = () => {
-    isChatOpen = !isChatOpen;
+    setIsChatOpen(!isChatOpen);
   };
-  try {
-    const response = await getAllCoursesData();
-    const courseData: Course[] | undefined = response;
 
-    loading = false;
-    if (courseData === undefined || courseData.length === 0) {
-      return <NothingFound />;
-    } else {
-      return <CoursesPage courseData={courseData} />;
-    }
-  } catch (error) {
-    console.error(error);
-    toast({
-      title: 'Error fetching data',
-    });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses`,
+        );
+
+        const response: LearnTypeOfApi = await res.json();
+
+        if (response.status !== 200) {
+          toast({
+            title: response.status.toString(),
+            description: response.message,
+            variant: 'destructive',
+          });
+        } else {
+          setCourseData(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: 'Error fetching data',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
   }
 
-  return <Loader />;
-};
+  if (courseData === undefined || courseData.length === 0) {
+    return <NothingFound />;
+  }
 
-export default Page;
+  return <CoursesPage courseData={courseData} />;
+};
 
 const CoursesPage = ({ courseData }: { courseData: Course[] }) => {
   return (
@@ -82,15 +110,9 @@ const CoursesPage = ({ courseData }: { courseData: Course[] }) => {
 
       {/* Show shorted, searched file. if none, show no files found, and show all course card under section all */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {courseData ? (
-          <>
-            {courseData?.map((course) => (
-              <CourseCard key={course.id} course={course} />
-            ))}
-          </>
-        ) : (
-          <Loader />
-        )}
+        {courseData.map((course) => (
+          <CourseCard key={course.id} course={course} />
+        ))}
       </div>
       <div
         className="border shadow-lg rounded-full bg-white p-2"
@@ -113,3 +135,5 @@ const CoursesPage = ({ courseData }: { courseData: Course[] }) => {
     </div>
   );
 };
+
+export default Page;
