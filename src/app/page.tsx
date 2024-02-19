@@ -27,8 +27,9 @@ import {
   ShieldCheck,
 } from 'lucide-react';
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TypewriterComponent from 'typewriter-effect';
+import { motion } from 'framer-motion';
 
 const Testimonials = [
   {
@@ -107,31 +108,77 @@ const App = () => {
     <div className="min-h-screen  min-w-full">
       <div className="flex items-center justify-center h-screen">
         <div className="text-center space-y-5">
-          <div className="text-xl sm:text-2xl md:text-3xl lg:text-3xl space-y-1 font-extrabold">
-            <div className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text mb-5">
-              Introducing{' '}
-              <h1 className="text-3xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
-                Open-EDU
-              </h1>
+          <div className=" text-4xl flex flex-col md:flex-row lg:flex-row space-y-1 font-extrabold">
+            <div
+              className="flex flex-col justify-center items-start pl-14 md:pl-24 lg:pl-24"
+              style={{ maxWidth: '50vw', minWidth: '50vw' }}
+            >
+              <h1 className=" text-4xl">Welcome To</h1>
+              <h1 className=" text-7xl text-primary mb-2 mt-1">Open-EDU</h1>
+              Your personal Ai for{' '}
+              <div className=" text-5xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
+                <TypewriterComponent
+                  options={{
+                    strings: ['learning', 'teaching', 'assessments'],
+                    autoStart: true,
+                    loop: true,
+                  }}
+                />
+              </div>
+              <div className="my-5">
+                <Link
+                  href="/signup"
+                  className={cn(' ', buttonVariants({ variant: 'default' }))}
+                >
+                  Get Started
+                </Link>
+              </div>
             </div>
-            Your personal Ai for{' '}
-            <div className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
-              <TypewriterComponent
-                options={{
-                  strings: ['learning', 'teaching', 'assessments'],
-                  autoStart: true,
-                  loop: true,
+            <div
+              className="max-w-50vw min-w-50vw"
+              style={{ position: 'relative' }}
+            >
+              {/* <motion.img
+                src="/paperPlane1.png"
+                alt="Paper plane"
+                className=" mt-40"
+                width={50}
+                height={50}
+                style={{ zIndex: 1, position: 'absolute' }}
+                animate={{
+                  x: [0, -100, -150, -125, -50, 50, 125, 150, 100, 0],
+                  y: [0, -50, -70, -55, -30, 30, 55, 70, 50, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
                 }}
               />
+              <motion.img
+                src="/paperPlane2.png"
+                alt="Paper plane"
+                className=" mt-40"
+                width={50}
+                height={50}
+                style={{ zIndex: 1, position: 'absolute' }}
+                animate={{
+                  x: [0, -100, 0],
+                  y: [0, -50, 0],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: 'reverse',
+                }}
+              /> */}
+              <img
+                src="/studyKid.png"
+                alt="Hero Image of Kid Studying"
+                className=" mb-4"
+                style={{ zIndex: 0 }}
+              />
             </div>
-          </div>
-          <div className="my-9">
-            <Link
-              href="/signup"
-              className={cn(' ', buttonVariants({ variant: 'default' }))}
-            >
-              Get Started
-            </Link>
           </div>
         </div>
       </div>
@@ -278,3 +325,29 @@ const App = () => {
 };
 
 export default App;
+
+// <div className="text-xl sm:text-2xl md:text-3xl lg:text-3xl space-y-1 font-extrabold">
+//             <div className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text mb-5">
+//               Introducing{' '}
+//               <h1 className="text-3xl sm:text-7xl md:text-8xl lg:text-9xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
+//                 Open-EDU
+//               </h1>
+//             </div>
+//             Your personal Ai for{' '}
+//             <div className="text-2xl sm:text-5xl md:text-6xl lg:text-7xl text-transparent bg-clip-text mb-5 bg-gradient-to-r from-purple-400 to-pink-600">
+//               <TypewriterComponent
+//                 options={{
+//                   strings: ['learning', 'teaching', 'assessments'],
+//                   autoStart: true,
+//                   loop: true,
+//                 }}
+//               />
+//             </div>
+//           </div>
+//           <div className="my-9">
+//             <Link
+//               href="/signup"
+//               className={cn(' ', buttonVariants({ variant: 'default' }))}
+//             >
+//               Get Started
+//             </Link>

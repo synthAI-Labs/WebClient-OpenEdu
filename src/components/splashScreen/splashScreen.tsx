@@ -62,7 +62,8 @@ const SplashScreen = ({ finishLoading }: { finishLoading: any }) => {
           height={300}
           className=" "
           initial={{ scale: 0 }}
-          animate={{ scale: [0, 1.5, 1, 1.5, 1, 30] }}
+          //30
+          animate={{ scale: [0, 1.5, 1, 1.5, 1] }}
           transition={{ delay: 0, duration: 2, ease: 'easeInOut' }}
         />
         {/* <p className=" text-2xl text-muted-foreground">
