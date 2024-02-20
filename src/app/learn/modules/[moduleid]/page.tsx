@@ -1,8 +1,6 @@
+// TODO Use Cards
+'use client';
 import NothingFound from '@/components/NothingFound';
-import RenderContent from '@/components/RenderContent';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { getModuleDetails } from '@/scripts/api-calls';
-import Link from 'next/link';
 import NextModule from '../../../../components/NextModule';
 import {
   Popover,
@@ -10,8 +8,11 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 import ChatPrompt from '@/components/ChatPrompt';
-import { BotIcon } from 'lucide-react';
+import { BotIcon, Loader2Icon } from 'lucide-react';
 import MarkAsCompleteButton from '@/components/MarkAsCompleteButton';
+import { useEffect, useState } from 'react';
+import { toast } from '@/components/ui/use-toast';
+import Loader from '@/components/Loader';
 
 interface ModuleProps {
   params: {
@@ -19,37 +20,130 @@ interface ModuleProps {
   };
 }
 
-export default async function page({ params }: ModuleProps) {
-  const modulesPromise: Promise<Module> = getModuleDetails(
-    parseInt(params.moduleid),
-  );
-  const modules: Module | null = await modulesPromise;
+interface Module {
+  description: string;
+  id: number;
+  name: string;
+  madeByUserGit: string[];
+  madeByUser: string[];
+  tags: string[];
+  GithubLink: string | null;
+  numbering: number;
+  type: 'text' | 'video';
+  content: string;
+  video?: string | null;
+  image: string;
+  subtopicId: number;
+  youtubeEmbed: boolean;
+}
 
-  if (modules === null) {
+interface GetModulesApiResponseProps {
+  status: number;
+  message: string;
+  data: Module;
+}
+
+const page = ({ params }: ModuleProps) => {
+  const moduleIdToGet = params.moduleid;
+  const [isLoading, setIsLoading] = useState(true);
+  const [moduleData, setModuleData] = useState<Module | null>(null);
+
+  useEffect(() => {
+    const fetchModule = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleIdToGet}`,
+          {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+          },
+        );
+
+        const response: GetModulesApiResponseProps = await res.json();
+
+        if (response.status != 200) {
+          toast({
+            title: 'Error',
+            description: 'Error fetching module details',
+            variant: 'destructive',
+          });
+          return;
+        }
+
+        const data = response.data;
+        setModuleData(data);
+      } catch {
+        toast({
+          title: 'Error',
+          description: 'Error fetching module details',
+          variant: 'destructive',
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchModule();
+  }, [moduleIdToGet]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
+  if (!moduleData) {
     return <NothingFound />;
   }
 
+  return <ModuleContent modules={moduleData!} />;
+};
+
+const ModuleContent = ({ modules }: { modules: Module }) => {
+  const [isVideoLoading, setIsVideoLoading] = useState(true); // Start loading by default
+
+  useEffect(() => {
+    // Simulate video loading delay (remove for actual integration)
+    setTimeout(() => setIsVideoLoading(false), 2000);
+  }, [modules]); // Re-load when modules change
+
   return (
-    <div key={modules.id} className="p-4 rounded-md shadow-md">
-      <h3 className="text-lg font-semibold mb-2">{modules!.name}</h3>
-      {/* Render different module types */}
-      {modules.type === 'text' && (
+    <div
+      key={modules.id}
+      className=" felx felx-col justify-center items-center p-4 rounded-md shadow-md mt-32 h-full"
+    >
+      {modules.youtubeEmbed ? (
         <div>
-          <RenderContent contentURL={modules!.content} />
+          {/* Display loading placeholder while video loads */}
+          {isVideoLoading && (
+            <div className=" flex flex-col justify-center items-center">
+              <div className=" animate-spin">
+                <Loader2Icon size={32} />
+              </div>
+              <p>Loading video...</p>
+            </div>
+          )}
+          {/* Display video and handle errors gracefully */}
+          {!isVideoLoading && (
+            <div
+              dangerouslySetInnerHTML={{ __html: modules.video! }}
+              onError={() => {
+                // Handle video loading error (e.g., display error message)
+                console.error('Error loading video');
+                setIsVideoLoading(false); // Allow fallback content or retry
+              }}
+            />
+          )}
         </div>
+      ) : (
+        <p>No video available for this module.</p>
       )}
-      {modules.type === 'video' && (
-        <div>
-          <video controls className="w-full">
-            <source src={modules!.video || ''} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      )}
+
       <div className="flex justify-between mt-4">
         <MarkAsCompleteButton moduleId={modules.id} />
         <NextModule />
       </div>
+
       <div
         className="border shadow-lg rounded-full bg-white p-2"
         style={{
@@ -70,4 +164,6 @@ export default async function page({ params }: ModuleProps) {
       </div>
     </div>
   );
-}
+};
+
+export default page;

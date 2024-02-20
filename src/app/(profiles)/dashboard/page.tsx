@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { UserProfile } from '@/scripts/types/dashboard';
+import { UserProfile } from '@/interfaces/dashboard';
 import Loader from '@/components/Loader';
 import NothingFound from '@/components/NothingFound';
 import { toast } from '@/components/ui/use-toast';

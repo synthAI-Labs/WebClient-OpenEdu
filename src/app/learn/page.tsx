@@ -11,6 +11,7 @@ import {
 import { toast } from '@/components/ui/use-toast';
 import { BotIcon } from 'lucide-react';
 import React, { useState, useEffect } from 'react';
+import { Course } from '@/interfaces/learn';
 
 interface LearnTypeOfApi {
   status: number;
@@ -72,7 +73,7 @@ const Page = () => {
 const CoursesPage = ({ courseData }: { courseData: Course[] }) => {
   return (
     <div>
-      <div className="flex justify-center mb-4">
+      <div className="flex justify-center mb-4 mt-32">
         <h1 className="text-4xl font-bold">All Courses</h1>
       </div>
 

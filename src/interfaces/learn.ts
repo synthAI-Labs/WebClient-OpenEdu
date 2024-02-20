@@ -1,5 +1,6 @@
+import { number } from "zod";
 
-interface Course {
+export interface Course {
     id: number;
     name: string;
     description: string;
@@ -11,21 +12,24 @@ interface Course {
     modules: Module[];
 }
 
-interface Module {
+export interface Module {
     description: string;
     id: number;
     name: string;
     madeByUserGit: string[];
     madeByUser: string[];
     tags: string[];
+    GithubLink: string | null;
+    numbering: number;
     type: 'text' | 'video';
     content: string;
     video?: string | null;
     image: string;
     subtopicId: number;
+    youtubeEmbed: boolean;
 }
 
-interface Quiz {
+export interface Quiz {
     id: number;
     Question: string;
     madeByUserGit: string[];

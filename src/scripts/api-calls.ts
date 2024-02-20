@@ -1,3 +1,5 @@
+import { Course } from '@/interfaces/learn';
+
 export async function getPublicProfileOfUser(userName: string) {
     const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/p/${userName}`);
 
@@ -70,26 +72,4 @@ export async function getAllModulesInASubtopic(courseId: number, topicId: number
     const data = await res.json();
     console.log(data);
     return data;
-}
-
-
-export async function getModuleDetails(moduleId: number) {
-    if (moduleId) {
-        const res = await fetch(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`,
-            {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-            },
-        );
-        console.log(`${process.env.NEXT_PUBLIC_SERVER_URL}/learn/courses/m/${moduleId}`)
-
-        if (!res.ok) {
-            console.log(Error(`HTTP error! Status: ${res.status}`));
-        }
-
-        const data = await res.json();
-        return data;
-    }
 }

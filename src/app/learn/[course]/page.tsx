@@ -7,6 +7,7 @@ import ChatPrompt from '@/components/ChatPrompt';
 import CourseCard from '@/components/CourseCard';
 import Loader from '@/components/Loader';
 import NothingFound from '@/components/NothingFound';
+import { Course } from '@/interfaces/learn';
 import {
   Popover,
   PopoverContent,
@@ -42,6 +43,7 @@ const Page: React.FC<GetTopicsProps> = ({ params }) => {
   const [loading, setLoading] = useState(true);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [courseData, setCourseData] = useState<Course>();
+  const [allModules, setAllModules] = useState<number[]>();
   const [completedModules, setCompletedModules] = useState<CompletedCourse[]>(
     [],
   );
@@ -105,7 +107,6 @@ const Page: React.FC<GetTopicsProps> = ({ params }) => {
     return <NothingFound />;
   }
 
-  // Rendering component with fetched data
   return <GetTopics topic={courseData} completedModules={completedModules} />;
 };
 
@@ -128,7 +129,6 @@ const GetTopics = ({
             <ModulesCardDemo
               module={topic.modules}
               completedModules={completedModules}
-              // isCompleted={isTopicCompleted(topic.id)}
             />
           </div>
           <div

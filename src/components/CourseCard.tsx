@@ -14,6 +14,7 @@ import { Button, buttonVariants } from './ui/button';
 import { checkValues, searchLocalStorage } from '@/scripts/check-user-auth';
 import { toast } from './ui/use-toast';
 import { ToastAction } from './ui/toast';
+import { Course } from '@/interfaces/learn';
 
 const CourseCard = ({ course }: { course: Course }) => {
   const EnrollUser = async () => {

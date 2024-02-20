@@ -12,7 +12,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { toast } from '@/components/ui/use-toast';
 import { setVerifiedInLocalStorage } from '@/scripts/check-user-auth';
-import { UserProfile } from '@/scripts/types/dashboard';
+import { UserProfile } from '@/interfaces/dashboard';
 import { Loader2Icon } from 'lucide-react';
 import { useState } from 'react';
 

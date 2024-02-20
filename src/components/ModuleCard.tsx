@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { TextIcon, Video } from 'lucide-react';
+import { Module } from '@/interfaces/learn';
 
 interface ModuleCardProps {
   module: Module;

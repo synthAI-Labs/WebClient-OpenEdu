@@ -23,7 +23,7 @@ import {
   CardContent,
   CardFooter,
 } from '@/components/ui/card';
-import { UserProfile } from '@/scripts/types/dashboard';
+import { UserProfile } from '@/interfaces/dashboard';
 import { storeValues } from '@/scripts/check-user-auth';
 
 const profileFormSchema = z.object({

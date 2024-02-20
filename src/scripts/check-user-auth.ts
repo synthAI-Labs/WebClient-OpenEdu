@@ -1,6 +1,6 @@
 "use client"
 
-import { UserProfile } from "./types/dashboard";
+import { UserProfile } from "../interfaces/dashboard";
 
 export function searchLocalStorage(): { authorization: string, userId: string } {
     const authorization: string = localStorage.getItem('authorization') as string;

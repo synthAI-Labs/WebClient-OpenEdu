@@ -2,13 +2,16 @@
 import { searchLocalStorage } from '@/scripts/check-user-auth';
 import { Button } from './ui/button';
 import { toast } from './ui/use-toast';
+import { useState } from 'react';
+import { set } from 'animejs';
 
 interface PageProps {
   moduleId: number;
 }
 const MarkAsCompleteButton: React.FC<PageProps> = ({ moduleId }) => {
-  console.log(moduleId);
+  const [buttonClicked, setButtonClicked] = useState(false);
   const handleClick = async () => {
+    setButtonClicked(true);
     if (process.browser) {
       const { authorization, userId } = searchLocalStorage();
       try {
@@ -39,10 +42,16 @@ const MarkAsCompleteButton: React.FC<PageProps> = ({ moduleId }) => {
         }
       } catch (error) {
         console.log(error);
+      } finally {
+        setButtonClicked(false);
       }
     }
   };
-  return <Button onClick={() => handleClick()}>Mark as complete</Button>;
+  return (
+    <Button onClick={() => handleClick()} disabled={buttonClicked}>
+      {buttonClicked ? <p>Marking...</p> : <p>Mark as complete</p>}
+    </Button>
+  );
 };
 
 export default MarkAsCompleteButton;

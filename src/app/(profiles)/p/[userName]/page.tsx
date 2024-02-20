@@ -1,7 +1,7 @@
 'use client';
 // ? 404, 500 : Error. 403: Profile is private. 200: Profile is public
 import { getPublicProfileOfUser } from '@/scripts/api-calls';
-import { UserProfile, UserSettings } from '@/scripts/types/dashboard';
+import { UserProfile, UserSettings } from '@/interfaces/dashboard';
 import {
   Card,
   CardContent,

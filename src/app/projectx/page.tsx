@@ -1,3 +1,5 @@
+// TODO: Let user Enroll in a course
+// TODO: Make it modular
 'use client';
 import {
   Card,
@@ -5,38 +7,73 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
-const projects = [
-  {
-    id: 1,
-    image: 'classroom.png',
-    heading: 'Project 1',
-    description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-    tags: ['tag1', 'tag2', 'tag3'],
-  },
-  {
-    id: 2,
-    image: 'classroom.png',
-    heading: 'Project 2',
-    description:
-      'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
-    tags: ['tag4', 'tag5', 'tag6'],
-  },
-  // Add more projects here...
-];
+import { toast } from '@/components/ui/use-toast';
+import NotFound from '../not-found';
+import Loader from '@/components/Loader';
 
+interface ApiCallProps {
+  status: number;
+  message: string;
+  data: ProjectInterface[];
+}
 interface ProjectInterface {
   id: number;
   image: string;
-  heading: string;
+  name: string;
   description: string;
+  createdDate: Date;
+  Githublink: string;
   tags: string[];
 }
 
 const Page = () => {
+  const [loading, setLoading] = React.useState(true);
+  const [project, setProjects] = React.useState<ProjectInterface[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/project`,
+        );
+
+        const response: ApiCallProps = await res.json();
+
+        if (response.status != 200) {
+          toast({
+            title: 'Error',
+            description: response.message,
+            duration: 3000,
+            variant: 'destructive',
+          });
+        } else {
+          setProjects(response.data);
+        }
+      } catch (error) {
+        console.error(error);
+        toast({
+          title: 'Error fetching data',
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [project]);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (project.length === 0 || project === undefined) {
+    return <NotFound />;
+  }
+
   return (
-    <div className="min-h-screen min-w-full flex flex-col justify-start items-center px-8">
+    <div className="min-h-screen min-w-full flex flex-col justify-start items-center px-8 mt-32 ">
       <div className=" bottom-0 left-0 flex h-30 md:h-48 w-full items-end justify-center  lg:static lg:h-auto lg:w-auto lg:bg-none">
         <div className="flex flex-col text-center">
           <h1 className="text-2xl lgtext-4xl text-sky-400/100 font-semibold	">
@@ -51,7 +88,7 @@ const Page = () => {
       </div>
 
       <div className="grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-4">
-        {projects.map((project) => (
+        {project.map((project) => (
           <ProjectCard project={project} key={project.id} />
         ))}
       </div>
@@ -75,19 +112,23 @@ const ProjectCard = ({ project }: { project: ProjectInterface }) => {
     >
       <Card className=" flex flex-col justify-center items-center px-8">
         <CardHeader>
-          <CardTitle>{project.heading}</CardTitle>
+          <CardTitle>{project.name}</CardTitle>
           <CardDescription>{project.description}</CardDescription>
         </CardHeader>
-        <img src={project.image} alt={project.heading} className="w-full" />
+        <img src={project.image} alt={project.name} className="w-full" />
         <div className="flex flex-wrap mt-2">
-          {project.tags.map((tag: string) => (
-            <span
-              key={tag}
-              className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm mr-2 mt-1 mb-3"
-            >
-              {tag}
-            </span>
-          ))}
+          {project.tags ? (
+            project.tags.map((tag: string) => (
+              <span
+                key={tag}
+                className="bg-gray-200 text-gray-700 px-2 py-1 rounded-full text-sm mr-2 mt-1 mb-3"
+              >
+                {tag}
+              </span>
+            ))
+          ) : (
+            <></>
+          )}
         </div>
       </Card>
     </motion.div>
