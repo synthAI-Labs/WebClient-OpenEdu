@@ -26,6 +26,9 @@ import {
 } from '@/components/ui/card';
 import { UserProfile } from '@/interfaces/dashboard';
 import { storeValues } from '@/scripts/check-user-auth';
+import { LoaderIcon } from 'lucide-react';
+import { useState } from 'react';
+import { set } from 'animejs';
 
 const profileFormSchema = z.object({
   name: z
@@ -84,66 +87,79 @@ interface SignUpResponse {
   data: UserProfile;
 }
 const SignUp = () => {
+  const [isloading, setisLoading] = useState(false);
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     mode: 'onChange',
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    if (data.confirmPassword !== data.password) {
-      toast({
-        title: 'Error',
-        type: 'foreground',
-        variant: 'destructive',
-        description: 'Passwords do not match',
-      });
-      return;
-    } else {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup`,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-          credentials: 'include',
-        },
-      );
-
-      const response: SignUpResponse = await res.json();
-
-      if (response.status == 403 || response.status == 500) {
+    try {
+      setisLoading(true);
+      if (data.confirmPassword !== data.password) {
         toast({
-          title: response.status.toString(),
-          description: response.message,
+          title: 'Error',
           type: 'foreground',
           variant: 'destructive',
+          description: 'Passwords do not match',
         });
         return;
-      } else if (response.status == 200) {
-        const user: UserProfile = await response.data;
+      } else {
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signup`,
+          {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+            credentials: 'include',
+          },
+        );
 
-        if (process.browser) {
-          const valueStored = storeValues(user, false);
-          if (valueStored) {
-            window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
-          } else {
-            toast({
-              title: 'Error',
-              description: 'Unable to store values',
-            });
-            return;
-          }
+        const response: SignUpResponse = await res.json();
+
+        if (response.status == 403 || response.status == 500) {
           toast({
-            title: response.message,
+            title: response.status.toString(),
+            description: response.message,
+            type: 'foreground',
+            variant: 'destructive',
           });
+          return;
+        } else if (response.status == 200) {
+          const user: UserProfile = await response.data;
+
+          if (process.browser) {
+            const valueStored = storeValues(user, false);
+            if (valueStored) {
+              window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/signup/verify/`;
+            } else {
+              toast({
+                title: 'Error',
+                description: 'Unable to store values',
+              });
+              return;
+            }
+            toast({
+              title: response.message,
+            });
+          }
         }
       }
+    } catch {
+      setisLoading(false);
+      toast({
+        title: 'ERROR: 500',
+        description: 'Something Went Wrong. Try again later',
+      });
+    } finally {
+      setisLoading(false);
     }
   }
 
   return (
-    <Card className=" lg:w-8/12 md:w-8/12 sm:w-8/12">
+    <Card className=" lg:w-8/12 md:w-8/12 sm:w-8/12 mt-32">
       <CardHeader className="space-y-1">
         <CardTitle className="text-2xl">Sign UP</CardTitle>
         <CardDescription>
@@ -247,8 +263,18 @@ const SignUp = () => {
               </Button>
             </p>
             <div className=" flex justify-center items-center">
-              <Button type="submit" className=" w-2/3 text-md">
-                Sign In
+              <Button
+                type="submit"
+                className=" text-md w-2/3"
+                disabled={isloading}
+              >
+                {isloading ? (
+                  <p className=" animate-spin">
+                    <LoaderIcon />
+                  </p>
+                ) : (
+                  <p>Sign IN</p>
+                )}
               </Button>
             </div>
           </form>

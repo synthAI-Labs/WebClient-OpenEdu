@@ -25,15 +25,22 @@ import {
 } from '@/components/ui/card';
 import { UserProfile } from '@/interfaces/dashboard';
 import { storeValues } from '@/scripts/check-user-auth';
-import { LoaderIcon } from 'lucide-react';
 import { useState } from 'react';
+import { set } from 'animejs';
+import { LoaderIcon } from 'lucide-react';
+
+interface PageProps {
+  params: {
+    emailId: string;
+  };
+}
+
+interface ForgotPasswordEmailProps {
+  status: number;
+  message: string;
+}
 
 const profileFormSchema = z.object({
-  email: z
-    .string({
-      required_error: 'Please select an email to display.',
-    })
-    .email(),
   password: z
     .string()
     .min(8, {
@@ -41,19 +48,18 @@ const profileFormSchema = z.object({
     })
     .max(30, {
       message: 'Password must not be longer than 30 characters.',
-    }),
+    })
+    .regex(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+      'Password must contain at least one lowercase letter, one uppercase letter, one number, and one special character.',
+    ),
+  code: z.string(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-interface SignInResponse {
-  status: number;
-  message: string;
-  data: UserProfile;
-}
-const SignIn = () => {
-  const [isloading, setisLoading] = useState(false);
-
+const Page: React.FC<PageProps> = ({ params }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     mode: 'onChange',
@@ -61,9 +67,9 @@ const SignIn = () => {
 
   async function onSubmit(data: ProfileFormValues) {
     try {
-      setisLoading(true);
+      setIsLoading(true);
       const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/signin`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/auth/password/forgot/confirm/:userEmail`,
         {
           method: 'POST',
           headers: {
@@ -74,7 +80,7 @@ const SignIn = () => {
         },
       );
       console.log('response made', JSON.stringify(data));
-      const response: SignInResponse = await res.json();
+      const response: ForgotPasswordEmailProps = await res.json();
 
       if (response.status == 403 || response.status == 500) {
         toast({
@@ -85,32 +91,21 @@ const SignIn = () => {
         });
         return;
       } else if (response.status === 200) {
-        const user: UserProfile = await response.data;
-        console.log(user);
-        if (process.browser) {
-          const valueStored = storeValues(user, false);
-          if (valueStored) {
-            window.location.href = `${process.env.NEXT_PUBLIC_CLIENT_URL}/dashboard`;
-          } else {
-            toast({
-              title: 'Error',
-              description: 'Unable to store values',
-            });
-            return;
-          }
-          toast({
-            title: response.message,
-          });
-        }
+        toast({
+          title: 'Success',
+          description: response.message,
+          type: 'foreground',
+        });
+        window.location.href = `${process.env.NEXT_PUBLIC_SERVER_URL}/signin`;
       }
     } catch {
-      setisLoading(false);
+      setIsLoading(false);
       toast({
         title: 'ERROR: 500',
         description: 'Something Went Wrong. Try again later',
       });
     } finally {
-      setisLoading(false);
+      setIsLoading(false);
     }
   }
 
@@ -127,16 +122,12 @@ const SignIn = () => {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
             <FormField
               control={form.control}
-              name="email"
+              name="code"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Verification Code: </FormLabel>
                   <FormControl>
-                    <Input
-                      type="email"
-                      placeholder="OpenEdu@Example.com"
-                      {...field}
-                    />
+                    <Input type="number" placeholder="1234" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -147,46 +138,44 @@ const SignIn = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>New Password: </FormLabel>
                   <FormControl>
-                    <Input type="password" placeholder="********" {...field} />
+                    <Input type="password" placeholder="*********" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            />{' '}
             <div className=" flex justify-center items-center">
               <Button
                 type="submit"
                 className=" text-md w-2/3"
-                disabled={isloading}
+                disabled={isLoading}
               >
-                {isloading ? (
+                {isLoading ? (
                   <p className=" animate-spin">
                     <LoaderIcon />
                   </p>
                 ) : (
-                  <p>Sign IN</p>
+                  <p>Change Password</p>
                 )}
               </Button>
             </div>
           </form>
         </Form>
       </CardContent>
-      <CardFooter className="flex flex-col justify-start items-start">
+      <CardFooter>
         <div>
           <p>
-            Don&apos;t have an account.
+            Clicked on it By Mistake? Go back to{' '}
+            <Button variant={'link'} className=" text-[16px]">
+              {' '}
+              <Link href={'/signin'}>Sign In</Link>
+            </Button>
+            or register using{' '}
             <Button variant={'link'} className=" text-[16px]">
               {' '}
               <Link href={'/signup'}>Register</Link>
-            </Button>
-          </p>
-        </div>
-        <div>
-          <p>
-            <Button variant={'link'} className=" text-[16px]">
-              <Link href={'/forgotpassword'}> Forgot Your Password?</Link>
             </Button>
           </p>
         </div>
@@ -195,4 +184,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Page;

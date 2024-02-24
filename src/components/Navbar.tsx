@@ -60,12 +60,12 @@ const NavBar = () => {
                         <Button variant={'ghost'}>Learn</Button>
                       </Link>
                     </div>
-                    {/* <div className="grid grid-cols-4 items-center gap-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
                       <Link href="/support">
                         <Button variant={'ghost'}>ProjectX</Button>
                       </Link>
                     </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
+                    {/* <div className="grid grid-cols-4 items-center gap-4">
                       <Link href="/support">
                         <Button variant={'ghost'}>React-Playground</Button>
                       </Link>
@@ -133,12 +133,12 @@ const NavBar = () => {
                   Contact
                 </Button>
               </Link>
-              {/* <Link href="/projectx">
+              <Link href="/projectx">
                 <Button variant={'ghost'} className="text-lg">
                   ProjectX
                 </Button>
               </Link>
-              <Link href="/react-playground">
+              {/* <Link href="/react-playground">
                 <Button variant={'ghost'} className="text-lg">
                   React Playground
                 </Button>

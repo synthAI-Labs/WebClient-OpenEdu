@@ -13,6 +13,7 @@ import MarkAsCompleteButton from '@/components/MarkAsCompleteButton';
 import { useEffect, useState } from 'react';
 import { toast } from '@/components/ui/use-toast';
 import Loader from '@/components/Loader';
+import QuizComponent from '@/components/QuizComponents';
 
 interface ModuleProps {
   params: {
@@ -35,6 +36,15 @@ interface Module {
   image: string;
   subtopicId: number;
   youtubeEmbed: boolean;
+  quiz: Quiz[];
+}
+
+interface Quiz {
+  id: string;
+  title: string;
+  options: string[];
+  topics: string[];
+  tags: string[];
 }
 
 interface GetModulesApiResponseProps {
@@ -42,6 +52,32 @@ interface GetModulesApiResponseProps {
   message: string;
   data: Module;
 }
+const QuizData: Quiz[] = [
+  {
+    id: '9700c612-36cc-4274-864f-9915e0af4011',
+    title: 'What does CSS stand for?',
+    options: [
+      'A. Cascading Style Sheets',
+      'B. Computer Style Sheets',
+      'C. Creative Style Sheets',
+      'D. Colorful Style Sheets',
+    ],
+    topics: ['Frontend Development', 'Web Development'],
+    tags: ['CSS', 'HTML'],
+  },
+  {
+    id: '22b16972-7635-48dd-9752-11a595603172',
+    title: 'What does CSS stand for?',
+    options: [
+      'A. Cascading Style Sheets',
+      'B. Computer Style Sheets',
+      'C. Creative Style Sheets',
+      'D. Colorful Style Sheets',
+    ],
+    topics: ['Frontend Development', 'Web Development'],
+    tags: ['CSS', 'HTML'],
+  },
+];
 
 const page = ({ params }: ModuleProps) => {
   const moduleIdToGet = params.moduleid;
@@ -138,6 +174,19 @@ const ModuleContent = ({ modules }: { modules: Module }) => {
       ) : (
         <p>No video available for this module.</p>
       )}
+
+      <div>
+        <h1 className="text-3xl mt-6">Quiz:</h1>
+        {QuizData ? (
+          QuizData.map((quiz) => (
+            <>
+              <QuizComponent key={quiz.id} quiz={quiz} />
+            </>
+          ))
+        ) : (
+          <p></p>
+        )}
+      </div>
 
       <div className="flex justify-between mt-4">
         <MarkAsCompleteButton moduleId={modules.id} />
